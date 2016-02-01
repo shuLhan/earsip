@@ -3,7 +3,7 @@ INSERT INTO m_sysconfig (repository_root, max_upload_size) values ('/repository'
 INSERT INTO m_grup (nama, keterangan) VALUES ('Administrator', 'Admin aplikasi');
 INSERT INTO m_grup (nama, keterangan) VALUES ('Pusat Berkas', 'Mengatur seluruh arsip aktif');
 INSERT INTO m_grup (nama, keterangan) VALUES ('Pusat Arsip', 'Mengatur seluruh arsip inaktif');
-
+INSERT INTO m_grup (nama, keterangan) VALUES ('Administrator Cabang', 'Administrator cabang');
 
 --
 -- TOC entry 2133 (class 0 OID 23261)
@@ -33,6 +33,145 @@ INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (40,  0,    'doc', 'la
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (41, 40, 'module', 'lap_berkas_jra', 'Berkas JRA');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (42, 40, 'module', 'lap_berkas_musnah', 'Berkas Musnah');
 
+
+COPY r_cabang (id, nama, alamat, kota, telepon, fax)
+FROM stdin WITH DELIMITER ';';
+1;KANTOR PUSAT;JL. PEMUDA 142;SEMARANG;024 3547541;024 3554016
+2;KC. DEMAK;JL. SULTAN FATAH NO. 41;DEMAK;0291 681750;681747
+3;KC. KENDAL;JL. SOEKARNO HATTA NO. 228;KENDAL;0294 381324;381005
+4;KCP. PASAR BOJA;KOMPLEK PASAR BOJA JL. RAYA PEMUDA NO. 34;KENDAL;0294 571254;571254
+5;KCP. PASAR WELERI;KOMPLEK PASAR WELERI JL. RAYA WELERI NO. A 12-13;KENDAL;0294 644508;642017
+6;KC. PURWODADI;JL. LETJEN S.PARMAN NO. 16;PURWODADI;0292 421172;421404
+7;KCP. PASAR KOTA PURWODADI;PASAR KOTA JL. A.YANI 10 H-2;PURWODADI;0292 421658;421568
+8;KCP. PASAR WIROSARI;JL. GAJAH MADA 81 B;PURWODADI;0292 761372;761372
+9;KC. SALATIGA;JL. PEMUDA NO. 1;SALATIGA;0298 324750;324751
+10;KC. UTAMA;JL. PEMUDA NO. 142;SEMARANG;024 3554025;3520181
+11;KCP. SETWILDA;JL. PAHLAWAN NO. 7;SEMARANG;024 6717911;6712196
+12;KC. SEMARANG;JL. BRIGJEN SUDIARTO 196-198;SEMARANG;024 6717911;6712196
+13;KCP. BANYUMANIK;JL. SUKUN RAYA RUKO B-1;SEMARANG;024 76920511;7465701
+14;KCP. IAIN;JL. WALISONGO 3-5;SEMARANG;024 7601266;7608613
+15;KCP. PASAR JOHAR;JL. PEMUDA NO.3;SEMARANG;024 3544512;3545068
+16;KCP. METRO PETERONGAN;JL. MT. HARYONO NO.970;SEMARANG;024 8447247;8454229
+17;KCP. PLAZA SIMPANG LIMA;JL. SIMPANG LIMA PLAZA;SEMARANG;024 8415303;8448925
+18;KCP. POLINES;JL. PROF. SUDIARTO TEMBALANG;SEMARANG;024 7474034;7474034
+19;KCP. PASAR GAYAMSARI;KOMPLEK PASAR GAYAMSARI;SEMARANG;024 6720050;76745404
+20;KCP. PASAR KAGOK;JL. SULTAN AGUNG NO.104;SEMARANG;024 8500610;8447654
+21;KCP. PASAR SATRIOWIBOWO;JL. TELOGOSARI RAYA II NO.47;SEMARANG;024 6720054;6700281
+22;KCP. SAMPANGAN;JL. LAMONGAN RAYA NO.5;SEMARANG;024 8415690;8415690
+23;KCP. UDINUS;JL. NAKULO I NO.5;SEMARANG;024 3563640;3554310
+24;KCP. UNISSULA;JL. RAYA KALIGAWE KM.4;SEMARANG;024 6583936;6583936
+25;KCP. UNNES;JL. KELUD RAYA NO.2;SEMARANG;024 8415102;8443979
+26;KC. UNGARAN;JL. DIPONEGORO NO. 25;UNGARAN;024 6921294;6921429
+27;KCP. PASAR BABADAN;KOMPLEK PS.BABADAN BLOK A-14 JL. JEND SUDIRMAN;UNGARAN;024 6924830;6924830
+28;KCP. UNGARAN KOTA;UNGARAN PLAZA BLOK 9, 10;UNGARAN;024 6924268;769137111
+29;KC. BOYOLALI;JL. MERBABU NO.3;BOYOLALI;0276 321233;321430
+30;KCP. PASAR KARANGGEDE;JL. PRAWIRODIGDOYO NO. 3 H;BOYOLALI;0298 610700;610701
+31;KCP. PASAR SIMO;JL. KIOS PASAR SIMO NO. 9;BOYOLALI;0276 3331034;3294732
+32;KCP. SUNGGINGAN;JL. PANDANARAN NO. 329;BOYOLALI;0276 322977;322977
+33;KC. KARANGANYAR;JL. LAWU NO. 363;KARANGANYAR;0271 495140;495959
+34;KCP. JATIPURO;JL. JATIPURO;KARANGANYAR;0271 495537;495537
+35;KCP. PASAR KARANGPANDAN;JL. LAWU 78;KARANGANYAR;0271 6492008;6492009
+36;KCP. PASAR PALUR;KOMPLEK UNIV. SURAKARTA (UNSA);KARANGANYAR;0271 827477;827477
+37;KCP. KERJO;JL. RAYA KWADUNGAN;KARANGAYAR;0271 7079810;6493165
+38;KC. KLATEN;JL. PEMUDA UTARA NO. 108;KLATEN;0272 323045;322785
+39;KCP. PEDAN;JL. PEMUDA NO 40 MIPITAN;KLATEN;0272 897949;897949
+40;KCP. PLASA KLATEN;JL. RONGGOWARSITO 25 KLATEN;KLATEN;0272 323497;324053
+41;KCP. PRAMBANAN;JL. RAYA KLATEN YOGYAKARTA;KLATEN;0274 498400;498300
+42;KCP. PASAR JATINOM;PS.GABUS JATINOM NO 98;KLATEN;0272 337338;337301
+43;KCP. PASAR WEDI;JL. SULTAN AGUNG NO 10 KLATEN;KLATEN;0272 325223;323304
+44;KC. SRAGEN;JL. RAYA SUKOWATI 154 A;SRAGEN;0271 891644;891224
+45;KCP. GEMOLONG;JL. RAYA SUKOWATI NO. 8;SRAGEN;0271 7006640;6811789
+46;KCP. PASAR KOTA SRAGEN;KOMPLEK PASAR KOTA LT. II;SRAGEN;0271 890322;890322
+47;KCP. MOJOLABAN;JL. PEMUDA NO. 186-B;SUKOHARJO;0271 612234;
+48;KC. SUKOHARJO;JL. JEND. SUDIRMAN NO. 80;SUKOHARJO;0271 593323;593562
+49;KCP. PASAR NGUTER;JL. KOMPLEK PASAR NGUTER NO.1A;SUKOHARJO;0271 591662;591662
+50;KCP. PASAR TAWANGSARI;JL. PATIMURA NO. 20;SUKOHARJO;0272 881133;881133
+51;KC. SURAKARTA;JL. SLAMET RIYADI NO. 20;SURAKARTA;0271 647298;647297
+52;KCP. GADING;JL. VETERAN NO. 8E PS. KLIWON;SURAKARTA;0271 656155;662149
+53;KCP. KARTASURO;JL. KOMPLEK PASAR KARTASURO;SURAKARTA;0271 781527;781527
+54;KCP. DELANGGU;JL. RAYA DELANGGU NO 67;SURAKARTA;0272 552668;552668
+55;KCP. PASAR NUSUKAN;JL. ADI SUMARMO NO. 31 B;SURAKARTA;0271 717146;735241
+56;KCP. UMS;JL. KOMPLEK UMS SURAKARTA;SURAKARTA;0271 715350;718022
+57;KC. WONOGIRI;JL. RAYA WONOGIRI NO. 19;WONOGIRI;0273 321064;321731
+58;KCP. BATURETNO;JL. SOLO PACITAN BATURETNO;WONOGIRI;0273 461070;462470
+59;KCP. PASAR JATISRONO;KOMPLEK PS. JATISRONO;WONOGIRI;0273 411020;411764
+60;KCP. PASAR PRACIMANTORO;KOMPLEK PS. PRACIMANTORO;WONOGIRI;0273 5328585;5328586
+61;KCP. PURWANTORO;JL. RAYA PURWANTORO PONOROGO NO.14;WONOGIRI;0273 415064;
+62;KCP. RSU WONOGIRI;JL. A.YANI NO 40 WONOGIRI;WONOGIRI;0273 321733;322785
+63;KCP. PASAR KLAMPOK;JL. A YANI NO 43 PURWAREJA;BAJARNEGARA;0286 476249;479249
+64;KC. BANJARNEGARA;JL. LETJEN SUPRAPTO NO.50-51;BANJARNEGARA;0286 591119;591319
+65;KCP. KARANGKOBAR;JL. RAYA KARANGKOBAR WANAYASA KM.1;BANJARNEGARA;0286 5988223;
+66;KCP. WANADADI;JL. KH. AHMAD DAHLAN NO. 4;BANJARNEGARA;;
+67;KCP. WANGON;JL. RAYA WANGON RT.02 RW.01;BANYUMAS;;
+68;KC. CILACAP;JL. MAYJEN SUTOYO NO.7;CILACAP;0282 534987;521882
+69;KCP. CILACAP KOTA;JL. GATOT SUBROTO NO 17;CILACAP;0282 521733;521733
+70;KCP. MAJENANG;JL. KAPTEN SUYONO 22;CILACAP;0280 621327;621328
+71;KCP. PASAR KROYA;JL. GATOT SUBROTO NO.134;CILACAP;0282 492159;494832
+72;KCP. SIDAREJA;JL. YOS SUDARSO NO.42 B;CILACAP;0280 524467;524467
+73;KC. PURBALINGGA;JL. JEND. SUDIRMAN NO. 212;PURBALINGGA;0281 892873;891368
+74;KCP. PASAR KOTA PURBALINGGA;JL. A. YANI NO. 65;PURBALINGGA;0281 893239;893239
+75;KCP. PASAR BOBOTSARI;JL. BRIGJEN SUWONDO NO. 26;PURBALINGGA;0281 759059;759059
+76;KC. PURWOKERTO;JL. GATOT SUBROTO NO.101;PURWOKERTO;0281 631673;631674
+77;KCP. PASAR AJIBARANG;PASAR AJIBARANG RUKO NO.5;PURWOKERTO;0281 571357;571357
+78;KCP. PASAR SOKARAJA;JL. JEND SUDIRMAN NO.64;PURWOKERTO;0281 694858;694858
+79;KCP. PASAR WAGE;JL. DI PANJAITAN NO.78;PURWOKERTO;0281 637853;637584
+80;KCP. SUMPIUH;JL. RAYA SUMPIUH NO.143;PURWOKERTO;0282 497705;
+81;KCP. BANDAR;JL. RAYA BANDAR;BANDAR;0285 689287;
+82;KC. BATANG;JL. JEND. SUDIRMAN NO. 263;BATANG;0285 391214;391559
+83;KCP. PASAR KOTA BATANG;JL. JEND. SUDIRMAN NO. 263;BATANG;0285 392489;392489
+84;KCP. PASAR LIMPUNG;JL. KOMPLEK PASAR LIMPUNG;BATANG;0285 4468372;4468372
+85;KC. BREBES;JL. DIPONEGORO NO. 113-115;BREBES;0283 673444;673076
+86;KCP. BUMIAYU;JL. RAYA JATISAWIT NO. 20 A-B;BREBES;0289 432282;432282
+87;KCP. PASAR KETANGGUNGAN;JL. JEND. SUDIRMAN NO. 106;BREBES;;
+88;KCP. KEDUNGWUNI;JL. RAYA GEMBONG NO. 30;KEDUNGWUNI;0285 4483331;4483335
+89;KC. KAJEN;JL. RINJANI NO. 1A KAJEN;PEKALONGAN;0285 381705;381732
+90;KC. PEKALONGAN;JL. ALOON-ALOON NO. 1;PEKALONGAN;0285 435089;411930
+91;KCP. PASAR WIRADESA;JL. KOMPLEK RUKO PASAR;PEKALONGAN;0285 4416860;4416809
+92;KC. PEMALANG;JL. JEND. SUDIRMAN TIMUR NO.76;PEMALANG;0284 321545;321545
+93;KCP. PASAR COMAL;JL. A. YANI NO. 72;PEMALANG;0285 577737;577737
+94;KCP. KOTA PEMALANG;JL.KH SAMANHUDI NO.03 PEMALANG;PEMALANG;0284 323120;323120
+95;KCP. PASAR RANDUDONGKAL;JL. JEND. SUDIRMAN RUKO NO. 5;PEMALANG;0284 584294;584294
+96;KC. SLAWI;JL. DR. SUTOMO NO. 20;SLAWI;0283 492802;491334
+97;KC. TEGAL;JL. PEMUDA NO. 5;TEGAL;0283 354933;351021
+98;KCP. PASAR BANJARAN;JL. RAYA TEMBOK BANJARAN;TEGAL;0283 442084;443253
+99;KCP. PASAR PAGI;JL. A. YANI NO. 166;TEGAL;0283 318133;350411
+100;KC. KEBUMEN;JL. PAHLAWAN NO.177;KEBUMEN;0287 381542;381442
+101;KCP. GOMBONG;KOMP PS WONOKRIYO BLOK A 13-14;KEBUMEN;0287 472520;472510
+102;KCP. KUTOWINANGUN;JL. RAYA KUTOWINANGUN;KEBUMEN;0287 661307;661628
+103;KCP. PASAR KARANGANYAR;JL. REVOLUSI NO 119;KEBUMEN;0287 551039;551732
+104;KCP. PASAR PREMBUN;JL. RAYA PREMBUN 135;KEBUMEN;0287 662290;662600
+105;KC. MAGELANG;JL. ALOON-ALOON SELATAN NO. 11;MAGELANG;0293 362047;362392
+106;KCP. BANDONGAN;JL. R.ABDULLAH NO 20;MAGELANG;0293 369486;3694
+107;KCP. PASAR BOROBUDUR;JL. PRAMUDYAWARDHANI NO 1;MAGELANG;0293 788442;788442
+108;KCP. PASAR GRABAG;KOMPLEK PS.GRABAG;MAGELANG;0293 3216778;3216779
+109;KCP. PASAR REJOWINANGUN;JL. JEND.SUDIRMAN NO A.12;MAGELANG;0293 3660600;366909
+110;KCP. MUNTILAN;JL. PEMUDA NO 45 MUNTILAN;MUNTILAN;0293 587105;587100
+111;KC. PURWOREJO;JL. A YANI NO.20;PURWOREJO;0275 321235;321691
+112;KCP. PASAR BALEDONO;KOMP PS BALEDONO KIOS 11 A;PURWOREJO;0275 323211;323248
+113;KCP. PASAR KUTOARJO;JL. TANJUNG ANOM 50 KUTOARJO;PURWOREJO;0275 642115;642425
+114;KC. TEMANGGUNG;JL. S.PARMAN NO. 33;TEMANGGUNG;0293 491210;491374
+115;KCP. PARAKAN;JL. WONOSOBO NO 204 PARAKAN;TEMANGGUNG;0293 596569;596569
+116;KCP. PASAR NGADIREJO;JL.RAYA NGADIREJO NO.50;TEMANGGUNG;0293 591294;591344
+117;KC. WONOSOBO;JL. ANGKATAN 45 NO.1;WONOSOBO;0286 321500;321832
+118;KCP. PASAR KERTEK;KOMP PS KERTEK KIOS NO F 16-19;WONOSOBO;0286 329234;329025
+119;KC. BLORA;JL. PEMUDA NO. 57;BLORA;0296 531285;531353
+120;KCP. CEPU;JL. RAYA MUSTIKA PLASA NO.10 A;BLORA;0296 4233218;425178
+121;KCP. PASAR BLORA;JL. MR. ISKANDAR NO. 7;BLORA;0296 423318;425178
+122;KC. JEPARA;JL. PEMUDA NO. 1;JEPARA;0291 591116;593565
+123;KCP. PECANGAAN;JL. RAYA PECANGAAN NO. 93;JEPARA;0291 755107;755107
+124;KCP. PASAR BANGSRI;JL. RAYA BANGSRI NO. 57;JEPARA;0291 771410;771410
+125;KCP. PASAR KOTA JEPARA;JL. MT. HARYONO BLOK B NO. 3;JEPARA;0291 593911;593911
+126;KCP. PASAR MAYONG;JL. RAYA MAYONG NO. 72;JEPARA;0291 755874;755874
+127;KC. KUDUS;JL. JEND. SUDIRMAN NO. 158;KUDUS;0291 432583;431783
+128;KCP. KUDUS PLASA;JL. KUDUS PLASA BLOK A 5 LT.1;KUDUS;0291 439076;442077
+129;KCP. PASAR KLIWON KUDUS;JL. CEMPAKA RUKO BLOK B 20;KUDUS;0291 440453;440453
+130;KC. PATI;JL. JEND. SUDIRMAN NO. 52;PATI;0295 382165;382656
+131;KCP. PASAR JUANA;JL. KOMPLEK RUKO PORDA;PATI;0295 472325;471220
+132;KCP. TAYU;JL. DIPONEGORO NO. 58;PATI;0295 452703;452251
+133;KC. REMBANG;JL. KARTINI NO. 10;REMBANG;0295 693433;693150
+134;KCP. KOTA REMBANG;JL.PEMUDA NO.9;REMBANG;0295 692577;693463
+135;KC. JAKARTA;JL. PANGLIMA POLIM RAYA 25 JKT;JAKARTA SELATAN;021 72786144;
+\.
 
 --
 -- TOC entry 2136 (class 0 OID 23290)
@@ -90,14 +229,16 @@ INSERT INTO r_jabatan (nama, keterangan, urutan) VALUES ('Teknisi', 'Teknisi', 1
 -- Data for Name: m_pegawai; Type: TABLE DATA; Schema: public; Owner: earsip
 --
 
-INSERT INTO m_pegawai (unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (18, 1, 2, '1', 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 1);
-INSERT INTO m_pegawai (unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (2, 2, 2, 'NIP.0001', 'User Pusat Berkas', 'e50310084113a16a9ac94ec85156cb8c', 1);
-INSERT INTO m_pegawai (unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (14, 3, 2, 'NIP.0002', 'User Pusat Arsip', '3ac53a0f0b6ee2a6203176a72c61a153', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 18, 1, 2, '1', 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 2, 2, 2, 'NIP.0001', 'User Pusat Berkas', 'e50310084113a16a9ac94ec85156cb8c', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 14, 3, 2, 'NIP.0002', 'User Pusat Arsip', '3ac53a0f0b6ee2a6203176a72c61a153', 1);
 
+
+INSERT INTO r_mode_arsip VALUES
+(1, 'Musnah'),
+(2, 'Permanen');
 
 --
--- TOC entry 2141 (class 0 OID 23329)
--- Dependencies: 182 2136
 -- Data for Name: r_berkas_klas; Type: TABLE DATA; Schema: public; Owner: earsip
 --
 
@@ -212,13 +353,13 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 106;7;DIRKEP.15;Laporan;;3;10;2
 107;7;DIRKEP.15.01;Laporan Berkala;Naskah-naskah yang berkaitan dengan laporan dari tahap persiapan, pelaksanaan, pembuatan laporan ke Direktur Utama dan Dewan Komisaris secara berkala (harian, mingguan, dua mingguan, bulanan, triwulanan, semesteran, tahunan).;3;10;2
 108;7;DIRKEP.15.02;Laporan Insidentil;Naskah-naskah yang berkaitan dengan laporan dari tahap persiapan,pelaksanaan, pembuatan laporan ke KPK, PPATK dll. Secara insidentil.;3;10;2
-109;8;SEKPER.01;TIM HUKUM DAN REGULASI;;0;0;0
+109;8;SEKPER.01;TIM HUKUM DAN REGULASI;;0;0;1
 110;8;SEKPER.01.01;Perjanjian;;5;5;1
 111;8;SEKPER.01.02;Perijinan;;5;5;1
 112;8;SEKPER.01.03;Penyelesaian Kasus Hukum;;5;5;1
 113;8;SEKPER.01.10;Surat Intern;;2;2;2
 114;8;SEKPER.01.11;Surat Ekstern;;2;2;2
-115;8;SEKPER.02;TIM HUMAS;;0;0;0
+115;8;SEKPER.02;TIM HUMAS;;0;0;1
 116;8;SEKPER.02.01;Kunjungan;;5;5;2
 117;8;SEKPER.02.02;Jumpa Media Masa;;5;5;2
 118;8;SEKPER.02.03;Kliping;;5;5;2
@@ -227,12 +368,12 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 121;8;SEKPER.02.06;Pengelolaan Website;;5;5;2
 122;8;SEKPER.02.10;Surat Intern;;2;2;2
 123;8;SEKPER.02.11;Surat Ekstern;;2;2;2
-124;8;SEKPER.03;SUB DIVISI SEKRETARIAT DAN PROTOKOLER;;0;0;0
+124;8;SEKPER.03;SUB DIVISI SEKRETARIAT DAN PROTOKOLER;;0;0;1
 125;8;SEKPER.03.01;Pengurusan Naskah;;2;2;2
 126;8;SEKPER.03.02;Protokoler;;2;2;2
 127;8;SEKPER.03.10;Surat Intern;;2;2;2
 128;8;SEKPER.03.11;Surat Ekstern;;2;2;2
-129;9;PRC.01;SUB DIVISI PERENCANAAN;;0;0;0
+129;9;PRC.01;SUB DIVISI PERENCANAAN;;0;0;1
 130;9;PRC.01.01;Rencana Bisnis Bank dan Evaluasi;;3;12;2
 131;9;PRC.01.01.A;- Dokumen Usulan Penyusunan RBB;;3;12;2
 132;9;PRC.01.01.B;- Dokumen Penyelenggaraan Rapat;;3;12;2
@@ -252,7 +393,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 146;9;PRC.01.04.C;- Dokumen Group Dinamis dan Chief Ekonomist Bank Jateng;;2;12;1
 147;9;PRC.01.04.D;- Dokumen/Surat dari Divisi/Fungsi lain di Kantor Pusat (Internal);;1;12;1
 148;9;PRC.01.04.E;- Dokumen/Surat Eksternal (OJK, ASBANDA, BI dll);;2;12;1
-149;9;PRC.02;TIM RISET DAN PENGEMBANGAN KORPORASI;;0;0;0
+149;9;PRC.02;TIM RISET DAN PENGEMBANGAN KORPORASI;;0;0;1
 150;9;PRC.02.01;Penelitian dan Pengembangan;;10;12;1
 151;9;PRC.02.02;Jaringan Kantor;;10;12;1
 152;9;PRC.02.02.A;- Dokumen – dokumen yang berkaitan dengan penataan dan pengembangan (Pembukaan/Pemindahan Alamat/Penutupan) Jaringan Kantor / Layanan (Kantor Cabang/KCP/KK/PP/ATM/Mobkas/EDC dsb) ;;10;12;1
@@ -270,7 +411,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 164;9;PRC.02.03.F;- Dokumen Rencana Bisnis Bank;;1;2;1
 165;9;PRC.02.03.G;- Dokumen Statistik Keuangan / Daerah;;1;2;1
 166;9;PRC.02.03.H;- Laporan – laporan ;;10;12;1
-167;9;PRC.03;TIM PENGEMBANGAN USAHA DAN PEMBINAAN CABANG ;;0;0;0
+167;9;PRC.03;TIM PENGEMBANGAN USAHA DAN PEMBINAAN CABANG ;;0;0;1
 168;9;PRC.03.01;Pembinaan Cabang dan Anak Perusahaan;;2;2;2
 169;9;PRC.03.01.A;- Dokumen Monitoring dan Pembinaan Cabang;;2;2;2
 170;9;PRC.03.01.B;- Dokumen Monitoring dan Pengembangan Anak Perusahaan;;2;2;2
@@ -278,7 +419,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 172;9;PRC.03.02.A;- Dokumen monitoring/surat menyurat terkait Modal Saham;;2;12;1
 173;9;PRC.03.02.B;- Surat Kolektif Saham (Recipies Saham);;10;12;1
 174;9;PRC.03.03;ORTALA;;2;12;1
-175;9;PRC.04;ADMIN DIVISI PERENCANAAN;;0;0;0
+175;9;PRC.04;ADMIN DIVISI PERENCANAAN;;0;0;1
 176;9;PRC.04.01;- Undangan;;1;12;2
 177;9;PRC.04.02;- Surat Perintah Perjalanan Dinas;;1;12;2
 178;9;PRC.04.03;- Surat Ijin;;1;12;2
@@ -292,21 +433,21 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 186;9;PRC.15;LAPORAN;;2;3;1
 187;9;PRC.15.01;Laporan Berkala;;2;3;1
 188;9;PRC.15.02;Laporan Insidentil;;2;3;1
-189;10;DT.01;SUB DIVISI TREASURY DAN TRADING;;0;0;0
+189;10;DT.01;SUB DIVISI TREASURY DAN TRADING;;0;0;1
 190;10;DT.01.01;Analis Pengelolaan Likuiditas dan Pelaporan;;2;3;2
 191;10;DT.01.02;Dealer;;2;3;2
 192;10;DT.01.02;Seksi Monitoring dan Pelaporan;;2;3;2
-193;10;DT.02;SUB DIVISI SETTLEMENT;;0;0;0
+193;10;DT.02;SUB DIVISI SETTLEMENT;;0;0;1
 194;10;DT.02.01;Analis Dokumen Antar Bank;;2;3;2
 195;10;DT.02.02;Analis Settlement;;2;3;2
-196;10;DT.03;SUB DIVISI KEBIJAKAN DANA DAN JASA DALAM NEGERI;;0;0;0
+196;10;DT.03;SUB DIVISI KEBIJAKAN DANA DAN JASA DALAM NEGERI;;0;0;1
 197;10;DT.03.01;Analis Kebijakan Dana;;2;3;2
 198;10;DT.03.02;Analis Jasa dan Operasional Layanan;;2;3;2
 199;10;DT.03.03;Analis Financial dan APEX Bank;;2;3;2
 200;10;DT.03.04;Analis e-Channel;;2;3;2
 201;10;DT.03.05;Seksi Card Center;;2;3;2
 202;10;DT.03.06;Seksi Rekonsiliasi dan Monitoring;;2;3;2
-203;10;DT.04;SUB DIVISI TRANSAKSI LUAR NEGERI;;0;0;0
+203;10;DT.04;SUB DIVISI TRANSAKSI LUAR NEGERI;;0;0;1
 204;10;DT.04.01;Seksi Pelayanan dan Perdagangan Luar Negeri;;1;3;2
 205;10;DT.04.02;Seksi Hubungan Koresponden Luar Negeri;;2;3;2
 206;10;DT.04.03;Seksi Administrasi dan Pelaporan;;2;3;2
@@ -341,7 +482,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 235;11;PMS.01.06.B;Seksi Perencanaan dan Pengembangan Pemasaran;;3;5;2
 236;11;PMS.01.06.C;Seksi Promosi;;3;5;2
 237;11;PMS.01.07;RAPAT SUBDIV PENGEMBANGAN PEMASARAN;;3;5;2
-238;11;PMS.02;TIM PEMASAR;;0;0;0
+238;11;PMS.02;TIM PEMASAR;;0;0;1
 239;11;PMS.02.01;SOSIALISASI PRODUK / LAYANAN;;3;5;2
 240;11;PMS.02.01.A;Wilayah Koordinator Semarang dan Cabang Utama;;3;5;2
 241;11;PMS.02.01.A;Surat Masuk;;5;10;2
@@ -390,9 +531,9 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 284;11;PMS.02.03.F;Wilayah Koordinator Pati;;3;5;2
 285;11;PMS.02.04;MONITORING GO TO SCHOOL;;3;5;2
 286;11;PMS.02.04;RAPAT KOORDINASI TIM PEMASAR ;;3;5;2
-287;11;PMS.03;D P L K;;0;0;0
+287;11;PMS.03;D P L K;;0;0;1
 288;11;PMS.03.01;MONITORING KINERJA DPLK;;5;10;2
-289;12;KRD.01;TIM ANALIS KREDIT KORPORASI;;0;0;0
+289;12;KRD.01;TIM ANALIS KREDIT KORPORASI;;0;0;1
 290;12;KRD.01.01;KREDIT SINDIKASI;;3;5;2
 291;12;KRD.01.01.A;- Info memo dari Arranger;;3;5;2
 292;12;KRD.01.01.A;- Berkas info memo;;3;5;2
@@ -427,7 +568,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 321;12;KRD.01.03;PENOLAKAN KREDIT;;3;5;2
 322;12;KRD.01.03.A;- Analisa kredit;;3;5;2
 323;12;KRD.01.03.A;- Surat Pemberitahuan ke Kantor Cabang;;3;5;2
-324;12;KRD.02;TIM ANALIS KREDIT RITEL DAN KONSUMER;;0;0;0
+324;12;KRD.02;TIM ANALIS KREDIT RITEL DAN KONSUMER;;0;0;1
 325;12;KRD.02.01;REVIEW KREDIT RETAIL dan KONSUMER;;3;5;2
 326;12;KRD.02.01.A;- Berkas Pengajuan;;3;5;2
 327;12;KRD.02.01.A;- Analisa Kredit/Hasil Review;;3;5;2
@@ -440,7 +581,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 334;12;KRD.02.03;SURAT KE CABANG;;3;5;2
 335;12;KRD.02.04;SURAT ANTAR DIVISI;;3;5;2
 336;12;KRD.02.05;SURAT EKSTERNAL;;3;5;2
-337;12;KRD.03;SUB DIVISI KEBIJAKAN KREDIT;;0;0;0
+337;12;KRD.03;SUB DIVISI KEBIJAKAN KREDIT;;0;0;1
 338;12;KRD.03.01;KEBIJAKAN KREDIT;;10;10;2
 339;12;KRD.03.01.A;Kebijakan Perkreditan;;10;10;2
 340;12;KRD.03.01.B;Peraturan Pemerintah dan Bank Indonesia (OJK);;10;10;2
@@ -465,7 +606,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 359;12;KRD.03.02.B;Laporan LHBU;;10;10;2
 360;12;KRD.03.02.C;Laporan GCG;;10;10;2
 361;12;KRD.03.03;LAIN-LAIN;;10;10;2
-362;12;KRD.04;SUB DIVISI LAYANAN MIKRO DAN KREDIT PROGRAM;;0;0;0
+362;12;KRD.04;SUB DIVISI LAYANAN MIKRO DAN KREDIT PROGRAM;;0;0;1
 363;12;KRD.04.01;KEBIJAKAN KREDIT PROGRAM;;3;5;2
 364;12;KRD.04.01.A;Perjanjian Kerjasama Eksternal;;3;5;2
 365;12;KRD.04.01.B;KUR;;3;5;2
@@ -497,12 +638,12 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 391;12;KRD.04.03.M;KUHR;;3;5;2
 392;12;KRD.04.03.N;KUPA;;3;5;2
 393;12;KRD.04.04;KEMITRAAN;;3;5;2
-394;12;KRD.05;KESEKRETARIATAN;;0;0;0
+394;12;KRD.05;KESEKRETARIATAN;;0;0;1
 395;12;KRD.05.01;Pengumuman;;1;1;2
 396;12;KRD.05.02;Undangan;;1;1;2
 397;12;KRD.05.03;Ijin dan SPPD;;1;1;2
 398;12;KRD.05.04;Lain-lain;;1;1;2
-399;13;SYAR.01;SUB DIVISI UMUM SYARIAH (USD);;0;0;0
+399;13;SYAR.01;SUB DIVISI UMUM SYARIAH (USD);;0;0;1
 400;13;SYAR.01.01;Surat masuk (internal Kanpus);;5;10;2
 401;13;SYAR.01.02;Surat keluar (internal Kanpus);;5;10;2
 402;13;SYAR.01.03;Surat masuk (Bank Jateng);;5;10;2
@@ -551,7 +692,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 445;13;SYAR.01.46;APMK LKBU;;5;10;2
 446;13;SYAR.01.47;ATMR KPMM;;5;10;2
 447;13;SYAR.01.48;Laporan pubikasi;;5;10;2
-448;13;SYAR.02;SUB DIVISI BISNIS SYARIAH;;0;0;0
+448;13;SYAR.02;SUB DIVISI BISNIS SYARIAH;;0;0;1
 449;13;SYAR.02.01;MOU kerjasama dengan mitra kerja;;5;10;2
 450;13;SYAR.02.02;Usulan SK dan SE Direksi;;5;10;2
 451;13;SYAR.02.03;Berkas pembiayaan perorangan;;5;10;2
@@ -571,7 +712,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 465;13;SYAR.02.17;Laporan TKB;;5;10;2
 466;13;SYAR.02.18;Laporan GCG;;5;10;2
 467;13;SYAR.02.19;Data temuan OJK dan BPK;;5;10;2
-468;13;SYAR.03;PERENCANAAN DAN PENGEMBANGAN BISNIS SYARIAH;;0;0;0
+468;13;SYAR.03;PERENCANAAN DAN PENGEMBANGAN BISNIS SYARIAH;;0;0;1
 469;13;SYAR.03.01;Jaringan kantor;;5;10;2
 470;13;SYAR.03.02;Lap. Rencana bisnis bulanan, triwulanan;;5;10;2
 471;13;SYAR.03.03;ATM;;5;10;2
@@ -602,21 +743,21 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 496;13;SYAR.03.28;Kumpulan Fatwa DSN - MUI;;5;10;2
 497;13;SYAR.03.29;Surat Masuk;;5;10;2
 498;13;SYAR.03.30;Surat Keluar;;5;10;2
-499;13;SYAR.04;CABANG SYARIAH;;0;0;0
+499;13;SYAR.04;CABANG SYARIAH;;0;0;1
 500;13;SYAR.04.01;Naskah-naskah yang berkaitan dengan Pelayanan;;5;10;2
 501;13;SYAR.04.02;Naskah-naskah yang berkaitan dengan Pembiayaan;;5;10;2
 502;13;SYAR.04.03;Naskah-naskah yang berkaitan dengan Umum dan SDM;;5;10;2
 503;13;SYAR.04.04;Naskah-naskah yang berkaitan dengan Akuntansi dan TI;;5;10;2
 504;13;SYAR.04.05;Naskah-naskah yang berkaitan dengan Admin dan Pengawasan Pembiayaan;;5;10;2
 505;13;SYAR.04.06;Naskah-naskah yang berkaitan dengan Pemasaran;;5;10;2
-506;14;UM.01;SUB DIVISI RUMAH TANGGA DAN LOGISTIK;;0;0;0
+506;14;UM.01;SUB DIVISI RUMAH TANGGA DAN LOGISTIK;;0;0;1
 507;14;UM.01.01;Sewa Menyewa;Naskah-naskah yang berkaitan dengan sewa-menyewa gedung dan sarana serta prasarana baik milik Bank Jateng ataupun sebaliknya.;3;5;2
 508;14;UM.01.02;Sponsor;Naskah-naskah yang berkaitan dengan kegiatan promosi Bank Jateng untuk melaksanakan kegiatan diluar kegiatan promosi yang ditangani oleh Divisi Pemasaran dan Sekretaris Perusahaan.;2;5;2
 509;14;UM.01.03;Keamanan;Naskah-naskah yang berkaitan dengan kegiatan keamanan, misalnya : Satpam, permintaan pengamanan polisi, dll.;2;5;2
 510;14;UM.01.04;Rekreasi;Naskah - naskah yang berkaitan dengan kegiatan rekreasi dari pengajuan sampai dengan pelaporan.;2;5;2
 511;14;UM.01.05;Barang Habis Pakai;Naskah-naskah yang berkaitan dengan pengadaan barang-barang habis pakai (misalnya a.l. : barang cetak, alat tulis, perabot kantor) dari proses awal, pembelian sampai pertanggung-jawabannya.;3;2;2
 512;14;UM.01.06;Barang Inventaris;Naskah-naskah yang berkaitan dengan pengadaan Aktiva Tetap dan barang inventaris dari awal berupa penawaran harga, pembelian dan pertanggung-jawabannya.;3;2;2
-513;14;UM.02;SUB DIVISI PENGELOLAAN INVENTARIS DAN AKTIVA TETAP;;0;0;0
+513;14;UM.02;SUB DIVISI PENGELOLAAN INVENTARIS DAN AKTIVA TETAP;;0;0;1
 514;14;UM.02.01;Pengelolaan Barang Habis Pakai;Naskah-naskah yang berkaitan dengan kegiatan distribusi dan mutasi barang habis pakai kepada unit-unit kerja yang membutuhkan.;3;2;2
 515;14;UM.02.02;Pengelolaan Barang Inventaris;Naskah-naskah yang berkaitan dengan kegiatan distribusi dan mutasi barang inventaris kepada unit-unit kerja yang membutuhkan.;3;5;2
 516;14;UM.02.03;Pemeliharaan Gedung;Naskah-naskah yang berkaitan dengan kegiatan pemeliharaan gedung yang dimiliki oleh Bank Jateng baik Pusat maupun Cabang.;3;5;2
@@ -624,7 +765,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 518;14;UM.02.05;Asuransi Gedung, Sarana dan Prasarana;Naskah-naskah yang berkaitan dengan penutupan pertanggungan dan klaim asuransi gedung, sarana dan prasarana.;2;3;2
 519;14;UM.02.06;Penghapusan Barang Inventaris;Naskah-naskah yang berkaitan dengan proses penghapusan barang inventaris yang telah habis nilai bukunya.;1;2;2
 520;14;UM.02.07;Penjualan Barang Inventaris;;3;5;2
-521;14;UM.03;TIM PENGADAAN;;0;0;0
+521;14;UM.03;TIM PENGADAAN;;0;0;1
 522;14;UM.03.01;Barang Inventaris Tanah bangunan;;3;8;1
 523;14;UM.03.02;Barang Inventaris Selain Tanah bangunan;;3;8;2
 524;14;UM.07;LAIN-LAIN;;2;5;2
@@ -635,7 +776,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 529;14;UM.15;LAPORAN;;3;5;2
 530;14;UM.15.01;Laporan Berkala;;3;5;2
 531;14;UM.15.02;Laporan Insidentil;;3;5;2
-532;14;UM/ARP.04;SUB DIVISI ARSIP;;0;0;0
+532;14;UM/ARP.04;SUB DIVISI ARSIP;;0;0;1
 533;14;UM/ARP.04.01;Peminjaman Arsip;;2;2;2
 534;14;UM/ARP.04.02;Laporan Pemusnahan Arsip;;4;5;2
 535;14;UM/ARP.04.03;Arsip Pusat;Naskah-naskah yang berkaitan dengan pengelolaan dan pemeliharaan arsip pusat baik di Pusat Berkas maupun di Pusat Arsip (misalnya Bukti Pinjaman, Bukti Pemindahan, Berita Acara Pemusnahan).;3;3;2
@@ -643,84 +784,84 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 537;14;UM/ARP.04.05;Laporan Monitoring Arsip Cabang;Naskah-naskah yang berkaitan dengan kegiatan pengelolaan dan pemeliharaan kearsipan di lingkungan Kantor Cabang.;2;3;2
 538;14;UM/ARP.04.06;Perjanjian Kerjasama dengan Pihak Ketiga;;3;5;1
 539;14;UM/ARP.04.07;Lain-lain;;2;3;2
-540;15;SDM.01;SUB DIVISI PERENCANAAN DAN PENGEMBANGAN SDM;;0;0;0
+540;15;SDM.01;SUB DIVISI PERENCANAAN DAN PENGEMBANGAN SDM;;0;0;1
 541;15;SDM.01.01;Formasi Pegawai;;5;0;2
 542;15;SDM.01.02;Pengadaan;;2;2;2
 543;15;SDM.01.03;Penyaringan/Seleksi;;1;0;2
 544;15;SDM.01.04;Percobaan;;1;1;2
-545;15;SDM.01.05;Pengangkatan dan Penempatan Pegawai;;0;0;3
+545;15;SDM.01.05;Pengangkatan dan Penempatan Pegawai;;0;0;1
 546;15;SDM.01.05;Penilaian Pegawai;;2;1;2
-547;15;SDM.01.05;Mutasi, Rotasi, Promosi dan Demosi;;0;0;3
-548;15;SDM.01.05;Hubungan Kerja;;3;0;0
+547;15;SDM.01.05;Mutasi, Rotasi, Promosi dan Demosi;;0;0;1
+548;15;SDM.01.05;Hubungan Kerja;;3;0;1
 549;15;SDM.01.05;Pengecekan Data Karyawan Beserta Keluarga untuk Rekreasi;;2;5;2
 550;15;SDM.01.05;Berkas Surat Keputusan dan Surat Perintah;;5;0;2
 551;15;SDM.01.05;Perubahan Keluarga;;0;12;2
 552;15;SDM.01.05;Perubahan Pendidikan;;0;12;2
 553;15;SDM.01.05;Berkas Pegawai yang sudah pensiun, PHK, PDS, Meninggal dunia;;3;0;2
 554;15;SDM.01.06;Data Pegawai : Pengelolaan dan Pelaporan data Pegawai;;2;10;2
-555;15;SDM.02;SUB DIVISI HUBUNGAN SDM;;0;0;0
+555;15;SDM.02;SUB DIVISI HUBUNGAN SDM;;0;0;1
 556;15;SDM.02.01;Konseling;;3;10;2
-557;15;SDM.02.02;Hubungan Industrial;;0;0;3
+557;15;SDM.02.02;Hubungan Industrial;;0;0;1
 558;15;SDM.02.04;Gaji;;3;10;2
 559;15;SDM.02.05;Pemeliharaan Kesehatan;;2;5;2
-560;15;SDM.02.06;Penghargaan;;3;10;4
-561;15;SDM.02.07;Pajak;;5;10;4
-562;15;SDM.02.08;BPJS Ketenagakerjaan dan BPJS Kesehatan;;5;10;4
-563;15;SDM.02.09;Uang Cuti/Cuti;;3;5;4
+560;15;SDM.02.06;Penghargaan;;3;10;2
+561;15;SDM.02.07;Pajak;;5;10;2
+562;15;SDM.02.08;BPJS Ketenagakerjaan dan BPJS Kesehatan;;5;10;2
+563;15;SDM.02.09;Uang Cuti/Cuti;;3;5;2
 564;15;SDM.02.10;Lembur;;2;3;2
 565;15;SDM.02.11;Uang Makan dan Catering;;2;3;2
-566;15;SDM.02.12;Jasa Produksi dan Bonus/Insentif;;5;10;4
+566;15;SDM.02.12;Jasa Produksi dan Bonus/Insentif;;5;10;2
 567;15;SDM.02.13;Jaminan Hari Tua dan Iuran Pensiun;;5;10;2
 568;15;SDM.02.14;Perjalanan Dinas;;3;5;2
 569;15;SDM.02.15;Fasilitas Lain (uang pakaian dinas, name tag);;2;1;2
 570;15;SDM.02.16;Absensi/Ijin;;2;3;2
-571;15;SDM.03;SUB DIVISI PENDIDIKAN DAN PELATIHAN;;0;0;0
+571;15;SDM.03;SUB DIVISI PENDIDIKAN DAN PELATIHAN;;0;0;1
 572;15;SDM.03.01;Pelatihan In House;;3;5;2
 573;15;SDM.03.02;Pelatihan Publish;;3;5;2
-574;15;SDM.03.03;Rencana Anggaran Biaya dan Realisasi;;3;5;4
+574;15;SDM.03.03;Rencana Anggaran Biaya dan Realisasi;;3;5;2
 575;15;SDM.03.04;Surat Masuk;;2;5;2
 576;15;SDM.03.05;Surat Keluar;;2;5;2
-577;15;SDM.03.06;Pemberkasan Legalitas;;3;10;4
+577;15;SDM.03.06;Pemberkasan Legalitas;;3;10;2
 578;15;SDM.03.07;Laporan Kegiatan Pelatihan;;3;5;2
-579;15;SDM.04;TIM BUDAYA DAN PENGENDALIAN KUALITAS PELAYANAN;;0;0;0
+579;15;SDM.04;TIM BUDAYA DAN PENGENDALIAN KUALITAS PELAYANAN;;0;0;1
 580;15;SDM.04.01;Budaya Perusahaan;;3;5;2
 581;15;SDM.04.02;Pengendali Kualitas Pelayanan;;3;5;2
-582;15;SDM.14;UNDANGAN;;0;0;0
+582;15;SDM.14;UNDANGAN;;0;0;1
 583;15;SDM.14.01;Undangan Intern;;1;1;2
 584;15;SDM.14.02;Undangan Ekstern;;1;1;2
-585;15;SDM.15;LAPORAN;;0;0;0
-586;15;SDM.15.01;Laporan Berkala;;2;5;4
-587;15;SDM.15.01.A;- Harian;;2;5;4
-588;15;SDM.15.01.B;- Mingguan;;2;5;4
-589;15;SDM.15.01.C;- Bulanan misal LKPBU utk Pejabat Eksekutif (OJK);;2;5;4
-590;15;SDM.15.01.D;- Triwulanan;;2;5;4
-591;15;SDM.15.01.E;- Semesteran;;2;5;4
-592;15;SDM.15.01.F;- Tahunan misal LKPBU utk Ketenagakerjaan (OJK), Disnakertrans;;2;5;4
+585;15;SDM.15;LAPORAN;;0;0;1
+586;15;SDM.15.01;Laporan Berkala;;2;5;2
+587;15;SDM.15.01.A;- Harian;;2;5;2
+588;15;SDM.15.01.B;- Mingguan;;2;5;2
+589;15;SDM.15.01.C;- Bulanan misal LKPBU utk Pejabat Eksekutif (OJK);;2;5;2
+590;15;SDM.15.01.D;- Triwulanan;;2;5;2
+591;15;SDM.15.01.E;- Semesteran;;2;5;2
+592;15;SDM.15.01.F;- Tahunan misal LKPBU utk Ketenagakerjaan (OJK), Disnakertrans;;2;5;2
 593;15;SDM.15.02;Laporan Insidentil;;1;1;2
-594;16;SKKMR.01;SUB SATUAN KERJA KEPATUHAN ;;0;0;0
+594;16;SKKMR.01;SUB SATUAN KERJA KEPATUHAN ;;0;0;1
 595;16;SKKMR.01.01;Bank Indonesia;;5;5;1
 596;16;SKKMR.01.02;BPK;;5;5;1
 597;16;SKKMR.01.03;Otoritas Pengawas Lainnya;;5;5;1
 598;16;SKKMR.01.04;Pembinaan;;5;5;1
-599;16;SKKMR.02;TIM ANALIS RISIKO;;0;0;0
+599;16;SKKMR.02;TIM ANALIS RISIKO;;0;0;1
 600;16;SKKMR.02.01;Pembinaan;;5;5;2
 601;16;SKKMR.02.02;Surat Internal;;5;5;2
 602;16;SKKMR.02.02;Surat Eksternal;;5;5;2
-603;16;SKKMR.03;TIM ANALIS KEBIJAKAN DAN PELAPORAN RISIKO;;0;0;0
+603;16;SKKMR.03;TIM ANALIS KEBIJAKAN DAN PELAPORAN RISIKO;;0;0;1
 604;16;SKKMR.03.01;Pembinaan;;5;5;2
 605;16;SKKMR.03.02;Surat Internal;;5;5;2
 606;16;SKKMR.03.03;Surat Eksternal;;5;5;2
-607;16;SKKMR.14;UNDANGAN;;0;0;0
+607;16;SKKMR.14;UNDANGAN;;0;0;2
 608;16;SKKMR.14.01;Undangan Internal;;1;1;2
 609;16;SKKMR.14.02;Undangan Eksternal;;1;1;2
-610;16;SKKMR.15;LAPORAN;;0;0;0
+610;16;SKKMR.15;LAPORAN;;0;0;1
 611;16;SKKMR.15.01;Laporan Berkala;;5;5;1
 612;16;SKKMR.15.02;Laporan Insidentil;;5;5;1
-613;17;SKAI.01;TIM PENGENDALI MUTU AUDIT;;0;0;0
+613;17;SKAI.01;TIM PENGENDALI MUTU AUDIT;;0;0;2
 614;17;SKAI.01.01;Kajian Ekstern dan Lain-lain;;5;5;2
 615;17;SKAI.01.02;Laporan GKR;;5;5;2
 616;17;SKAI.01.09;Lainnya;;5;5;2
-617;17;SKAI.02;TIM PEMERIKSA UMUM (TPU);;0;0;0
+617;17;SKAI.02;TIM PEMERIKSA UMUM (TPU);;0;0;2
 618;17;SKAI.02.01;Kertas Kerja Audit Umum;;5;5;2
 619;17;SKAI.02.02;Kertas Kerja Audit Tujuan Tertentu;;5;5;2
 620;17;SKAI.02.03;Laporan Hasil Audit Umum TPU;;5;5;2
@@ -729,14 +870,14 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 623;17;SKAI.02.06;Tindak Lanjut Audit Tujuan Tertentu;;5;5;2
 624;17;SKAI.02.07;Aktiftas Off Site KIC;;5;5;2
 625;17;SKAI.02.08;Aktifitas Surprise Visit KIC;;5;5;2
-626;17;SKAI.03;TIM PEMERIKSA TSI (TPTSI);;0;0;0
+626;17;SKAI.03;TIM PEMERIKSA TSI (TPTSI);;0;0;2
 627;17;SKAI.03.01;Kertas Kerja Audit TSI;;5;5;2
 628;17;SKAI.03.02;Kertas Kerja Audit Tujuan Tertentu TSI;;5;5;2
 629;17;SKAI.03.03;Laporan Hasil Audit TSI;;5;5;2
 630;17;SKAI.03.04;Laporan Hasil Audit Tujuan Tertentu TSI;;5;5;2
 631;17;SKAI.03.05;Tindak Lanjut Audit TSI;;5;5;2
 632;17;SKAI.03.06;Tindak Lanjut Audit Tujuan Tertentu TSI;;5;5;2
-633;17;SKAI.04;SUB SATUAN KERJA PENGENDALIAN INTERN dan ADM.;;0;0;0
+633;17;SKAI.04;SUB SATUAN KERJA PENGENDALIAN INTERN dan ADM.;;0;0;2
 634;17;SKAI.04.01;Rencana Kerja Audit Tahunan (RKAT);;5;5;2
 635;17;SKAI.04.02;Laporan Monitoring Tindak Lanjut (Laporan untuk DEKOM);;5;5;2
 636;17;SKAI.04.03;Rencana dan Realisasi Program Kerja;;5;5;2
@@ -752,23 +893,23 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 646;17;SKAI.04.13;Audit selain OJK, BI, BPK;;5;5;2
 647;17;SKAI.04.14;Arsip lainnya terkait hal-hal yang bersifat khusus (Laporan laporan);;5;2;2
 648;17;SKAI.04.15;Arsip lainnya (undangan dan lainnya);;2;1;2
-649;18;TIAK.01;TIM PERENCANAAN TSI;;0;0;0
+649;18;TIAK.01;TIM PERENCANAAN TSI;;0;0;2
 650;18;TIAK.01.01;Perencanaan Teknologi System Informasi;;5;7;1
 651;18;TIAK.01.02;Undangan Intern;;5;7;2
 652;18;TIAK.01.03;Undangan Ekstern;;5;7;2
-653;18;TIAK.02;TIM PENGEMBANGAN TSI;;0;0;0
+653;18;TIAK.02;TIM PENGEMBANGAN TSI;;0;0;2
 654;18;TIAK.02.01;Pengembangan Teknology System Informasi;;5;7;1
 655;18;TIAK.02.02;Impelementasi dan Sosialisasi System Operasional;;5;10;1
 656;18;TIAK.02.03;Pembuatan Aplikasi;;5;10;1
 657;18;TIAK.02.04;Undangan Intern;;5;7;2
 658;18;TIAK.02.05;Undangan Ekstern;;5;7;2
-659;18;TIAK.03;SUB DIVISI PELAYANAN TSI;;0;0;0
+659;18;TIAK.03;SUB DIVISI PELAYANAN TSI;;0;0;2
 660;18;TIAK.03.01;Naskah-naskah pengumpulan, perubahan pelayanan TSI;;5;7;2
 661;18;TIAK.03.02;Implementasi dan Sosialisasi System Operasional;;5;7;2
 662;18;TIAK.03.03;Pelayanan Teknologi System Internal;;5;7;2
 663;18;TIAK.03.04;Undangan Intern;;5;7;2
 664;18;TIAK.03.05;Undangan Ekstern;;5;7;2
-665;18;TIAK.04;SUB DIVISI AKUNTANSI;;0;0;0
+665;18;TIAK.04;SUB DIVISI AKUNTANSI;;0;0;1
 666;18;TIAK.04.01;Laporan Berkala;;5;7;1
 667;18;TIAK.04.02;Naskah-naskah yang berkaitan dengan laporan dari tahap persiapan;;5;7;2
 668;18;TIAK.04.03;Undangan Intern;;5;7;2
@@ -827,49 +968,49 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 721;20;TAF.07.04;Arsip SDM/Penilaian SMK;;3;7;2
 722;20;TAF.15;Arsip Lain-lain;;3;7;2
 723;20;TAF.15.01;Arsip Lain-lain;;3;7;2
-724;21;APT.01;SURAT;;0;0;0
+724;21;APT.01;SURAT;;0;0;2
 725;21;APT.01.01;Surat Masuk;;2;3;2
 726;21;APT.01.01;Surat Pajak;;2;3;2
 727;21;APT.01.01;Surat Edaran PPATK;;2;3;2
 728;21;APT.01.01;Surat Edaran BI;;2;3;2
 729;21;APT.01.02;Daftar Teroris;;2;3;2
-730;21;APT.02;PENGELOLAAN DOKUMEN PELAPORAN EKSTERN;;0;0;0
+730;21;APT.02;PENGELOLAAN DOKUMEN PELAPORAN EKSTERN;;0;0;2
 731;21;APT.02.01;Dokumen LTKM;;2;3;2
 732;21;APT.02.02;Dokumen LTKT;;2;3;2
 733;21;APT.02.03;Undangan Ekstern;;2;3;2
-734;21;APT.03;PENGELOLAAN LAPORAN DOKUMEN CABANG/CAPEM;;0;0;0
+734;21;APT.03;PENGELOLAAN LAPORAN DOKUMEN CABANG/CAPEM;;0;0;2
 735;21;APT.03.01;Laporan Pengkinian Data Nasabah;;2;3;2
 736;21;APT.03.02;Laporan High Risk;;2;3;2
 737;21;APT.03.03;Laporan WIC;;2;3;2
 738;21;APT.03.04;Laporan Pengaduan Nsabah;;2;3;2
-739;21;APT.04;PENGELOLAAN LAPORAN;;0;0;0
+739;21;APT.04;PENGELOLAAN LAPORAN;;0;0;2
 740;21;APT.05.01;Laporan Hasil Pembinaan Cabang;;2;3;2
 741;21;APT.05.02;Laporan Komisaris;;2;3;2
 742;21;APT.05.03;Laporan Direksi;;2;3;2
-743;22;RPK.01;LAPORAN BERKALA (BULANAN);;0;0;0
+743;22;RPK.01;LAPORAN BERKALA (BULANAN);;0;0;2
 744;22;RPK.01.01;Laporan Pelaksanaan Restrukturisasi Kredit;;3;3;2
 745;22;RPK.01.02;Laporan Perkembangan dan Nominatif Restrukturisasi Kredit;;3;3;2
 746;22;RPK.01.03;Laporan Penarikan Kredit Hapus Buku;;3;3;2
 747;22;RPK.01.04;Laporan Kredit Bermasalah (NPL);;3;3;2
-748;22;RPK.02;LAPORAN INSIDENTIL;;0;0;0
+748;22;RPK.02;LAPORAN INSIDENTIL;;0;0;2
 749;22;RPK.02.01;Laporan Pembinaan dan Penagihan Debitur Bermasalah;;3;3;2
 750;22;RPK.02.02;Laporan Penyelesaian Kredit Bermasalah (Pelunasan Kredit);;3;3;2
 751;22;RPK.02.03;Laporan Perkembangan NPL Kepada Direktur Utama;;3;3;2
-752;22;RPK.14.;UNDANGAN;;0;0;0
+752;22;RPK.14.;UNDANGAN;;0;0;2
 753;22;RPK.14.01;Undangan Intern;;1;1;2
 754;22;RPK.14.01;Undangan Ekstern;;1;1;2
-755;23;CAB.BO;BAGIAN PELAYANAN BACK OFFICE;;0;0;0
-756;23;CAB.BO.01;SEKSI KLIRING;;0;0;0
+755;23;CAB.BO;BAGIAN PELAYANAN BACK OFFICE;;0;0;2
+756;23;CAB.BO.01;SEKSI KLIRING;;0;0;2
 757;23;CAB.BO.01.01;- Incoming;;3;5;2
 758;23;CAB.BO.01.02;- Outgoing;;3;5;2
 759;23;CAB.BO.01.03;- Retur / Tolakan;;3;5;2
-760;23;CAB.BO.02;SEKSI RTGS;;0;0;0
+760;23;CAB.BO.02;SEKSI RTGS;;0;0;2
 761;23;CAB.BO.02.01;- Outgoing;;3;5;2
 762;23;CAB.BO.02.02;- Incoming;;3;5;2
 763;23;CAB.BO.02.03;- Saldo  RTGS;;3;5;2
 764;23;CAB.BO.02.04;- Buku Register;;3;5;2
 765;23;CAB.BO.02.05;- Log Book;;3;5;2
-766;23;CAB.BO.03;SEKSI BACK OFFICE;;0;0;0
+766;23;CAB.BO.03;SEKSI BACK OFFICE;;0;0;2
 767;23;CAB.BO.03.01;- Taspen;;3;5;2
 768;23;CAB.BO.03.02;- Inkaso;;3;5;2
 769;23;CAB.BO.03.03;- Surat Masuk;;3;5;2
@@ -882,7 +1023,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 776;23;CAB.BO.03.10;- Bukti Nota Untuk Teller BO;;3;5;2
 777;23;CAB.BO.03.11;- Tanda terima Gaji Dinas;;3;5;2
 778;23;CAB.BO.03.12;- Daftar Penerima Gaji,Kespeg Dinas;;3;5;2
-779;23;CAB.BO.04;SEKSI PELAYANAN PAJAK dan SAFE DEPOSIT;;0;0;0
+779;23;CAB.BO.04;SEKSI PELAYANAN PAJAK dan SAFE DEPOSIT;;0;0;2
 780;23;CAB.BO.04.01;- Mutasi Laporan Harian Pajak;;5;10;2
 781;23;CAB.BO.04.02;- Print out Rekening Koran Pajak;;5;10;2
 782;23;CAB.BO.04.03;- Laporan Reversal Pajak;;5;10;2
@@ -890,17 +1031,17 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 784;23;CAB.BO.04.05;- Surat Keluar masalah pajak;;5;10;2
 785;23;CAB.BO.04.06;- Laporan imbal jasa pajak;;5;10;2
 786;23;CAB.BO.04.07;- Laporan bulanan SDB;;5;10;2
-787;23;CAB.BO.05;BAGIAN AKUNTANSI dan TSI;;0;0;0
-788;23;CAB.BO.05.01;SEKSI VERIFIKASI dan REKONSILIASI;;0;0;0
+787;23;CAB.BO.05;BAGIAN AKUNTANSI dan TSI;;0;0;2
+788;23;CAB.BO.05.01;SEKSI VERIFIKASI dan REKONSILIASI;;0;0;2
 789;23;CAB.BO.05.02;- Rekonsiliasi Eksternal;;3;5;2
 790;23;CAB.BO.05.03;- Rekonsiliasi Internal;;3;5;2
 791;23;CAB.BO.05.04;- Lainnya;;3;5;2
-792;23;CAB.BO.06;SEKSI LAP. KEUANGAN DAN TSI;;0;0;0
+792;23;CAB.BO.06;SEKSI LAP. KEUANGAN DAN TSI;;0;0;2
 793;23;CAB.BO.06.01;- Laporan Eksternal;;3;5;2
 794;23;CAB.BO.06.02;- Laporan Internal;;3;5;2
 795;23;CAB.BO.06.03;LAPORAN LAINNYA;;3;5;2
-796;23;CAB.BO.07;BAGIAN SDM dan UMUM;;0;0;0
-797;23;CAB.BO.07;SEKSI SDM;;0;0;0
+796;23;CAB.BO.07;BAGIAN SDM dan UMUM;;0;0;2
+797;23;CAB.BO.07;SEKSI SDM;;0;0;2
 798;23;CAB.BO.07.01;- Kebutuhan pegawai;;3;5;2
 799;23;CAB.BO.07.02;- Pengangkatan / penempatan;;3;5;2
 800;23;CAB.BO.07.03;- Penilaian/absensi/disiplin kerja/ijin sakit;;3;5;2
@@ -912,7 +1053,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 806;23;CAB.BO.07.09;- Program pendidikan ujian dinas / training / pelatihan;;3;5;2
 807;23;CAB.BO.07.10;- SP ( bantuan struktur intern );;3;5;2
 808;23;CAB.BO.07.11;- Santapan rohani;;3;5;2
-809;23;CAB.BO.08;SEKSI RUMAH TANGGA DAN LOGISTIK;;0;0;0
+809;23;CAB.BO.08;SEKSI RUMAH TANGGA DAN LOGISTIK;;0;0;2
 810;23;CAB.BO.08.01;- Pengadaan barang habis;;3;5;2
 811;23;CAB.BO.08.02;- Iklan/Pameran/Penawaran;;3;5;2
 812;23;CAB.BO.08.03;- Pembelian/Inventaris;;3;5;2
@@ -929,7 +1070,7 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 823;23;CAB.BO.08.14;- Undangan internal;;3;5;2
 824;23;CAB.BO.08.15;- Undangan eksternal;;3;5;2
 825;23;CAB.BO.08.16;- Lainnya;;3;5;2
-826;23;CAB.BO.09;SEKSI SEKRETARIS dan ARSIP;;0;0;0
+826;23;CAB.BO.09;SEKSI SEKRETARIS dan ARSIP;;0;0;2
 827;23;CAB.BO.09.01;- Hukum;;3;5;2
 828;23;CAB.BO.09.02;- Hubungan Masyarakat;;1;5;2
 829;23;CAB.BO.09.03;- Sekretariat dan Protokoler;;3;5;2
@@ -937,15 +1078,15 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 831;23;CAB.BO.09.05;- Undangan;;1;3;2
 832;23;CAB.BO.09.06;- Laporan;;3;5;2
 833;23;CAB.BO.09.07;- Lainnya ;;1;5;2
-834;23;CAB.FO;BAGIAN PELAYANAN FRONT OFFICE;;0;0;0
-835;23;CAB.FO.01;SEKSI PELAYANAN JASA  LN;;0;0;0
+834;23;CAB.FO;BAGIAN PELAYANAN FRONT OFFICE;;0;0;2
+835;23;CAB.FO.01;SEKSI PELAYANAN JASA  LN;;0;0;2
 836;23;CAB.FO.01.01;- Permohonan transfer valas;;3;5;2
 837;23;CAB.FO.01.02;- Penerusan L/C  ( Amandement L/C );;3;5;2
 838;23;CAB.FO.01.03;- Permohonan pengadaan Bank Note;;3;5;2
-839;23;CAB.FO.02;SEKSI  PELAYANAN KAS dan TELLER;;0;0;0
+839;23;CAB.FO.02;SEKSI  PELAYANAN KAS dan TELLER;;0;0;2
 840;23;CAB.FO.02.01;- Surat penunjukan Bank Indonesia;;3;5;2
 841;23;CAB.FO.02.02;- CIT dan CIS;;3;5;2
-842;23;CAB.FO.03;SEKSI  CSR;;0;0;0
+842;23;CAB.FO.03;SEKSI  CSR;;0;0;2
 843;23;CAB.FO.03.01;- Pembukaan rekening tabungan;;3;5;2
 844;23;CAB.FO.03.02;- Pembukaan rekening giro;;3;5;2
 845;23;CAB.FO.03.03;- Pembukaan ATM;;3;5;2
@@ -956,29 +1097,29 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 850;23;CAB.FO.03.08;- Penutupan tabungan;;3;5;2
 851;23;CAB.FO.03.09;- Penutupan giro;;3;5;2
 852;23;CAB.FO.03.10;- Lainnya;;3;5;2
-853;23;CAB.KRD.01;BAGIAN RESTRUKTURISASI dan PENYELESAIAN KREDIT;;0;0;0
-854;23;CAB.KRD.01.01;SEKSI  RESTRUKTURISASI;;0;0;0
+853;23;CAB.KRD.01;BAGIAN RESTRUKTURISASI dan PENYELESAIAN KREDIT;;0;0;2
+854;23;CAB.KRD.01.01;SEKSI  RESTRUKTURISASI;;0;0;2
 855;23;CAB.KRD.01.01;- Surat keluar;;3;5;2
 856;23;CAB.KRD.01.01;- Surat Perintah Kerja;;3;5;2
 857;23;CAB.KRD.01.01;- Restrukturisasi;;3;5;2
-858;23;CAB.KRD.01.02;SEKSI  PENYELESAIAN KREDIT;;0;0;0
+858;23;CAB.KRD.01.02;SEKSI  PENYELESAIAN KREDIT;;0;0;2
 859;23;CAB.KRD.01.02;- Surat keluar;;3;5;2
 860;23;CAB.KRD.01.02;- Surat Perintah Kerja;;3;5;2
 861;23;CAB.KRD.01.02;- Pemberitahuan  lelang;;3;5;2
-862;23;CAB.KRD.01.03;BAGIAN ADMIN dan LEGAL KREDIT;;0;0;0
-863;23;CAB.KRD.01.03;SEKSI ADMIN dan PELAPORAN;;0;0;0
+862;23;CAB.KRD.01.03;BAGIAN ADMIN dan LEGAL KREDIT;;0;0;2
+863;23;CAB.KRD.01.03;SEKSI ADMIN dan PELAPORAN;;0;0;2
 864;23;CAB.KRD.01.03;- Nominatif;;3;5;2
 865;23;CAB.KRD.01.03;- Bank Garansi Efektif;;3;5;2
 866;23;CAB.KRD.01.03;- Asuransi;;3;5;2
 867;23;CAB.KRD.01.03;- Klaim Asuransi;;3;5;2
 868;23;CAB.KRD.01.03;- RB Bendahara;;3;5;2
 869;23;CAB.KRD.01.03;- Lain-lain;;3;5;2
-870;23;CAB.KRD.01.04;SEKSI  LEGAL dan KREDIT;;0;0;0
+870;23;CAB.KRD.01.04;SEKSI  LEGAL dan KREDIT;;0;0;2
 871;23;CAB.KRD.01.04;- KPR;;3;5;2
 872;23;CAB.KRD.01.04;- PLO;;3;5;2
 873;23;CAB.KRD.01.04;- Produktif;;3;5;2
 874;23;CAB.KRD.01.04;- KMG;;3;5;2
-875;23;CAB.PMS.01;TIM PEMASAR;;0;0;0
+875;23;CAB.PMS.01;TIM PEMASAR;;0;0;2
 876;23;CAB.PMS.01.01;- Permohonan kerjasama dengan pihak ke 3;;3;5;2
 877;23;CAB.PMS.01.02;- Permohonan biaya promosi;;3;5;2
 878;23;CAB.PMS.01.03;- Permohonan biaya pemasaran;;3;5;2

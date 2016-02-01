@@ -1,932 +1,1580 @@
-/*==============================================================*/
-/* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     06/01/2012 14:14:49                          */
-/*==============================================================*/
+-- Database generated with pgModeler (PostgreSQL Database Modeler).
+-- pgModeler  version: 0.8.2-beta
+-- PostgreSQL version: 9.5
+-- Project Site: pgmodeler.com.br
+-- Model Author: ---
 
-/*==============================================================*/
-/* Table: LOG                                                   */
-/*==============================================================*/
-create table LOG (
-   ID                   DATE                 not null,
-   MENU_ID              INT4                 null,
-   PEGAWAI_ID           INT4                 null,
-   NAMA                 VARCHAR(128)         null,
-   AKSI                 VARCHAR(32)          null,
-   constraint PK_LOG primary key (ID)
+SET check_function_bodies = false;
+-- ddl-end --
+
+-- -- object: earsip | type: ROLE --
+-- -- DROP ROLE IF EXISTS earsip;
+-- CREATE ROLE earsip WITH 
+-- 	INHERIT
+-- 	LOGIN
+-- 	REPLICATION
+-- 	ENCRYPTED PASSWORD '********';
+-- -- ddl-end --
+-- 
+
+-- Database creation must be done outside an multicommand file.
+-- These commands were put in this file only for convenience.
+-- -- object: earsip | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS earsip;
+-- CREATE DATABASE earsip
+-- 	TEMPLATE = template0
+-- 	ENCODING = 'UTF8'
+-- 	LC_COLLATE = 'en_GB.UTF8'
+-- 	LC_CTYPE = 'en_GB.UTF8'
+-- 	TABLESPACE = pg_default
+-- 	OWNER = earsip
+-- ;
+-- -- ddl-end --
+-- 
+
+-- object: public.log | type: TABLE --
+-- DROP TABLE IF EXISTS public.log CASCADE;
+CREATE TABLE public.log(
+	id date NOT NULL,
+	menu_id integer,
+	pegawai_id integer,
+	nama character varying(128),
+	aksi character varying(32),
+	CONSTRAINT pk_log PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.log IS 'LOG';
+-- ddl-end --
+ALTER TABLE public.log OWNER TO earsip;
+-- ddl-end --
 
-comment on table LOG is
-'LOG';
+-- object: log_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.log_pk CASCADE;
+CREATE UNIQUE INDEX log_pk ON public.log
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: LOG_PK                                                */
-/*==============================================================*/
-create unique index LOG_PK on LOG (
-ID
+-- object: ref_user__log_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_user__log_fk CASCADE;
+CREATE INDEX ref_user__log_fk ON public.log
+	USING btree
+	(
+	  pegawai_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__menu__log_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__menu__log_fk CASCADE;
+CREATE INDEX ref__menu__log_fk ON public.log
+	USING btree
+	(
+	  menu_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.menu_akses | type: TABLE --
+-- DROP TABLE IF EXISTS public.menu_akses CASCADE;
+CREATE TABLE public.menu_akses(
+	menu_id integer NOT NULL,
+	grup_id integer NOT NULL,
+	hak_akses_id smallint DEFAULT 0,
+	CONSTRAINT pk_menu_akses PRIMARY KEY (menu_id,grup_id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.menu_akses IS 'HAK AKSES TERHADAP MENU';
+-- ddl-end --
+ALTER TABLE public.menu_akses OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF_USER__LOG_FK                                      */
-/*==============================================================*/
-create  index REF_USER__LOG_FK on LOG (
-PEGAWAI_ID
+-- object: menu_akses_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.menu_akses_pk CASCADE;
+CREATE UNIQUE INDEX menu_akses_pk ON public.menu_akses
+	USING btree
+	(
+	  menu_id,
+	  grup_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref_mnu__mnu_acs_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_mnu__mnu_acs_fk CASCADE;
+CREATE INDEX ref_mnu__mnu_acs_fk ON public.menu_akses
+	USING btree
+	(
+	  menu_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__group__mnu_acs_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__group__mnu_acs_fk CASCADE;
+CREATE INDEX ref__group__mnu_acs_fk ON public.menu_akses
+	USING btree
+	(
+	  grup_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__akses_akses_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__akses_akses_fk CASCADE;
+CREATE INDEX ref__akses_akses_fk ON public.menu_akses
+	USING btree
+	(
+	  hak_akses_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_arsip | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_arsip CASCADE;
+CREATE TABLE public.m_arsip(
+	berkas_id integer NOT NULL,
+	kode_folder character varying(255),
+	kode_rak character varying(255),
+	kode_box character varying(255),
+	CONSTRAINT pk_m_arsip PRIMARY KEY (berkas_id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_arsip IS 'MASTER ARSIP';
+-- ddl-end --
+ALTER TABLE public.m_arsip OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__MENU__LOG_FK                                     */
-/*==============================================================*/
-create  index REF__MENU__LOG_FK on LOG (
-MENU_ID
+-- object: m_arsip_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_arsip_pk CASCADE;
+CREATE UNIQUE INDEX m_arsip_pk ON public.m_arsip
+	USING btree
+	(
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_berkas_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_berkas_id_seq CASCADE;
+CREATE SEQUENCE public.m_berkas_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_berkas_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_berkas | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_berkas CASCADE;
+CREATE TABLE public.m_berkas(
+	id integer NOT NULL DEFAULT nextval('public.m_berkas_id_seq'::regclass),
+	pid integer,
+	pegawai_id integer,
+	berkas_klas_id integer,
+	unit_kerja_id integer,
+	berkas_tipe_id integer,
+	tipe_file smallint DEFAULT 0,
+	mime character varying(255),
+	sha character varying(255),
+	nama character varying(255),
+	tgl_unggah date NOT NULL DEFAULT ('now'::text)::date,
+	tgl_dibuat date,
+	nomor character varying(64),
+	pembuat character varying(255),
+	judul character varying(255),
+	masalah character varying(255),
+	jra_aktif smallint DEFAULT 1,
+	jra_inaktif smallint DEFAULT 1,
+	status smallint DEFAULT 1,
+	status_hapus smallint DEFAULT 1,
+	akses_berbagi_id smallint DEFAULT 0,
+	arsip_status_id smallint DEFAULT 0,
+	n_output_images integer NOT NULL DEFAULT 0,
+	CONSTRAINT pk_m_berkas PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_berkas IS 'MASTER BERKAS';
+-- ddl-end --
+COMMENT ON COLUMN public.m_berkas.status IS '1 = AKTIF; 2 : INAKTIF';
+-- ddl-end --
+ALTER TABLE public.m_berkas OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: MENU_AKSES                                            */
-/*==============================================================*/
-create table MENU_AKSES (
-   MENU_ID              INT4                 not null,
-   GRUP_ID              INT4                 not null,
-   HAK_AKSES_ID         INT2                 null default 0,
-   constraint PK_MENU_AKSES primary key (MENU_ID, GRUP_ID)
+-- object: m_berkas_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_berkas_pk CASCADE;
+CREATE UNIQUE INDEX m_berkas_pk ON public.m_berkas
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref_tipe_arsip_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_tipe_arsip_fk CASCADE;
+CREATE INDEX ref_tipe_arsip_fk ON public.m_berkas
+	USING btree
+	(
+	  berkas_tipe_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__klas__arsip_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__klas__arsip_fk CASCADE;
+CREATE INDEX ref__klas__arsip_fk ON public.m_berkas
+	USING btree
+	(
+	  berkas_klas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__unit__berkas_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__unit__berkas_fk CASCADE;
+CREATE INDEX ref__unit__berkas_fk ON public.m_berkas
+	USING btree
+	(
+	  unit_kerja_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__pegawai__berkas_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__pegawai__berkas_fk CASCADE;
+CREATE INDEX ref__pegawai__berkas_fk ON public.m_berkas
+	USING btree
+	(
+	  pegawai_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__akses_berkas_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__akses_berkas_fk CASCADE;
+CREATE INDEX ref__akses_berkas_fk ON public.m_berkas
+	USING btree
+	(
+	  akses_berbagi_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__arsip_status_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__arsip_status_fk CASCADE;
+CREATE INDEX ref__arsip_status_fk ON public.m_berkas
+	USING btree
+	(
+	  arsip_status_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_berkas_berbagi_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_berkas_berbagi_id_seq CASCADE;
+CREATE SEQUENCE public.m_berkas_berbagi_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_berkas_berbagi_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_berkas_berbagi | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_berkas_berbagi CASCADE;
+CREATE TABLE public.m_berkas_berbagi(
+	bagi_ke_peg_id integer NOT NULL,
+	berkas_id integer NOT NULL,
+	id integer NOT NULL DEFAULT nextval('public.m_berkas_berbagi_id_seq'::regclass),
+	CONSTRAINT pk_m_berkas_berbagi PRIMARY KEY (bagi_ke_peg_id,berkas_id,id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_berkas_berbagi IS 'MASTER UNTUK BERBAGI BERKAS';
+-- ddl-end --
+ALTER TABLE public.m_berkas_berbagi OWNER TO earsip;
+-- ddl-end --
 
-comment on table MENU_AKSES is
-'HAK AKSES TERHADAP MENU';
+-- object: m_berkas_berbagi_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_berkas_berbagi_pk CASCADE;
+CREATE UNIQUE INDEX m_berkas_berbagi_pk ON public.m_berkas_berbagi
+	USING btree
+	(
+	  bagi_ke_peg_id,
+	  berkas_id,
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: MENU_AKSES_PK                                         */
-/*==============================================================*/
-create unique index MENU_AKSES_PK on MENU_AKSES (
-MENU_ID,
-GRUP_ID
+-- object: ref_pegawai__berbagi_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_pegawai__berbagi_fk CASCADE;
+CREATE INDEX ref_pegawai__berbagi_fk ON public.m_berkas_berbagi
+	USING btree
+	(
+	  bagi_ke_peg_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__berkas__berbagi_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__berkas__berbagi_fk CASCADE;
+CREATE INDEX ref__berkas__berbagi_fk ON public.m_berkas_berbagi
+	USING btree
+	(
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_grup_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_grup_id_seq CASCADE;
+CREATE SEQUENCE public.m_grup_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_grup_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_grup | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_grup CASCADE;
+CREATE TABLE public.m_grup(
+	id integer NOT NULL DEFAULT nextval('public.m_grup_id_seq'::regclass),
+	nama character varying(64),
+	keterangan character varying(255),
+	CONSTRAINT pk_m_grup PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_grup IS 'GRUP PEGAWAI';
+-- ddl-end --
+ALTER TABLE public.m_grup OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF_MNU__MNU_ACS_FK                                   */
-/*==============================================================*/
-create  index REF_MNU__MNU_ACS_FK on MENU_AKSES (
-MENU_ID
+-- object: m_grup_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_grup_pk CASCADE;
+CREATE UNIQUE INDEX m_grup_pk ON public.m_grup
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_menu_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_menu_id_seq CASCADE;
+CREATE SEQUENCE public.m_menu_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_menu_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_menu | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_menu CASCADE;
+CREATE TABLE public.m_menu(
+	id integer NOT NULL DEFAULT nextval('public.m_menu_id_seq'::regclass),
+	icon character varying(16),
+	pid bigint,
+	nama_ref character varying(128),
+	nama character varying(128),
+	CONSTRAINT pk_m_menu PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_menu IS 'MASTER MENU';
+-- ddl-end --
+ALTER TABLE public.m_menu OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__GROUP__MNU_ACS_FK                                */
-/*==============================================================*/
-create  index REF__GROUP__MNU_ACS_FK on MENU_AKSES (
-GRUP_ID
+-- object: m_menu_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_menu_pk CASCADE;
+CREATE UNIQUE INDEX m_menu_pk ON public.m_menu
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_pegawai_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_pegawai_id_seq CASCADE;
+CREATE SEQUENCE public.m_pegawai_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_pegawai_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_pegawai | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_pegawai CASCADE;
+CREATE TABLE public.m_pegawai(
+	cabang_id integer NOT NULL,
+	id integer NOT NULL DEFAULT nextval('public.m_pegawai_id_seq'::regclass),
+	unit_kerja_id integer,
+	grup_id integer,
+	jabatan_id integer,
+	nip character varying(64),
+	nama character varying(128),
+	psw character varying(255),
+	psw_expire date DEFAULT '2000-01-01'::date,
+	status smallint DEFAULT 1,
+	CONSTRAINT pk_m_pegawai PRIMARY KEY (id),
+	CONSTRAINT ak_key_2_m_pegawa UNIQUE (nip)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_pegawai IS 'MASTER USER/PEGAWAI';
+-- ddl-end --
+COMMENT ON COLUMN public.m_pegawai.status IS '0 = NON AKTIF; 1 = AKTIF ';
+-- ddl-end --
+ALTER TABLE public.m_pegawai OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__AKSES_AKSES_FK                                   */
-/*==============================================================*/
-create  index REF__AKSES_AKSES_FK on MENU_AKSES (
-HAK_AKSES_ID
+-- object: m_pegawai_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_pegawai_pk CASCADE;
+CREATE UNIQUE INDEX m_pegawai_pk ON public.m_pegawai
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__group__user_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__group__user_fk CASCADE;
+CREATE INDEX ref__group__user_fk ON public.m_pegawai
+	USING btree
+	(
+	  grup_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__jab__pegawai_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__jab__pegawai_fk CASCADE;
+CREATE INDEX ref__jab__pegawai_fk ON public.m_pegawai
+	USING btree
+	(
+	  jabatan_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__unit_peg_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__unit_peg_fk CASCADE;
+CREATE INDEX ref__unit_peg_fk ON public.m_pegawai
+	USING btree
+	(
+	  unit_kerja_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.m_sysconfig | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_sysconfig CASCADE;
+CREATE TABLE public.m_sysconfig(
+	repository_root character varying(1024) NOT NULL,
+	max_upload_size integer DEFAULT 5000
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_sysconfig IS 'MASTER KONFIGURASI SYSTEM';
+-- ddl-end --
+ALTER TABLE public.m_sysconfig OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: M_ARSIP                                               */
-/*==============================================================*/
-create table M_ARSIP (
-   BERKAS_ID            INT4                 not null,
-   KODE_FOLDER          VARCHAR(255)         null,
-   KODE_RAK             VARCHAR(255)         null,
-   KODE_BOX             VARCHAR(255)         null,
-   constraint PK_M_ARSIP primary key (BERKAS_ID)
+-- object: public.m_unit_kerja_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.m_unit_kerja_id_seq CASCADE;
+CREATE SEQUENCE public.m_unit_kerja_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.m_unit_kerja_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.m_unit_kerja | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_unit_kerja CASCADE;
+CREATE TABLE public.m_unit_kerja(
+	direksi_id integer DEFAULT 0,
+	divisi_id integer DEFAULT 0,
+	id integer NOT NULL DEFAULT nextval('public.m_unit_kerja_id_seq'::regclass),
+	kode character varying(32) NOT NULL,
+	nama character varying(128),
+	nama_pimpinan character varying(128),
+	keterangan character varying(255),
+	urutan integer DEFAULT 0,
+	CONSTRAINT pk_m_unit_kerja PRIMARY KEY (id),
+	CONSTRAINT ak_key_2_m_unit_k UNIQUE (kode)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.m_unit_kerja IS 'MASTER UNIT KERJA';
+-- ddl-end --
+ALTER TABLE public.m_unit_kerja OWNER TO earsip;
+-- ddl-end --
 
-comment on table M_ARSIP is
-'MASTER ARSIP';
+-- object: m_unit_kerja_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.m_unit_kerja_pk CASCADE;
+CREATE UNIQUE INDEX m_unit_kerja_pk ON public.m_unit_kerja
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: M_ARSIP_PK                                            */
-/*==============================================================*/
-create unique index M_ARSIP_PK on M_ARSIP (
-BERKAS_ID
+-- object: public.peminjaman_rinci | type: TABLE --
+-- DROP TABLE IF EXISTS public.peminjaman_rinci CASCADE;
+CREATE TABLE public.peminjaman_rinci(
+	peminjaman_id integer NOT NULL,
+	berkas_id integer NOT NULL,
+	CONSTRAINT pk_peminjaman_rinci PRIMARY KEY (peminjaman_id,berkas_id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.peminjaman_rinci IS 'PEMINJAMAN DETAIL';
+-- ddl-end --
+ALTER TABLE public.peminjaman_rinci OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: M_BERKAS                                              */
-/*==============================================================*/
-create table M_BERKAS (
-   ID                   SERIAL               not null,
-   PID                  INT4                 null,
-   PEGAWAI_ID           INT4                 null,
-   BERKAS_KLAS_ID       INT4                 null,
-   UNIT_KERJA_ID        INT4                 null,
-   BERKAS_TIPE_ID       INT4                 null,
-   TIPE_FILE            INT2                 null default 0,
-   MIME                 VARCHAR(255)         null,
-   SHA                  VARCHAR(255)         null,
-   NAMA                 VARCHAR(255)         null,
-   TGL_UNGGAH           DATE                 not null default CURRENT_DATE,
-   TGL_DIBUAT           DATE                 null,
-   NOMOR                VARCHAR(64)          null,
-   PEMBUAT              VARCHAR(255)         null,
-   JUDUL                VARCHAR(255)         null,
-   MASALAH              VARCHAR(255)         null,
-   JRA_AKTIF            INT2                 null default 1,
-   JRA_INAKTIF          INT2                 null default 1,
-   STATUS               INT2                 null default 1,
-   STATUS_HAPUS         INT2                 null default 1,
-   AKSES_BERBAGI_ID     INT2                 null default 0,
-   ARSIP_STATUS_ID      INT2                 null default 0,
-   N_OUTPUT_IMAGES      INT                  not null default 0,
-   constraint PK_M_BERKAS primary key (ID)
+-- object: peminjaman_rinci_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.peminjaman_rinci_pk CASCADE;
+CREATE UNIQUE INDEX peminjaman_rinci_pk ON public.peminjaman_rinci
+	USING btree
+	(
+	  peminjaman_id,
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__berkas__pin_rin_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__berkas__pin_rin_fk CASCADE;
+CREATE INDEX ref__berkas__pin_rin_fk ON public.peminjaman_rinci
+	USING btree
+	(
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_akses_berbagi | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_akses_berbagi CASCADE;
+CREATE TABLE public.r_akses_berbagi(
+	id smallint NOT NULL,
+	keterangan character varying(255),
+	CONSTRAINT pk_r_akses_berbagi PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_akses_berbagi IS 'REFERENSI UNTUK BERBAGI AKSES';
+-- ddl-end --
+ALTER TABLE public.r_akses_berbagi OWNER TO earsip;
+-- ddl-end --
 
-comment on table M_BERKAS is
-'MASTER BERKAS';
+-- object: r_akses_berbagi_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_akses_berbagi_pk CASCADE;
+CREATE UNIQUE INDEX r_akses_berbagi_pk ON public.r_akses_berbagi
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-comment on column M_BERKAS.STATUS is
-'1 = AKTIF; 2 : INAKTIF';
+-- object: public.r_akses_menu | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_akses_menu CASCADE;
+CREATE TABLE public.r_akses_menu(
+	id smallint NOT NULL,
+	keterangan character varying(255),
+	CONSTRAINT pk_r_akses_menu PRIMARY KEY (id)
 
-/*==============================================================*/
-/* Index: M_BERKAS_PK                                           */
-/*==============================================================*/
-create unique index M_BERKAS_PK on M_BERKAS (
-ID
 );
-
-/*==============================================================*/
-/* Index: REF_TIPE_ARSIP_FK                                     */
-/*==============================================================*/
-create  index REF_TIPE_ARSIP_FK on M_BERKAS (
-BERKAS_TIPE_ID
-);
-
-/*==============================================================*/
-/* Index: REF__KLAS__ARSIP_FK                                   */
-/*==============================================================*/
-create  index REF__KLAS__ARSIP_FK on M_BERKAS (
-BERKAS_KLAS_ID
-);
-
-/*==============================================================*/
-/* Index: REF__UNIT__BERKAS_FK                                  */
-/*==============================================================*/
-create  index REF__UNIT__BERKAS_FK on M_BERKAS (
-UNIT_KERJA_ID
-);
-
-/*==============================================================*/
-/* Index: REF__PEGAWAI__BERKAS_FK                               */
-/*==============================================================*/
-create  index REF__PEGAWAI__BERKAS_FK on M_BERKAS (
-PEGAWAI_ID
-);
-
-/*==============================================================*/
-/* Index: REF__AKSES_BERKAS_FK                                  */
-/*==============================================================*/
-create  index REF__AKSES_BERKAS_FK on M_BERKAS (
-AKSES_BERBAGI_ID
-);
-
-/*==============================================================*/
-/* Index: REF__ARSIP_STATUS_FK                                  */
-/*==============================================================*/
-create  index REF__ARSIP_STATUS_FK on M_BERKAS (
-ARSIP_STATUS_ID
-);
-
-/*==============================================================*/
-/* Table: M_BERKAS_BERBAGI                                      */
-/*==============================================================*/
-create table M_BERKAS_BERBAGI (
-   BAGI_KE_PEG_ID       INT4                 not null,
-   BERKAS_ID            INT4                 not null,
-   ID                   SERIAL               not null,
-   constraint PK_M_BERKAS_BERBAGI primary key (BAGI_KE_PEG_ID, BERKAS_ID, ID)
-);
-
-comment on table M_BERKAS_BERBAGI is
-'MASTER UNTUK BERBAGI BERKAS';
-
-/*==============================================================*/
-/* Index: M_BERKAS_BERBAGI_PK                                   */
-/*==============================================================*/
-create unique index M_BERKAS_BERBAGI_PK on M_BERKAS_BERBAGI (
-BAGI_KE_PEG_ID,
-BERKAS_ID,
-ID
-);
-
-/*==============================================================*/
-/* Index: REF_PEGAWAI__BERBAGI_FK                               */
-/*==============================================================*/
-create  index REF_PEGAWAI__BERBAGI_FK on M_BERKAS_BERBAGI (
-BAGI_KE_PEG_ID
-);
-
-/*==============================================================*/
-/* Index: REF__BERKAS__BERBAGI_FK                               */
-/*==============================================================*/
-create  index REF__BERKAS__BERBAGI_FK on M_BERKAS_BERBAGI (
-BERKAS_ID
-);
-
-/*==============================================================*/
-/* Table: M_GRUP                                                */
-/*==============================================================*/
-create table M_GRUP (
-   ID                   SERIAL               not null,
-   NAMA                 VARCHAR(64)          null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_M_GRUP primary key (ID)
-);
-
-comment on table M_GRUP is
-'GRUP PEGAWAI';
-
-/*==============================================================*/
-/* Index: M_GRUP_PK                                             */
-/*==============================================================*/
-create unique index M_GRUP_PK on M_GRUP (
-ID
-);
-
-/*==============================================================*/
-/* Table: M_MENU                                                */
-/*==============================================================*/
-create table M_MENU (
-   ID                   SERIAL               not null,
-   ICON                 VARCHAR(16)          null,
-   PID                  INT8                 null,
-   NAMA_REF             VARCHAR(128)         null,
-   NAMA                 VARCHAR(128)         null,
-   constraint PK_M_MENU primary key (ID)
-);
-
-comment on table M_MENU is
-'MASTER MENU';
-
-/*==============================================================*/
-/* Index: M_MENU_PK                                             */
-/*==============================================================*/
-create unique index M_MENU_PK on M_MENU (
-ID
-);
-
-/*==============================================================*/
-/* Table: M_PEGAWAI                                             */
-/*==============================================================*/
-create table M_PEGAWAI (
-   ID                   SERIAL               not null,
-   UNIT_KERJA_ID        INT4                 null,
-   GRUP_ID              INT4                 null,
-   JABATAN_ID           INT4                 null,
-   NIP                  VARCHAR(64)          null,
-   NAMA                 VARCHAR(128)         null,
-   PSW                  VARCHAR(255)         null,
-   PSW_EXPIRE			DATE				 default '2000-01-01',
-   STATUS               INT2                 null default 1,
-   constraint PK_M_PEGAWAI primary key (ID),
-   constraint AK_KEY_2_M_PEGAWA unique (NIP)
-);
-
-comment on table M_PEGAWAI is
-'MASTER USER/PEGAWAI';
-
-comment on column M_PEGAWAI.STATUS is
-'0 = NON AKTIF; 1 = AKTIF ';
-
-/*==============================================================*/
-/* Index: M_PEGAWAI_PK                                          */
-/*==============================================================*/
-create unique index M_PEGAWAI_PK on M_PEGAWAI (
-ID
-);
-
-/*==============================================================*/
-/* Index: REF__GROUP__USER_FK                                   */
-/*==============================================================*/
-create  index REF__GROUP__USER_FK on M_PEGAWAI (
-GRUP_ID
-);
-
-/*==============================================================*/
-/* Index: REF__JAB__PEGAWAI_FK                                  */
-/*==============================================================*/
-create  index REF__JAB__PEGAWAI_FK on M_PEGAWAI (
-JABATAN_ID
-);
-
-/*==============================================================*/
-/* Index: REF__UNIT_PEG_FK                                      */
-/*==============================================================*/
-create  index REF__UNIT_PEG_FK on M_PEGAWAI (
-UNIT_KERJA_ID
-);
-
-/*==============================================================*/
-/* Table: M_SYSCONFIG                                           */
-/*==============================================================*/
-create table M_SYSCONFIG (
-   REPOSITORY_ROOT      VARCHAR(1024)        not null,
-   MAX_UPLOAD_SIZE      INT4                 null default 5000
-);
-
-comment on table M_SYSCONFIG is
-'MASTER KONFIGURASI SYSTEM';
-
-/*==============================================================*/
-/* Table: M_UNIT_KERJA                                          */
-/*==============================================================*/
-create table M_UNIT_KERJA (
-   ID                   SERIAL               not null,
-   KODE                 VARCHAR(32)          not null,
-   NAMA                 VARCHAR(128)         null,
-   NAMA_PIMPINAN        VARCHAR(128)         null,
-   KETERANGAN           VARCHAR(255)         null,
-   URUTAN				INT4				default 0,
-   DIREKSI_ID			INT4				default 0,
-   DIVISI_ID            INT4				default 0,
-   constraint PK_M_UNIT_KERJA primary key (ID),
-   constraint AK_KEY_2_M_UNIT_K unique (KODE)
-);
-
-comment on table M_UNIT_KERJA is
-'MASTER UNIT KERJA';
-
-/*==============================================================*/
-/* Index: M_UNIT_KERJA_PK                                       */
-/*==============================================================*/
-create unique index M_UNIT_KERJA_PK on M_UNIT_KERJA (
-ID
-);
-
-/*==============================================================*/
-/* Table: PEMINJAMAN_RINCI                                      */
-/*==============================================================*/
-create table PEMINJAMAN_RINCI (
-   PEMINJAMAN_ID        INT4                 not null,
-   BERKAS_ID            INT4                 not null,
-   constraint PK_PEMINJAMAN_RINCI primary key (PEMINJAMAN_ID, BERKAS_ID)
-);
-
-comment on table PEMINJAMAN_RINCI is
-'PEMINJAMAN DETAIL';
-
-/*==============================================================*/
-/* Index: PEMINJAMAN_RINCI_PK                                   */
-/*==============================================================*/
-create unique index PEMINJAMAN_RINCI_PK on PEMINJAMAN_RINCI (
-PEMINJAMAN_ID,
-BERKAS_ID
-);
-
-/*==============================================================*/
-/* Index: REF__BERKAS__PIN_RIN_FK                               */
-/*==============================================================*/
-create  index REF__BERKAS__PIN_RIN_FK on PEMINJAMAN_RINCI (
-BERKAS_ID
-);
-
-/*==============================================================*/
-/* Table: R_AKSES_BERBAGI                                       */
-/*==============================================================*/
-create table R_AKSES_BERBAGI (
-   ID                   INT2                 not null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_R_AKSES_BERBAGI primary key (ID)
-);
-
-comment on table R_AKSES_BERBAGI is
-'REFERENSI UNTUK BERBAGI AKSES';
-
-/*==============================================================*/
-/* Index: R_AKSES_BERBAGI_PK                                    */
-/*==============================================================*/
-create unique index R_AKSES_BERBAGI_PK on R_AKSES_BERBAGI (
-ID
-);
-
-/*==============================================================*/
-/* Table: R_AKSES_MENU                                          */
-/*==============================================================*/
-create table R_AKSES_MENU (
-   ID                   INT2                 not null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_R_AKSES_MENU primary key (ID)
-);
-
-comment on table R_AKSES_MENU is
-'REFERENSI AKSES MENU
+-- ddl-end --
+COMMENT ON TABLE public.r_akses_menu IS 'REFERENSI AKSES MENU
 ';
+-- ddl-end --
+ALTER TABLE public.r_akses_menu OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_AKSES_MENU_PK                                       */
-/*==============================================================*/
-create unique index R_AKSES_MENU_PK on R_AKSES_MENU (
-ID
+-- object: r_akses_menu_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_akses_menu_pk CASCADE;
+CREATE UNIQUE INDEX r_akses_menu_pk ON public.r_akses_menu
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_arsip_status | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_arsip_status CASCADE;
+CREATE TABLE public.r_arsip_status(
+	id smallint NOT NULL,
+	keterangan character varying(255),
+	CONSTRAINT pk_r_arsip_status PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_arsip_status IS 'REFERENSI ARSIP STATUS';
+-- ddl-end --
+ALTER TABLE public.r_arsip_status OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_ARSIP_STATUS                                        */
-/*==============================================================*/
-create table R_ARSIP_STATUS (
-   ID                   INT2                 not null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_R_ARSIP_STATUS primary key (ID)
+-- object: r_arsip_status_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_arsip_status_pk CASCADE;
+CREATE UNIQUE INDEX r_arsip_status_pk ON public.r_arsip_status
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_berkas_klas_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.r_berkas_klas_id_seq CASCADE;
+CREATE SEQUENCE public.r_berkas_klas_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.r_berkas_klas_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.r_berkas_klas | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_berkas_klas CASCADE;
+CREATE TABLE public.r_berkas_klas(
+	id integer NOT NULL DEFAULT nextval('public.r_berkas_klas_id_seq'::regclass),
+	unit_kerja_id integer,
+	kode varchar(64) NOT NULL,
+	nama character varying(512) NOT NULL,
+	keterangan character varying(255) NOT NULL,
+	jra_aktif integer NOT NULL DEFAULT 1,
+	jra_inaktif integer NOT NULL DEFAULT 1,
+	mode_arsip_id integer NOT NULL DEFAULT 2,
+	CONSTRAINT pk_r_berkas_klas PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_berkas_klas IS 'REFERENSI KLASIFIKASI BERKAS';
+-- ddl-end --
+ALTER TABLE public.r_berkas_klas OWNER TO earsip;
+-- ddl-end --
 
-comment on table R_ARSIP_STATUS is
-'REFERENSI ARSIP STATUS';
+-- object: r_berkas_klas_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_berkas_klas_pk CASCADE;
+CREATE UNIQUE INDEX r_berkas_klas_pk ON public.r_berkas_klas
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_ARSIP_STATUS_PK                                     */
-/*==============================================================*/
-create unique index R_ARSIP_STATUS_PK on R_ARSIP_STATUS (
-ID
+-- object: ref__unit__klas_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__unit__klas_fk CASCADE;
+CREATE INDEX ref__unit__klas_fk ON public.r_berkas_klas
+	USING btree
+	(
+	  unit_kerja_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_berkas_tipe_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.r_berkas_tipe_id_seq CASCADE;
+CREATE SEQUENCE public.r_berkas_tipe_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.r_berkas_tipe_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.r_berkas_tipe | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_berkas_tipe CASCADE;
+CREATE TABLE public.r_berkas_tipe(
+	id integer NOT NULL DEFAULT nextval('public.r_berkas_tipe_id_seq'::regclass),
+	nama character varying(64),
+	keterangan character varying(255),
+	CONSTRAINT pk_r_berkas_tipe PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_berkas_tipe IS 'REFERENSI TIPE ARSIP';
+-- ddl-end --
+ALTER TABLE public.r_berkas_tipe OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_BERKAS_KLAS                                         */
-/*==============================================================*/
-create table R_BERKAS_KLAS (
-   ID                   SERIAL               not null,
-   UNIT_KERJA_ID        INT4                 null,
-   KODE                 VARCHAR(20)          not null,
-   NAMA                 VARCHAR(1024)        not null,
-   KETERANGAN           VARCHAR(1024)        not null,
-   JRA_AKTIF			INT4				 not null default 1,
-   JRA_INAKTIF			INT4				 not null default 1,
-   MODE_ARSIP_ID		INT4				default 0,
-   constraint PK_R_BERKAS_KLAS primary key (ID)
+-- object: r_berkas_tipe_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_berkas_tipe_pk CASCADE;
+CREATE UNIQUE INDEX r_berkas_tipe_pk ON public.r_berkas_tipe
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_ir_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.r_ir_id_seq CASCADE;
+CREATE SEQUENCE public.r_ir_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.r_ir_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.r_ir | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_ir CASCADE;
+CREATE TABLE public.r_ir(
+	id integer NOT NULL DEFAULT nextval('public.r_ir_id_seq'::regclass),
+	berkas_klas_id integer,
+	keterangan character varying(64),
+	CONSTRAINT pk_r_ir PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_ir IS 'REFERNSI INDEKS RELATIF';
+-- ddl-end --
+ALTER TABLE public.r_ir OWNER TO earsip;
+-- ddl-end --
 
-comment on table R_BERKAS_KLAS is
-'REFERENSI KLASIFIKASI BERKAS';
+-- object: r_ir_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_ir_pk CASCADE;
+CREATE UNIQUE INDEX r_ir_pk ON public.r_ir
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_BERKAS_KLAS_PK                                      */
-/*==============================================================*/
-create unique index R_BERKAS_KLAS_PK on R_BERKAS_KLAS (
-ID
+-- object: ref__klas__ir_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__klas__ir_fk CASCADE;
+CREATE INDEX ref__klas__ir_fk ON public.r_ir
+	USING btree
+	(
+	  berkas_klas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_jabatan_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.r_jabatan_id_seq CASCADE;
+CREATE SEQUENCE public.r_jabatan_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.r_jabatan_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.r_jabatan | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_jabatan CASCADE;
+CREATE TABLE public.r_jabatan(
+	id integer NOT NULL DEFAULT nextval('public.r_jabatan_id_seq'::regclass),
+	nama character varying(128),
+	keterangan character varying(255),
+	urutan integer DEFAULT 0,
+	CONSTRAINT pk_r_jabatan PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_jabatan IS 'REFERENSI JABATAN';
+-- ddl-end --
+ALTER TABLE public.r_jabatan OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__UNIT__KLAS_FK                                    */
-/*==============================================================*/
-create  index REF__UNIT__KLAS_FK on R_BERKAS_KLAS (
-UNIT_KERJA_ID
+-- object: r_jabatan_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_jabatan_pk CASCADE;
+CREATE UNIQUE INDEX r_jabatan_pk ON public.r_jabatan
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.r_pemusnahan_metoda_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.r_pemusnahan_metoda_id_seq CASCADE;
+CREATE SEQUENCE public.r_pemusnahan_metoda_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.r_pemusnahan_metoda_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.r_pemusnahan_metoda | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_pemusnahan_metoda CASCADE;
+CREATE TABLE public.r_pemusnahan_metoda(
+	id integer NOT NULL DEFAULT nextval('public.r_pemusnahan_metoda_id_seq'::regclass),
+	nama character varying(128),
+	keterangan character varying(255),
+	CONSTRAINT pk_r_pemusnahan_metoda PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.r_pemusnahan_metoda IS 'REFERENSI METODA PEMUSNAHAN';
+-- ddl-end --
+ALTER TABLE public.r_pemusnahan_metoda OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_BERKAS_TIPE                                         */
-/*==============================================================*/
-create table R_BERKAS_TIPE (
-   ID                   SERIAL               not null,
-   NAMA                 VARCHAR(64)          null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_R_BERKAS_TIPE primary key (ID)
+-- object: r_pemusnahan_metoda_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.r_pemusnahan_metoda_pk CASCADE;
+CREATE UNIQUE INDEX r_pemusnahan_metoda_pk ON public.r_pemusnahan_metoda
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_pemindahan_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.t_pemindahan_id_seq CASCADE;
+CREATE SEQUENCE public.t_pemindahan_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.t_pemindahan_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.t_pemindahan | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_pemindahan CASCADE;
+CREATE TABLE public.t_pemindahan(
+	id integer NOT NULL DEFAULT nextval('public.t_pemindahan_id_seq'::regclass),
+	unit_kerja_id integer,
+	kode character varying(255),
+	tgl date,
+	status smallint,
+	nama_petugas character varying(128),
+	pj_unit_kerja character varying(128),
+	pj_unit_arsip character varying(128),
+	CONSTRAINT pk_t_pemindahan PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_pemindahan IS 'TRANSAKSI PEMINDAHAN';
+-- ddl-end --
+COMMENT ON COLUMN public.t_pemindahan.status IS '0 = TIDAK LENGKAP; 1 LENGKAP';
+-- ddl-end --
+ALTER TABLE public.t_pemindahan OWNER TO earsip;
+-- ddl-end --
 
-comment on table R_BERKAS_TIPE is
-'REFERENSI TIPE ARSIP';
+-- object: t_pemindahan_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemindahan_pk CASCADE;
+CREATE UNIQUE INDEX t_pemindahan_pk ON public.t_pemindahan
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_BERKAS_TIPE_PK                                      */
-/*==============================================================*/
-create unique index R_BERKAS_TIPE_PK on R_BERKAS_TIPE (
-ID
+-- object: ref__unit_pindah_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__unit_pindah_fk CASCADE;
+CREATE INDEX ref__unit_pindah_fk ON public.t_pemindahan
+	USING btree
+	(
+	  unit_kerja_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_pemindahan_rinci | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_pemindahan_rinci CASCADE;
+CREATE TABLE public.t_pemindahan_rinci(
+	pemindahan_id integer NOT NULL,
+	berkas_id integer NOT NULL,
+	CONSTRAINT pk_t_pemindahan_rinci PRIMARY KEY (pemindahan_id,berkas_id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_pemindahan_rinci IS 'RINCIAN PEMINDAHAN';
+-- ddl-end --
+ALTER TABLE public.t_pemindahan_rinci OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_IR                                                  */
-/*==============================================================*/
-create table R_IR (
-   ID                   SERIAL               not null,
-   BERKAS_KLAS_ID       INT4                 null,
-   KETERANGAN           VARCHAR(64)          null,
-   constraint PK_R_IR primary key (ID)
+-- object: t_pemindahan_rinci_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemindahan_rinci_pk CASCADE;
+CREATE UNIQUE INDEX t_pemindahan_rinci_pk ON public.t_pemindahan_rinci
+	USING btree
+	(
+	  pemindahan_id,
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref_pindah___rinci_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_pindah___rinci_fk CASCADE;
+CREATE INDEX ref_pindah___rinci_fk ON public.t_pemindahan_rinci
+	USING btree
+	(
+	  pemindahan_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref_berkas__pindah_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_berkas__pindah_fk CASCADE;
+CREATE INDEX ref_berkas__pindah_fk ON public.t_pemindahan_rinci
+	USING btree
+	(
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_peminjaman_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.t_peminjaman_id_seq CASCADE;
+CREATE SEQUENCE public.t_peminjaman_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.t_peminjaman_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.t_peminjaman | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_peminjaman CASCADE;
+CREATE TABLE public.t_peminjaman(
+	id integer NOT NULL DEFAULT nextval('public.t_peminjaman_id_seq'::regclass),
+	unit_kerja_peminjam_id integer,
+	nama_petugas character varying(128),
+	nama_pimpinan_petugas character varying(128),
+	nama_peminjam character varying(128),
+	nama_pimpinan_peminjam character varying(128),
+	tgl_pinjam date,
+	tgl_batas_kembali date,
+	tgl_kembali date,
+	keterangan character varying(255),
+	CONSTRAINT pk_t_peminjaman PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_peminjaman IS 'TRANSAKSI PEMINJAMAN';
+-- ddl-end --
+ALTER TABLE public.t_peminjaman OWNER TO earsip;
+-- ddl-end --
 
-comment on table R_IR is
-'REFERNSI INDEKS RELATIF';
+-- object: t_peminjaman_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_peminjaman_pk CASCADE;
+CREATE UNIQUE INDEX t_peminjaman_pk ON public.t_peminjaman
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_IR_PK                                               */
-/*==============================================================*/
-create unique index R_IR_PK on R_IR (
-ID
+-- object: ref__unit__pinjam_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__unit__pinjam_fk CASCADE;
+CREATE INDEX ref__unit__pinjam_fk ON public.t_peminjaman
+	USING btree
+	(
+	  unit_kerja_peminjam_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_pemusnahan_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.t_pemusnahan_id_seq CASCADE;
+CREATE SEQUENCE public.t_pemusnahan_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+-- ddl-end --
+ALTER SEQUENCE public.t_pemusnahan_id_seq OWNER TO earsip;
+-- ddl-end --
+
+-- object: public.t_pemusnahan | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_pemusnahan CASCADE;
+CREATE TABLE public.t_pemusnahan(
+	id integer NOT NULL DEFAULT nextval('public.t_pemusnahan_id_seq'::regclass),
+	metoda_id integer NOT NULL,
+	nama_petugas character varying(128),
+	tgl date,
+	pj_unit_kerja character varying(128),
+	pj_berkas_arsip character varying(128),
+	CONSTRAINT pk_t_pemusnahan PRIMARY KEY (id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_pemusnahan IS 'TRANSAKSI PEMUSNAHAN';
+-- ddl-end --
+ALTER TABLE public.t_pemusnahan OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__KLAS__IR_FK                                      */
-/*==============================================================*/
-create  index REF__KLAS__IR_FK on R_IR (
-BERKAS_KLAS_ID
+-- object: t_pemusnahan_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemusnahan_pk CASCADE;
+CREATE UNIQUE INDEX t_pemusnahan_pk ON public.t_pemusnahan
+	USING btree
+	(
+	  id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__metoda___pemusnahan_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__metoda___pemusnahan_fk CASCADE;
+CREATE INDEX ref__metoda___pemusnahan_fk ON public.t_pemusnahan
+	USING btree
+	(
+	  metoda_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_pemusnahan_rinci | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_pemusnahan_rinci CASCADE;
+CREATE TABLE public.t_pemusnahan_rinci(
+	pemusnahan_id integer NOT NULL,
+	berkas_id integer NOT NULL,
+	keterangan character varying(255),
+	jml_lembar smallint,
+	jml_set smallint,
+	jml_berkas smallint,
+	CONSTRAINT pk_t_pemusnahan_rinci PRIMARY KEY (pemusnahan_id,berkas_id)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_pemusnahan_rinci IS 'PEMUSNAHAN DETAIL';
+-- ddl-end --
+ALTER TABLE public.t_pemusnahan_rinci OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_JABATAN                                             */
-/*==============================================================*/
-create table R_JABATAN (
-   ID                   SERIAL               not null,
-   NAMA                 VARCHAR(128)         null,
-   KETERANGAN           VARCHAR(255)         null,
-   URUTAN				INT4				default 0,
-   constraint PK_R_JABATAN primary key (ID)
+-- object: t_pemusnahan_rinci_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemusnahan_rinci_pk CASCADE;
+CREATE UNIQUE INDEX t_pemusnahan_rinci_pk ON public.t_pemusnahan_rinci
+	USING btree
+	(
+	  pemusnahan_id,
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref_musnah__musnah_rinci_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref_musnah__musnah_rinci_fk CASCADE;
+CREATE INDEX ref_musnah__musnah_rinci_fk ON public.t_pemusnahan_rinci
+	USING btree
+	(
+	  pemusnahan_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: ref__berkas_rinci_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__berkas_rinci_fk CASCADE;
+CREATE INDEX ref__berkas_rinci_fk ON public.t_pemusnahan_rinci
+	USING btree
+	(
+	  berkas_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: public.t_tim_pemusnahan | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_tim_pemusnahan CASCADE;
+CREATE TABLE public.t_tim_pemusnahan(
+	pemusnahan_id integer NOT NULL,
+	nomor smallint NOT NULL,
+	nama character varying(128),
+	jabatan character varying(128),
+	CONSTRAINT pk_t_tim_pemusnahan PRIMARY KEY (pemusnahan_id,nomor)
+
 );
+-- ddl-end --
+COMMENT ON TABLE public.t_tim_pemusnahan IS 'TIM PEMUSNAHAN';
+-- ddl-end --
+ALTER TABLE public.t_tim_pemusnahan OWNER TO earsip;
+-- ddl-end --
 
-comment on table R_JABATAN is
-'REFERENSI JABATAN';
+-- object: t_tim_pemusnahan_pk | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_tim_pemusnahan_pk CASCADE;
+CREATE UNIQUE INDEX t_tim_pemusnahan_pk ON public.t_tim_pemusnahan
+	USING btree
+	(
+	  pemusnahan_id,
+	  nomor
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: R_JABATAN_PK                                          */
-/*==============================================================*/
-create unique index R_JABATAN_PK on R_JABATAN (
-ID
-);
+-- object: ref__musnah__team_fk | type: INDEX --
+-- DROP INDEX IF EXISTS public.ref__musnah__team_fk CASCADE;
+CREATE INDEX ref__musnah__team_fk ON public.t_tim_pemusnahan
+	USING btree
+	(
+	  pemusnahan_id
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: R_PEMUSNAHAN_METODA                                   */
-/*==============================================================*/
-create table R_PEMUSNAHAN_METODA (
-   ID                   SERIAL               not null,
-   NAMA                 VARCHAR(128)         null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_R_PEMUSNAHAN_METODA primary key (ID)
-);
+-- object: public.delete_pegawai | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS public.delete_pegawai(integer) CASCADE;
+CREATE FUNCTION public.delete_pegawai ( _id integer)
+	RETURNS character varying
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 100
+	AS $$
 
-comment on table R_PEMUSNAHAN_METODA is
-'REFERENSI METODA PEMUSNAHAN';
+declare c int;
+BEGIN
+	SELECT	count(id)
+	INTO	c
+	FROM	m_berkas
+	WHERE	pegawai_id = _id
+	AND		pid != 0;
+	IF c > 0 THEN
+		return 'failure';
+	END IF;
+	delete from m_berkas where pegawai_id = _id;
+	delete from m_pegawai where id = _id;
+	return 'success';
+END;
 
-/*==============================================================*/
-/* Index: R_PEMUSNAHAN_METODA_PK                                */
-/*==============================================================*/
-create unique index R_PEMUSNAHAN_METODA_PK on R_PEMUSNAHAN_METODA (
-ID
-);
+$$;
+-- ddl-end --
+ALTER FUNCTION public.delete_pegawai(integer) OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Table: T_PEMINDAHAN                                          */
-/*==============================================================*/
-create table T_PEMINDAHAN (
-   ID                   SERIAL               not null,
-   UNIT_KERJA_ID        INT4                 null,
-   KODE                 VARCHAR(255)         null,
-   TGL                  DATE                 null,
-   STATUS               INT2                 null,
-   NAMA_PETUGAS         VARCHAR(128)         null,
-   PJ_UNIT_KERJA        VARCHAR(128)         null,
-   PJ_UNIT_ARSIP        VARCHAR(128)         null,
-   constraint PK_T_PEMINDAHAN primary key (ID)
-);
+-- object: public.update_menu_akses | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS public.update_menu_akses(integer,integer,integer) CASCADE;
+CREATE FUNCTION public.update_menu_akses ( _menu_id integer,  _grup_id integer,  _hak_akses_id integer)
+	RETURNS void
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 100
+	AS $$
 
-comment on table T_PEMINDAHAN is
-'TRANSAKSI PEMINDAHAN';
+BEGIN
+	LOOP
+		UPDATE	menu_akses
+		SET		hak_akses_id	= _hak_akses_id
+		WHERE	menu_id			= _menu_id
+		and		grup_id			= _grup_id;
+		IF found THEN
+			RETURN;
+		END IF;
+		BEGIN
+			INSERT INTO	menu_akses (menu_id, grup_id, hak_akses_id)
+			VALUES (_menu_id, _grup_id, _hak_akses_id);
+			RETURN;
+		EXCEPTION WHEN unique_violation THEN
+			-- do nothing, and loop to try the UPDATE again
+		END;
+	END LOOP;
+END;
 
-comment on column T_PEMINDAHAN.STATUS is
-'0 = TIDAK LENGKAP; 1 LENGKAP';
+$$;
+-- ddl-end --
+ALTER FUNCTION public.update_menu_akses(integer,integer,integer) OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: T_PEMINDAHAN_PK                                       */
-/*==============================================================*/
-create unique index T_PEMINDAHAN_PK on T_PEMINDAHAN (
-ID
-);
+-- object: public.get_berkas_path | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS public.get_berkas_path(integer) CASCADE;
+CREATE FUNCTION public.get_berkas_path ( _berkas_id integer)
+	RETURNS character varying
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 100
+	AS $$
 
-/*==============================================================*/
-/* Index: REF__UNIT_PINDAH_FK                                   */
-/*==============================================================*/
-create  index REF__UNIT_PINDAH_FK on T_PEMINDAHAN (
-UNIT_KERJA_ID
-);
+declare _id int;
+declare _nama varchar (255);
+begin
+	if _berkas_id = 0 then
+		return '';
+	end if;
 
-/*==============================================================*/
-/* Table: T_PEMINDAHAN_RINCI                                    */
-/*==============================================================*/
-create table T_PEMINDAHAN_RINCI (
-   PEMINDAHAN_ID        INT4                 not null,
-   BERKAS_ID            INT4                 not null,
-   constraint PK_T_PEMINDAHAN_RINCI primary key (PEMINDAHAN_ID, BERKAS_ID)
-);
+	select	pid
+	,		nama
+	into	_id, _nama
+	from	m_berkas
+	where	id = _berkas_id;
 
-comment on table T_PEMINDAHAN_RINCI is
-'RINCIAN PEMINDAHAN';
+	return get_berkas_path (_id) || '/' || _nama;
+end;
 
-/*==============================================================*/
-/* Index: T_PEMINDAHAN_RINCI_PK                                 */
-/*==============================================================*/
-create unique index T_PEMINDAHAN_RINCI_PK on T_PEMINDAHAN_RINCI (
-PEMINDAHAN_ID,
-BERKAS_ID
-);
+$$;
+-- ddl-end --
+ALTER FUNCTION public.get_berkas_path(integer) OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF_PINDAH___RINCI_FK                                 */
-/*==============================================================*/
-create  index REF_PINDAH___RINCI_FK on T_PEMINDAHAN_RINCI (
-PEMINDAHAN_ID
-);
+-- object: public.datediff | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS public.datediff(character varying,timestamp,timestamp) CASCADE;
+CREATE FUNCTION public.datediff ( units character varying,  start_t timestamp,  end_t timestamp)
+	RETURNS integer
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 100
+	AS $$
 
-/*==============================================================*/
-/* Index: REF_BERKAS__PINDAH_FK                                 */
-/*==============================================================*/
-create  index REF_BERKAS__PINDAH_FK on T_PEMINDAHAN_RINCI (
-BERKAS_ID
-);
+   DECLARE
+     diff_interval INTERVAL; 
+     diff INT = 0;
+     years_diff INT = 0;
+   BEGIN
+     IF units IN ('yy', 'yyyy', 'year', 'mm', 'm', 'month') THEN
+       years_diff = DATE_PART('year', end_t) - DATE_PART('year', start_t);
+ 
+       IF units IN ('yy', 'yyyy', 'year') THEN
+         -- SQL Server does not count full years passed (only difference between year parts)
+         RETURN years_diff;
+       ELSE
+         -- If end month is less than start month it will subtracted
+         RETURN years_diff * 12 + (DATE_PART('month', end_t) - DATE_PART('month', start_t)); 
+       END IF;
+     END IF;
+ 
+     -- Minus operator returns interval 'DDD days HH:MI:SS'  
+     diff_interval = end_t - start_t;
+ 
+     diff = diff + DATE_PART('day', diff_interval);
+ 
+     IF units IN ('wk', 'ww', 'week') THEN
+       diff = diff/7;
+       RETURN diff;
+     END IF;
+ 
+     IF units IN ('dd', 'd', 'day') THEN
+       RETURN diff;
+     END IF;
+ 
+     diff = diff * 24 + DATE_PART('hour', diff_interval); 
+ 
+     IF units IN ('hh', 'hour') THEN
+        RETURN diff;
+     END IF;
+ 
+     diff = diff * 60 + DATE_PART('minute', diff_interval);
+ 
+     IF units IN ('mi', 'n', 'minute') THEN
+        RETURN diff;
+     END IF;
+ 
+     diff = diff * 60 + DATE_PART('second', diff_interval);
+ 
+     RETURN diff;
+   END;
 
-/*==============================================================*/
-/* Table: T_PEMINJAMAN                                          */
-/*==============================================================*/
-create table T_PEMINJAMAN (
-   ID                   SERIAL               not null,
-   UNIT_KERJA_PEMINJAM_ID INT4                 null,
-   NAMA_PETUGAS         VARCHAR(128)         null,
-   NAMA_PIMPINAN_PETUGAS VARCHAR(128)         null,
-   NAMA_PEMINJAM        VARCHAR(128)         null,
-   NAMA_PIMPINAN_PEMINJAM VARCHAR(128)         null,
-   TGL_PINJAM           DATE                 null,
-   TGL_BATAS_KEMBALI    DATE                 null,
-   TGL_KEMBALI          DATE                 null,
-   KETERANGAN           VARCHAR(255)         null,
-   constraint PK_T_PEMINJAMAN primary key (ID)
-);
+$$;
+-- ddl-end --
+ALTER FUNCTION public.datediff(character varying,timestamp,timestamp) OWNER TO earsip;
+-- ddl-end --
 
-comment on table T_PEMINJAMAN is
-'TRANSAKSI PEMINJAMAN';
+-- object: public.dateadd | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS public.dateadd(character varying,integer,timestamp) CASCADE;
+CREATE FUNCTION public.dateadd ( difftype character varying,  incrementvalue integer,  inputdate timestamp)
+	RETURNS timestamp
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 100
+	AS $$
 
-/*==============================================================*/
-/* Index: T_PEMINJAMAN_PK                                       */
-/*==============================================================*/
-create unique index T_PEMINJAMAN_PK on T_PEMINJAMAN (
-ID
-);
+DECLARE
+   YEAR_CONST Char(15) := 'year';
+   MONTH_CONST Char(15) := 'month';
+   DAY_CONST Char(15) := 'day';
 
-/*==============================================================*/
-/* Index: REF__UNIT__PINJAM_FK                                  */
-/*==============================================================*/
-create  index REF__UNIT__PINJAM_FK on T_PEMINJAMAN (
-UNIT_KERJA_PEMINJAM_ID
-);
+   dateTemp Date;
+   intervals interval;
+BEGIN
+   IF lower($1) = lower(YEAR_CONST) THEN
+       select cast(cast(incrementvalue as character varying) || ' year' as interval) into intervals;
+   ELSEIF lower($1) = lower(MONTH_CONST) THEN
+       select cast(cast(incrementvalue as character varying) || ' months' as interval) into intervals;
+   ELSEIF lower($1) = lower(DAY_CONST) THEN
+       select cast(cast(incrementvalue as character varying) || ' day' as interval) into intervals;
+   END IF;
 
-/*==============================================================*/
-/* Table: T_PEMUSNAHAN                                          */
-/*==============================================================*/
-create table T_PEMUSNAHAN (
-   ID                   SERIAL               not null,
-   METODA_ID            INT4                 not null,
-   NAMA_PETUGAS         VARCHAR(128)         null,
-   TGL                  DATE                 null,
-   PJ_UNIT_KERJA        VARCHAR(128)         null,
-   PJ_BERKAS_ARSIP      VARCHAR(128)         null,
-   constraint PK_T_PEMUSNAHAN primary key (ID)
-);
+   dateTemp:= inputdate + intervals;
 
-comment on table T_PEMUSNAHAN is
-'TRANSAKSI PEMUSNAHAN';
+   RETURN dateTemp;
+END;
 
-/*==============================================================*/
-/* Index: T_PEMUSNAHAN_PK                                       */
-/*==============================================================*/
-create unique index T_PEMUSNAHAN_PK on T_PEMUSNAHAN (
-ID
-);
+$$;
+-- ddl-end --
+ALTER FUNCTION public.dateadd(character varying,integer,timestamp) OWNER TO earsip;
+-- ddl-end --
 
-/*==============================================================*/
-/* Index: REF__METODA___PEMUSNAHAN_FK                           */
-/*==============================================================*/
-create  index REF__METODA___PEMUSNAHAN_FK on T_PEMUSNAHAN (
-METODA_ID
-);
-
-/*==============================================================*/
-/* Table: T_PEMUSNAHAN_RINCI                                    */
-/*==============================================================*/
-create table T_PEMUSNAHAN_RINCI (
-   PEMUSNAHAN_ID        INT4                 not null,
-   BERKAS_ID            INT4                 not null,
-   KETERANGAN           VARCHAR(255)         null,
-   JML_LEMBAR           INT2                 null,
-   JML_SET              INT2                 null,
-   JML_BERKAS           INT2                 null,
-   constraint PK_T_PEMUSNAHAN_RINCI primary key (PEMUSNAHAN_ID, BERKAS_ID)
-);
-
-comment on table T_PEMUSNAHAN_RINCI is
-'PEMUSNAHAN DETAIL';
-
-/*==============================================================*/
-/* Index: T_PEMUSNAHAN_RINCI_PK                                 */
-/*==============================================================*/
-create unique index T_PEMUSNAHAN_RINCI_PK on T_PEMUSNAHAN_RINCI (
-PEMUSNAHAN_ID,
-BERKAS_ID
-);
-
-/*==============================================================*/
-/* Index: REF_MUSNAH__MUSNAH_RINCI_FK                           */
-/*==============================================================*/
-create  index REF_MUSNAH__MUSNAH_RINCI_FK on T_PEMUSNAHAN_RINCI (
-PEMUSNAHAN_ID
-);
-
-/*==============================================================*/
-/* Index: REF__BERKAS_RINCI_FK                                  */
-/*==============================================================*/
-create  index REF__BERKAS_RINCI_FK on T_PEMUSNAHAN_RINCI (
-BERKAS_ID
-);
-
-/*==============================================================*/
-/* Table: T_TIM_PEMUSNAHAN                                      */
-/*==============================================================*/
-create table T_TIM_PEMUSNAHAN (
-   PEMUSNAHAN_ID        INT4                 not null,
-   NOMOR                INT2                 not null,
-   NAMA                 VARCHAR(128)         null,
-   JABATAN              VARCHAR(128)         null,
-   constraint PK_T_TIM_PEMUSNAHAN primary key (PEMUSNAHAN_ID, NOMOR)
-);
-
-comment on table T_TIM_PEMUSNAHAN is
-'TIM PEMUSNAHAN';
-
-/*==============================================================*/
-/* Index: T_TIM_PEMUSNAHAN_PK                                   */
-/*==============================================================*/
-create unique index T_TIM_PEMUSNAHAN_PK on T_TIM_PEMUSNAHAN (
-PEMUSNAHAN_ID,
-NOMOR
-);
-
-/*==============================================================*/
-/* Index: REF__MUSNAH__TEAM_FK                                  */
-/*==============================================================*/
-create  index REF__MUSNAH__TEAM_FK on T_TIM_PEMUSNAHAN (
-PEMUSNAHAN_ID
-);
-
-alter table LOG
-   add constraint FK_LOG_REF_USER__M_PEGAWA foreign key (PEGAWAI_ID)
-      references M_PEGAWAI (ID)
-      on delete restrict on update restrict;
-
-alter table LOG
-   add constraint FK_LOG_REF__MENU_M_MENU foreign key (MENU_ID)
-      references M_MENU (ID)
-      on delete restrict on update restrict;
-
-alter table MENU_AKSES
-   add constraint FK_MENU_AKS_REF_MNU___M_MENU foreign key (MENU_ID)
-      references M_MENU (ID)
-      on delete restrict on update restrict;
-
-alter table MENU_AKSES
-   add constraint FK_MENU_AKS_REF__AKSE_R_AKSES_ foreign key (HAK_AKSES_ID)
-      references R_AKSES_MENU (ID)
-      on delete restrict on update restrict;
-
-alter table MENU_AKSES
-   add constraint FK_MENU_AKS_REF__GROU_M_GRUP foreign key (GRUP_ID)
-      references M_GRUP (ID)
-      on delete restrict on update restrict;
-
-alter table M_ARSIP
-   add constraint FK_M_ARSIP_REF__ARSI_M_BERKAS foreign key (BERKAS_ID)
-      references M_BERKAS (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF_TIPE__R_BERKAS foreign key (BERKAS_TIPE_ID)
-      references R_BERKAS_TIPE (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF__AKSE_R_AKSES_ foreign key (AKSES_BERBAGI_ID)
-      references R_AKSES_BERBAGI (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF__ARSI_R_ARSIP_ foreign key (ARSIP_STATUS_ID)
-      references R_ARSIP_STATUS (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF__KLAS_R_BERKAS foreign key (BERKAS_KLAS_ID)
-      references R_BERKAS_KLAS (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF__PEGA_M_PEGAWA foreign key (PEGAWAI_ID)
-      references M_PEGAWAI (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS
-   add constraint FK_M_BERKAS_REF__UNIT_M_UNIT_K foreign key (UNIT_KERJA_ID)
-      references M_UNIT_KERJA (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS_BERBAGI
-   add constraint FK_M_BERKAS_REF_PEGAW_M_PEGAWA foreign key (BAGI_KE_PEG_ID)
-      references M_PEGAWAI (ID)
-      on delete restrict on update restrict;
-
-alter table M_BERKAS_BERBAGI
-   add constraint FK_M_BERKAS_REF__BERK_M_BERKAS foreign key (BERKAS_ID)
-      references M_BERKAS (ID)
-      on delete restrict on update restrict;
-
-alter table M_PEGAWAI
-   add constraint FK_M_PEGAWA_REF__GROU_M_GRUP foreign key (GRUP_ID)
-      references M_GRUP (ID)
-      on delete restrict on update restrict;
-
-alter table M_PEGAWAI
-   add constraint FK_M_PEGAWA_REF__JAB__R_JABATA foreign key (JABATAN_ID)
-      references R_JABATAN (ID)
-      on delete restrict on update restrict;
-
-alter table M_PEGAWAI
-   add constraint FK_M_PEGAWA_REF__UNIT_M_UNIT_K foreign key (UNIT_KERJA_ID)
-      references M_UNIT_KERJA (ID)
-      on delete restrict on update restrict;
-
-alter table PEMINJAMAN_RINCI
-   add constraint FK_PEMINJAM_REF_PMJ_A_T_PEMINJ foreign key (PEMINJAMAN_ID)
-      references T_PEMINJAMAN (ID)
-      on delete restrict on update restrict;
-
-alter table PEMINJAMAN_RINCI
-   add constraint FK_PEMINJAM_REF__BERK_M_BERKAS foreign key (BERKAS_ID)
-      references M_BERKAS (ID)
-      on delete restrict on update restrict;
-
-alter table R_BERKAS_KLAS
-   add constraint FK_R_BERKAS_REF__UNIT_M_UNIT_K foreign key (UNIT_KERJA_ID)
-      references M_UNIT_KERJA (ID)
-      on delete restrict on update restrict;
-
-alter table R_IR
-   add constraint FK_R_IR_REF__KLAS_R_BERKAS foreign key (BERKAS_KLAS_ID)
-      references R_BERKAS_KLAS (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMINDAHAN
-   add constraint FK_T_PEMIND_REF__UNIT_M_UNIT_K foreign key (UNIT_KERJA_ID)
-      references M_UNIT_KERJA (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMINDAHAN_RINCI
-   add constraint FK_T_PEMIND_REF_BERKA_M_BERKAS foreign key (BERKAS_ID)
-      references M_BERKAS (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMINDAHAN_RINCI
-   add constraint FK_T_PEMIND_REF_PINDA_T_PEMIND foreign key (PEMINDAHAN_ID)
-      references T_PEMINDAHAN (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMINJAMAN
-   add constraint FK_T_PEMINJ_REF__UNIT_M_UNIT_K foreign key (UNIT_KERJA_PEMINJAM_ID)
-      references M_UNIT_KERJA (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMUSNAHAN
-   add constraint FK_T_PEMUSN_REF__METO_R_PEMUSN foreign key (METODA_ID)
-      references R_PEMUSNAHAN_METODA (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMUSNAHAN_RINCI
-   add constraint FK_T_PEMUSN_REF_MUSNA_T_PEMUSN foreign key (PEMUSNAHAN_ID)
-      references T_PEMUSNAHAN (ID)
-      on delete restrict on update restrict;
-
-alter table T_PEMUSNAHAN_RINCI
-   add constraint FK_T_PEMUSN_REF__BERK_M_BERKAS foreign key (BERKAS_ID)
-      references M_BERKAS (ID)
-      on delete restrict on update restrict;
-
-alter table T_TIM_PEMUSNAHAN
-   add constraint FK_T_TIM_PE_REF__MUSN_T_PEMUSN foreign key (PEMUSNAHAN_ID)
-      references T_PEMUSNAHAN (ID)
-      on delete restrict on update restrict;
-
----
---- add new table: r_mode_arsip
----
+-- object: public.r_mode_arsip | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_mode_arsip CASCADE;
 CREATE TABLE public.r_mode_arsip(
-	id serial,
-	nama text,
-	CONSTRAINT r_mode_arsip_pk primary key (id)
+	id serial NOT NULL,
+	nama varchar(32),
+	CONSTRAINT pk_r_mode_arsip PRIMARY KEY (id)
+
 );
+-- ddl-end --
+ALTER TABLE public.r_mode_arsip OWNER TO earsip;
+-- ddl-end --
 
-INSERT INTO r_mode_arsip (id, nama) VALUES
-(0, 'Tidak ada'),
-(1, 'Permanen'),
-(2, 'Musnah'),
-(3, 'Disimpan selama pegawai masih aktif'),
-(4, 'Disimpan dalam Soft Copy');
+-- object: public.r_cabang | type: TABLE --
+-- DROP TABLE IF EXISTS public.r_cabang;
+CREATE TABLE public.r_cabang(
+	id serial NOT NULL,
+	nama varchar(128) NOT NULL,
+	kota varchar(128),
+	alamat varchar(1024),
+	telepon varchar(16),
+	fax varchar(16),
+	CONSTRAINT pk_r_cabang PRIMARY KEY (id)
 
--- reset sequence
-SELECT setval(pg_get_serial_sequence ('r_mode_arsip', 'id')
-		        ,       coalesce (max(id), 0) + 1
-		        ,       false) as "r_mode_arsip sequence"
-FROM r_mode_arsip;
+)
+TABLESPACE pg_default;
+-- ddl-end --
+ALTER TABLE public.r_cabang OWNER TO earsip;
+-- ddl-end --
 
--- add foreign key from r_berkas_klas(mode_arsip_id) to r_mode_arsip
-ALTER TABLE public.r_berkas_klas
-	ADD CONSTRAINT r_berkas_klas_fk_r_mode_arsip FOREIGN KEY (mode_arsip_id)
-	REFERENCES public.r_mode_arsip (id) MATCH FULL
-	ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- object: fk_log_ref_user__m_pegawa | type: CONSTRAINT --
+-- ALTER TABLE public.log DROP CONSTRAINT IF EXISTS fk_log_ref_user__m_pegawa CASCADE;
+ALTER TABLE public.log ADD CONSTRAINT fk_log_ref_user__m_pegawa FOREIGN KEY (pegawai_id)
+REFERENCES public.m_pegawai (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_log_ref__menu_m_menu | type: CONSTRAINT --
+-- ALTER TABLE public.log DROP CONSTRAINT IF EXISTS fk_log_ref__menu_m_menu CASCADE;
+ALTER TABLE public.log ADD CONSTRAINT fk_log_ref__menu_m_menu FOREIGN KEY (menu_id)
+REFERENCES public.m_menu (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_menu_aks_ref_mnu___m_menu | type: CONSTRAINT --
+-- ALTER TABLE public.menu_akses DROP CONSTRAINT IF EXISTS fk_menu_aks_ref_mnu___m_menu CASCADE;
+ALTER TABLE public.menu_akses ADD CONSTRAINT fk_menu_aks_ref_mnu___m_menu FOREIGN KEY (menu_id)
+REFERENCES public.m_menu (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_menu_aks_ref__akse_r_akses_ | type: CONSTRAINT --
+-- ALTER TABLE public.menu_akses DROP CONSTRAINT IF EXISTS fk_menu_aks_ref__akse_r_akses_ CASCADE;
+ALTER TABLE public.menu_akses ADD CONSTRAINT fk_menu_aks_ref__akse_r_akses_ FOREIGN KEY (hak_akses_id)
+REFERENCES public.r_akses_menu (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_menu_aks_ref__grou_m_grup | type: CONSTRAINT --
+-- ALTER TABLE public.menu_akses DROP CONSTRAINT IF EXISTS fk_menu_aks_ref__grou_m_grup CASCADE;
+ALTER TABLE public.menu_akses ADD CONSTRAINT fk_menu_aks_ref__grou_m_grup FOREIGN KEY (grup_id)
+REFERENCES public.m_grup (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_arsip_ref__arsi_m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.m_arsip DROP CONSTRAINT IF EXISTS fk_m_arsip_ref__arsi_m_berkas CASCADE;
+ALTER TABLE public.m_arsip ADD CONSTRAINT fk_m_arsip_ref__arsi_m_berkas FOREIGN KEY (berkas_id)
+REFERENCES public.m_berkas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref_tipe__r_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref_tipe__r_berkas CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref_tipe__r_berkas FOREIGN KEY (berkas_tipe_id)
+REFERENCES public.r_berkas_tipe (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__akse_r_akses_ | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__akse_r_akses_ CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__akse_r_akses_ FOREIGN KEY (akses_berbagi_id)
+REFERENCES public.r_akses_berbagi (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__arsi_r_arsip_ | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__arsi_r_arsip_ CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__arsi_r_arsip_ FOREIGN KEY (arsip_status_id)
+REFERENCES public.r_arsip_status (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__klas_r_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__klas_r_berkas CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__klas_r_berkas FOREIGN KEY (berkas_klas_id)
+REFERENCES public.r_berkas_klas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__pega_m_pegawa | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__pega_m_pegawa CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__pega_m_pegawa FOREIGN KEY (pegawai_id)
+REFERENCES public.m_pegawai (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__unit_m_unit_k | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__unit_m_unit_k CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_id)
+REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref_pegaw_m_pegawa | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas_berbagi DROP CONSTRAINT IF EXISTS fk_m_berkas_ref_pegaw_m_pegawa CASCADE;
+ALTER TABLE public.m_berkas_berbagi ADD CONSTRAINT fk_m_berkas_ref_pegaw_m_pegawa FOREIGN KEY (bagi_ke_peg_id)
+REFERENCES public.m_pegawai (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_berkas_ref__berk_m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas_berbagi DROP CONSTRAINT IF EXISTS fk_m_berkas_ref__berk_m_berkas CASCADE;
+ALTER TABLE public.m_berkas_berbagi ADD CONSTRAINT fk_m_berkas_ref__berk_m_berkas FOREIGN KEY (berkas_id)
+REFERENCES public.m_berkas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_pegawa_ref__grou_m_grup | type: CONSTRAINT --
+-- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawa_ref__grou_m_grup CASCADE;
+ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawa_ref__grou_m_grup FOREIGN KEY (grup_id)
+REFERENCES public.m_grup (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_pegawa_ref__jab__r_jabata | type: CONSTRAINT --
+-- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawa_ref__jab__r_jabata CASCADE;
+ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawa_ref__jab__r_jabata FOREIGN KEY (jabatan_id)
+REFERENCES public.r_jabatan (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_pegawa_ref__unit_m_unit_k | type: CONSTRAINT --
+-- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawa_ref__unit_m_unit_k CASCADE;
+ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawa_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_id)
+REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_m_pegawai_r_cabang | type: CONSTRAINT --
+-- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawai_r_cabang CASCADE;
+ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawai_r_cabang FOREIGN KEY (cabang_id)
+REFERENCES public.r_cabang (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_peminjam_ref_pmj_a_t_peminj | type: CONSTRAINT --
+-- ALTER TABLE public.peminjaman_rinci DROP CONSTRAINT IF EXISTS fk_peminjam_ref_pmj_a_t_peminj CASCADE;
+ALTER TABLE public.peminjaman_rinci ADD CONSTRAINT fk_peminjam_ref_pmj_a_t_peminj FOREIGN KEY (peminjaman_id)
+REFERENCES public.t_peminjaman (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_peminjam_ref__berk_m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.peminjaman_rinci DROP CONSTRAINT IF EXISTS fk_peminjam_ref__berk_m_berkas CASCADE;
+ALTER TABLE public.peminjaman_rinci ADD CONSTRAINT fk_peminjam_ref__berk_m_berkas FOREIGN KEY (berkas_id)
+REFERENCES public.m_berkas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_r_berkas_ref__unit_m_unit_k | type: CONSTRAINT --
+-- ALTER TABLE public.r_berkas_klas DROP CONSTRAINT IF EXISTS fk_r_berkas_ref__unit_m_unit_k CASCADE;
+ALTER TABLE public.r_berkas_klas ADD CONSTRAINT fk_r_berkas_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_id)
+REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: r_berkas_klas_fk_r_mode_arsip | type: CONSTRAINT --
+-- ALTER TABLE public.r_berkas_klas DROP CONSTRAINT IF EXISTS r_berkas_klas_fk_r_mode_arsip CASCADE;
+ALTER TABLE public.r_berkas_klas ADD CONSTRAINT r_berkas_klas_fk_r_mode_arsip FOREIGN KEY (mode_arsip_id)
+REFERENCES public.r_mode_arsip (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_r_ir_ref__klas_r_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.r_ir DROP CONSTRAINT IF EXISTS fk_r_ir_ref__klas_r_berkas CASCADE;
+ALTER TABLE public.r_ir ADD CONSTRAINT fk_r_ir_ref__klas_r_berkas FOREIGN KEY (berkas_klas_id)
+REFERENCES public.r_berkas_klas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemind_ref__unit_m_unit_k | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemindahan DROP CONSTRAINT IF EXISTS fk_t_pemind_ref__unit_m_unit_k CASCADE;
+ALTER TABLE public.t_pemindahan ADD CONSTRAINT fk_t_pemind_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_id)
+REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemind_ref_berka_m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemindahan_rinci DROP CONSTRAINT IF EXISTS fk_t_pemind_ref_berka_m_berkas CASCADE;
+ALTER TABLE public.t_pemindahan_rinci ADD CONSTRAINT fk_t_pemind_ref_berka_m_berkas FOREIGN KEY (berkas_id)
+REFERENCES public.m_berkas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemind_ref_pinda_t_pemind | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemindahan_rinci DROP CONSTRAINT IF EXISTS fk_t_pemind_ref_pinda_t_pemind CASCADE;
+ALTER TABLE public.t_pemindahan_rinci ADD CONSTRAINT fk_t_pemind_ref_pinda_t_pemind FOREIGN KEY (pemindahan_id)
+REFERENCES public.t_pemindahan (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_peminj_ref__unit_m_unit_k | type: CONSTRAINT --
+-- ALTER TABLE public.t_peminjaman DROP CONSTRAINT IF EXISTS fk_t_peminj_ref__unit_m_unit_k CASCADE;
+ALTER TABLE public.t_peminjaman ADD CONSTRAINT fk_t_peminj_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_peminjam_id)
+REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemusn_ref__meto_r_pemusn | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemusnahan DROP CONSTRAINT IF EXISTS fk_t_pemusn_ref__meto_r_pemusn CASCADE;
+ALTER TABLE public.t_pemusnahan ADD CONSTRAINT fk_t_pemusn_ref__meto_r_pemusn FOREIGN KEY (metoda_id)
+REFERENCES public.r_pemusnahan_metoda (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemusn_ref_musna_t_pemusn | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemusnahan_rinci DROP CONSTRAINT IF EXISTS fk_t_pemusn_ref_musna_t_pemusn CASCADE;
+ALTER TABLE public.t_pemusnahan_rinci ADD CONSTRAINT fk_t_pemusn_ref_musna_t_pemusn FOREIGN KEY (pemusnahan_id)
+REFERENCES public.t_pemusnahan (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_pemusn_ref__berk_m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemusnahan_rinci DROP CONSTRAINT IF EXISTS fk_t_pemusn_ref__berk_m_berkas CASCADE;
+ALTER TABLE public.t_pemusnahan_rinci ADD CONSTRAINT fk_t_pemusn_ref__berk_m_berkas FOREIGN KEY (berkas_id)
+REFERENCES public.m_berkas (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_tim_pe_ref__musn_t_pemusn | type: CONSTRAINT --
+-- ALTER TABLE public.t_tim_pemusnahan DROP CONSTRAINT IF EXISTS fk_t_tim_pe_ref__musn_t_pemusn CASCADE;
+ALTER TABLE public.t_tim_pemusnahan ADD CONSTRAINT fk_t_tim_pe_ref__musn_t_pemusn FOREIGN KEY (pemusnahan_id)
+REFERENCES public.t_pemusnahan (id) MATCH SIMPLE
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+
