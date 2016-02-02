@@ -174,6 +174,7 @@ CREATE TABLE public.m_berkas(
 	pid integer,
 	pegawai_id integer,
 	berkas_klas_id integer,
+	cabang_id integer NOT NULL,
 	unit_kerja_id integer,
 	berkas_tipe_id integer,
 	tipe_file smallint DEFAULT 0,
@@ -1343,9 +1344,9 @@ CREATE TABLE public.r_mode_arsip(
 ALTER TABLE public.r_mode_arsip OWNER TO earsip;
 -- ddl-end --
 
--- object: public.r_cabang | type: TABLE --
--- DROP TABLE IF EXISTS public.r_cabang;
-CREATE TABLE public.r_cabang(
+-- object: public.m_cabang | type: TABLE --
+-- DROP TABLE IF EXISTS public.m_cabang;
+CREATE TABLE public.m_cabang(
 	id serial NOT NULL,
 	nama varchar(128) NOT NULL,
 	kota varchar(128),
@@ -1357,7 +1358,7 @@ CREATE TABLE public.r_cabang(
 )
 TABLESPACE pg_default;
 -- ddl-end --
-ALTER TABLE public.r_cabang OWNER TO earsip;
+ALTER TABLE public.m_cabang OWNER TO earsip;
 -- ddl-end --
 
 -- object: fk_log_ref_user__m_pegawa | type: CONSTRAINT --
@@ -1444,6 +1445,13 @@ REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --
 
+-- object: fk_m_berkas_m_cabang | type: CONSTRAINT --
+-- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_m_cabang CASCADE;
+ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_m_cabang FOREIGN KEY (cabang_id)
+REFERENCES public.m_cabang (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
 -- object: fk_m_berkas_ref_pegaw_m_pegawa | type: CONSTRAINT --
 -- ALTER TABLE public.m_berkas_berbagi DROP CONSTRAINT IF EXISTS fk_m_berkas_ref_pegaw_m_pegawa CASCADE;
 ALTER TABLE public.m_berkas_berbagi ADD CONSTRAINT fk_m_berkas_ref_pegaw_m_pegawa FOREIGN KEY (bagi_ke_peg_id)
@@ -1479,10 +1487,10 @@ REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --
 
--- object: fk_m_pegawai_r_cabang | type: CONSTRAINT --
--- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawai_r_cabang CASCADE;
-ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawai_r_cabang FOREIGN KEY (cabang_id)
-REFERENCES public.r_cabang (id) MATCH FULL
+-- object: fk_m_pegawai_m_cabang | type: CONSTRAINT --
+-- ALTER TABLE public.m_pegawai DROP CONSTRAINT IF EXISTS fk_m_pegawai_m_cabang CASCADE;
+ALTER TABLE public.m_pegawai ADD CONSTRAINT fk_m_pegawai_m_cabang FOREIGN KEY (cabang_id)
+REFERENCES public.m_cabang (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

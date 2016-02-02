@@ -1,16 +1,13 @@
 INSERT INTO m_sysconfig (repository_root, max_upload_size) values ('/repository', 5000);
 
+---{{{ m_grup
 INSERT INTO m_grup (nama, keterangan) VALUES ('Administrator', 'Admin aplikasi');
 INSERT INTO m_grup (nama, keterangan) VALUES ('Pusat Berkas', 'Mengatur seluruh arsip aktif');
 INSERT INTO m_grup (nama, keterangan) VALUES ('Pusat Arsip', 'Mengatur seluruh arsip inaktif');
 INSERT INTO m_grup (nama, keterangan) VALUES ('Administrator Cabang', 'Administrator cabang');
+---}}}
 
---
--- TOC entry 2133 (class 0 OID 23261)
--- Dependencies: 171
--- Data for Name: m_menu; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ m_menu
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES ( 1,  0, 'system', 'adm', 'Administrasi');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES ( 2,  1, 'module', 'adm_sistem', 'Sistem');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES ( 3,  1, 'module', 'adm_hak_akses', 'Hak Akses');
@@ -21,9 +18,10 @@ INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (13, 10, 'module', 're
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (14, 10, 'module', 'ref_jabatan', 'Jabatan');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (15, 10, 'module', 'ref_metoda_pemusnahan', 'Metoda Pemusnahan');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (20,  0,    'ref', 'mas', 'Master');
-INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (21, 20, 'module', 'mas_unit_kerja', 'Unit Kerja');
-INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (22, 20, 'module', 'mas_pegawai', 'Pegawai');
-INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (23, 20, 'module', 'mas_arsip', 'Arsip');
+INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (21, 20, 'module', 'mas_cabang', 'Cabang');
+INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (22, 20, 'module', 'mas_unit_kerja', 'Unit Kerja');
+INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (23, 20, 'module', 'mas_pegawai', 'Pegawai');
+INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (24, 20, 'module', 'mas_arsip', 'Arsip');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (30,  0,  'trans', 'trans', 'Transaksi');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (31, 30, 'module', 'trans_pemindahan', 'Pemindahan');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (32, 30, 'module', 'trans_peminjaman', 'Peminjaman');
@@ -32,9 +30,10 @@ INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (34, 30, 'module', 'tr
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (40,  0,    'doc', 'lap', 'Laporan');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (41, 40, 'module', 'lap_berkas_jra', 'Berkas JRA');
 INSERT INTO m_menu (id, pid, icon, nama_ref, nama) VALUES (42, 40, 'module', 'lap_berkas_musnah', 'Berkas Musnah');
+---}}}
 
-
-COPY r_cabang (id, nama, alamat, kota, telepon, fax)
+---{{{ m_cabang
+COPY m_cabang (id, nama, alamat, kota, telepon, fax)
 FROM stdin WITH DELIMITER ';';
 1;KANTOR PUSAT;JL. PEMUDA 142;SEMARANG;024 3547541;024 3554016
 2;KC. DEMAK;JL. SULTAN FATAH NO. 41;DEMAK;0291 681750;681747
@@ -98,7 +97,7 @@ FROM stdin WITH DELIMITER ';';
 60;KCP. PASAR PRACIMANTORO;KOMPLEK PS. PRACIMANTORO;WONOGIRI;0273 5328585;5328586
 61;KCP. PURWANTORO;JL. RAYA PURWANTORO PONOROGO NO.14;WONOGIRI;0273 415064;
 62;KCP. RSU WONOGIRI;JL. A.YANI NO 40 WONOGIRI;WONOGIRI;0273 321733;322785
-63;KCP. PASAR KLAMPOK;JL. A YANI NO 43 PURWAREJA;BAJARNEGARA;0286 476249;479249
+63;KCP. PASAR KLAMPOK;JL. A YANI NO 43 PURWAREJA;BANJARNEGARA;0286 476249;479249
 64;KC. BANJARNEGARA;JL. LETJEN SUPRAPTO NO.50-51;BANJARNEGARA;0286 591119;591319
 65;KCP. KARANGKOBAR;JL. RAYA KARANGKOBAR WANAYASA KM.1;BANJARNEGARA;0286 5988223;
 66;KCP. WANADADI;JL. KH. AHMAD DAHLAN NO. 4;BANJARNEGARA;;
@@ -173,13 +172,14 @@ FROM stdin WITH DELIMITER ';';
 135;KC. JAKARTA;JL. PANGLIMA POLIM RAYA 25 JKT;JAKARTA SELATAN;021 72786144;
 \.
 
---
--- TOC entry 2136 (class 0 OID 23290)
--- Dependencies: 176
--- Data for Name: m_unit_kerja; Type: TABLE DATA; Schema: public; Owner: earsip
---
+-- reset sequence
+SELECT setval(pg_get_serial_sequence ('m_cabang', 'id')
+		        ,       coalesce (max(id), 0) + 1
+		        ,       false) as "m_cabang sequence"
+FROM m_cabang;
+---}}}
 
---- insert new data to m_unit_kerja
+---{{{ m_unit_kerja: insert new data to m_unit_kerja
 COPY m_unit_kerja (id, direksi_id, divisi_id, kode, nama, nama_pimpinan, keterangan, urutan)
 	FROM stdin WITH DELIMITER ';';
 1;0;0;HT;Staff Direksi;;;1
@@ -212,37 +212,26 @@ SELECT setval(pg_get_serial_sequence ('m_unit_kerja', 'id')
 		        ,       coalesce (max(id), 0) + 1
 		        ,       false) as "m_unit_kerja sequence"
 FROM m_unit_kerja;
+---}}}
 
---
--- TOC entry 2144 (class 0 OID 23358)
--- Dependencies: 188
--- Data for Name: r_jabatan; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_jabatan
 INSERT INTO r_jabatan (nama, keterangan, urutan) VALUES ('Direktur Utama', 'Jabatan utama Direktur', 2);
 INSERT INTO r_jabatan (nama, keterangan, urutan) VALUES ('Teknisi', 'Teknisi', 1);
+---}}}
 
-
---
--- TOC entry 2134 (class 0 OID 23270)
--- Dependencies: 173 2132 2144 2136
--- Data for Name: m_pegawai; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ m_pegawai
 INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 18, 1, 2, '1', 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 1);
 INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 2, 2, 2, 'NIP.0001', 'User Pusat Berkas', 'e50310084113a16a9ac94ec85156cb8c', 1);
 INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 14, 3, 2, 'NIP.0002', 'User Pusat Arsip', '3ac53a0f0b6ee2a6203176a72c61a153', 1);
+---}}}
 
-
+---{{{ r_mode_arsip
 INSERT INTO r_mode_arsip VALUES
 (1, 'Musnah'),
 (2, 'Permanen');
+---}}}
 
---
--- Data for Name: r_berkas_klas; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
---- {{{ insert new data
+---{{{ r_berkas_klas: insert new data
 COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_inaktif, mode_arsip_id)
 	FROM stdin WITH DELIMITER ';';
 1;1;HT.01.01;Surat Keputusan Direksi;Naskah-naskah yang berkaitan dengan proses penyusunan dan penerbitan Surat Keputusan Direksi.;3;10;1
@@ -1125,71 +1114,46 @@ COPY r_berkas_klas(id, unit_kerja_id, kode, nama, keterangan, jra_aktif, jra_ina
 878;23;CAB.PMS.01.03;- Permohonan biaya pemasaran;;3;5;2
 879;23;CAB.PMS.01.04;- Surat keluar;;3;5;2
 \.
----}}}
 
 -- reset sequence
 SELECT setval(pg_get_serial_sequence ('r_berkas_klas', 'id')
 		        ,       coalesce (max(id), 0) + 1
 		        ,       false) as "r_berkas_klas sequence"
 FROM r_berkas_klas;
+---}}}
 
---
--- TOC entry 2142 (class 0 OID 23339)
--- Dependencies: 184
--- Data for Name: r_berkas_tipe; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_berkas_tipe
 INSERT INTO r_berkas_tipe (nama, keterangan) VALUES ('Surat/Naskah', 'Berkas berupa surat/naskah');
 INSERT INTO r_berkas_tipe (nama, keterangan) VALUES ('Nota Keuangan', 'Berkas berupa surat berharga');
 INSERT INTO r_berkas_tipe (nama, keterangan) VALUES ('Gambar', 'Berkas berupa gambar diam');
 INSERT INTO r_berkas_tipe (nama, keterangan) VALUES ('Video', 'Berkas berupa gambar bergerak');
 INSERT INTO r_berkas_tipe (nama, keterangan) VALUES ('Suara', 'Berkas berupa suara');
+---}}}
 
-
---
--- TOC entry 2140 (class 0 OID 23321)
--- Dependencies: 180
--- Data for Name: r_arsip_status; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_arsip_status
 INSERT INTO r_arsip_status (id, keterangan) VALUES (0, 'Ada');
 INSERT INTO r_arsip_status (id, keterangan) VALUES (1, 'Dipinjam');
 INSERT INTO r_arsip_status (id, keterangan) VALUES (2, 'Hilang');
 INSERT INTO r_arsip_status (id, keterangan) VALUES (3, 'Musnah');
+---}}}
 
-
---
--- TOC entry 2138 (class 0 OID 23309)
--- Dependencies: 178
--- Data for Name: r_akses_berbagi; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_akses_berbagi
 INSERT INTO r_akses_berbagi (id, keterangan) VALUES (0, 'Tidak berbagi');
 INSERT INTO r_akses_berbagi (id, keterangan) VALUES (1, 'Lihat (user tertentu)');
 INSERT INTO r_akses_berbagi (id, keterangan) VALUES (2, 'Merubah (user tertentu)');
 INSERT INTO r_akses_berbagi (id, keterangan) VALUES (3, 'Lihat (global)');
 INSERT INTO r_akses_berbagi (id, keterangan) VALUES (4, 'Merubah (global)');
+---}}}
 
-
---
--- TOC entry 2139 (class 0 OID 23315)
--- Dependencies: 179
--- Data for Name: r_akses_menu; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_akses_menu
 INSERT INTO r_akses_menu (id, keterangan) VALUES (0, 'Tanpa Akses');
 INSERT INTO r_akses_menu (id, keterangan) VALUES (1, 'View');
 INSERT INTO r_akses_menu (id, keterangan) VALUES (2, 'Insert');
 INSERT INTO r_akses_menu (id, keterangan) VALUES (3, 'Update');
 INSERT INTO r_akses_menu (id, keterangan) VALUES (4, 'Delete');
+---}}}
 
-
---
--- TOC entry 2128 (class 0 OID 23198)
--- Dependencies: 162 2133 2139 2132
--- Data for Name: menu_akses; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ menu_akses: insert
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES ( 1, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES ( 2, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES ( 3, 1, 0);
@@ -1203,6 +1167,7 @@ INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (20, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (21, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (22, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (23, 1, 4);
+INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (24, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (30, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (31, 1, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (32, 1, 0);
@@ -1224,7 +1189,8 @@ INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (15, 2, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (20, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (21, 2, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (22, 2, 0);
-INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (23, 2, 4);
+INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (23, 2, 0);
+INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (24, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (30, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (31, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (32, 2, 0);
@@ -1233,7 +1199,6 @@ INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (34, 2, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (40, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (41, 2, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (42, 2, 0);
-
 
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES ( 1, 3, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES ( 2, 3, 0);
@@ -1247,7 +1212,8 @@ INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (15, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (20, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (21, 3, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (22, 3, 0);
-INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (23, 3, 4);
+INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (23, 3, 0);
+INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (24, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (30, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (31, 3, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (32, 3, 4);
@@ -1256,18 +1222,16 @@ INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (34, 3, 0);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (40, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (41, 3, 4);
 INSERT INTO menu_akses (menu_id, grup_id, hak_akses_id) VALUES (42, 3, 4);
+---}}}
 
-
---
--- TOC entry 2145 (class 0 OID 23367)
--- Dependencies: 190
--- Data for Name: r_pemusnahan_metoda; Type: TABLE DATA; Schema: public; Owner: earsip
---
-
+---{{{ r_pemusnahan_metoda
 INSERT INTO r_pemusnahan_metoda (nama, keterangan) VALUES ('Pembakaran', 'Pemusanahan arsip dengan cara dibakar');
 INSERT INTO r_pemusnahan_metoda (nama, keterangan) VALUES ('Pencacahan', 'Pemusnahan arsip dengan cara dicacah');
 INSERT INTO r_pemusnahan_metoda (nama, keterangan) VALUES ('Peleburan', 'Pemusnahan arsip dengan cara dilebur');
+---}}}
 
-INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 1, 'Administrator');
-INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 2, 'User Pusat Berkas');
-INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 3, 'User Pusat Arsip');
+---{{{ m_berkas
+INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 1, 1, 'Administrator');
+INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 2, 1, 'User Pusat Berkas');
+INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 3, 1, 'User Pusat Arsip');
+---}}}
