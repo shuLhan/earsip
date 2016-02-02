@@ -2,6 +2,7 @@ Ext.require ([
 	'Earsip.store.UnitKerja'
 ,	'Earsip.store.Jabatan'
 ,	'Earsip.store.Grup'
+,	'Earsip.store.Cabang'
 ]);
 
 Ext.define ('Earsip.view.PegawaiWin', {
@@ -43,6 +44,16 @@ Ext.define ('Earsip.view.PegawaiWin', {
 			fieldLabel		: 'Nama Pegawai'
 		,	itemId			: 'nama'
 		,	name			: 'nama'
+		,	allowBlank		: false
+		},{
+			xtype			: 'combo'
+		,	fieldLabel		: 'Cabang'
+		,	itemId			: 'cabang_id'
+		,	name			: 'cabang_id'
+		,	store			: 'Cabang'
+		,	displayField	: 'nama'
+		,	valueField		: 'id'
+		,	editable		: false
 		,	allowBlank		: false
 		},{
 			xtype			: 'combo'

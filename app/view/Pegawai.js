@@ -2,6 +2,7 @@ Ext.require ([
 	'Earsip.store.Pegawai'
 ,	'Earsip.store.UnitKerja'
 ,	'Earsip.store.Jabatan'
+,	'Earsip.store.Cabang'
 ,	'Earsip.view.PegawaiWin'
 ]);
 
@@ -13,9 +14,6 @@ Ext.define ('Earsip.view.Pegawai', {
 ,	store		: 'Pegawai'
 ,	title		: 'Data Pegawai'
 ,	closable	: true
-,	plugins		: [
-		Ext.create ('Earsip.plugin.RowEditor')
-	]
 ,	columns		: [{
 		text		: 'Nama Pegawai'
 	,	dataIndex	: 'nama'
@@ -33,6 +31,23 @@ Ext.define ('Earsip.view.Pegawai', {
 		,	allowBlank	: false
 		}
 	},{
+		text		: 'Cabang'
+	,	dataIndex	: 'cabang_id'
+	,	width		: 180
+	,	editor		: {
+			xtype			: 'combo'
+		,	store			: Ext.create ('Earsip.store.Cabang', {
+				autoLoad		: true
+			})
+		,	displayField	: 'nama'
+		,	valueField		: 'id'
+		,	mode			: 'local'
+		,	typeAhead		: false
+		,	triggerAction	: 'all'
+		,	lazyRender		: true
+		}
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Cabang'))
+	},{
 		text		: 'Unit Kerja'
 	,	dataIndex	: 'unit_kerja_id'
 	,	width		: 150
@@ -48,10 +63,7 @@ Ext.define ('Earsip.view.Pegawai', {
 		,	triggerAction	: 'all'
 		,	lazyRender		: true
 		}
-	,	renderer	: function (v, md, r, rowidx, colidx)
-		{
-			return combo_renderer (v, this.columns[colidx]);
-		}
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('UnitKerja'))
 	},{
 		text		: 'Jabatan'
 	,	dataIndex	: 'jabatan_id'
@@ -68,10 +80,7 @@ Ext.define ('Earsip.view.Pegawai', {
 		,	triggerAction	: 'all'
 		,	lazyRender		: true
 		}
-	,	renderer	: function (v, md, r, rowidx, colidx)
-		{
-			return combo_renderer (v, this.columns[colidx]);
-		}
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Jabatan'))
 	},{
 		text		: 'Status'
 	,	dataIndex	: 'status'

@@ -3,6 +3,7 @@ Ext.define ('Earsip.model.Pegawai', {
 ,	idProperty	:'id'
 ,	fields		:[
 		'id'
+	,	'cabang_id'
 	,	'unit_kerja_id'
 	,	'grup_id'
 	,	'jabatan_id'

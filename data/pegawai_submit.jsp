@@ -23,6 +23,7 @@ String			action			= "";
 String			id				= "";
 String			nip				= "";
 String			nama			= "";
+String			cabang_id		= "";
 String			unit_kerja_id	= "";
 String			jabatan_id		= "";
 String			grup_id			= "";
@@ -53,6 +54,7 @@ try {
 		id				= o.getString ("id");
 		nip				= o.getString ("nip");
 		nama			= o.getString ("nama");
+		cabang_id		= o.getString ("cabang_id");
 		unit_kerja_id	= o.getString ("unit_kerja_id");
 		jabatan_id		= o.getString ("jabatan_id");
 		grup_id			= o.getString ("grup_id");
@@ -66,6 +68,7 @@ try {
 	} else {
 		nip				= request.getParameter ("nip");
 		nama			= request.getParameter ("nama");
+		cabang_id		= request.getParameter ("cabang_id");
 		unit_kerja_id	= request.getParameter ("unit_kerja_id");
 		jabatan_id		= request.getParameter ("jabatan_id");
 		grup_id			= request.getParameter ("grup_id");
@@ -89,15 +92,16 @@ try {
 		}
 
 		// insert new pegawai
-		q	=" insert into m_pegawai (nip, nama, unit_kerja_id, jabatan_id, grup_id, psw)"
-			+" values (?, ?, ?, ?, ?, md5(?))";
+		q	=" insert into m_pegawai (nip, nama, cabang_id, unit_kerja_id, jabatan_id, grup_id, psw)"
+			+" values (?, ?, ?, ?, ?, ?, md5(?))";
 		db_stmt = db_con.prepareStatement (q);
 		db_stmt.setString (1, nip);
 		db_stmt.setString (2, nama);
-		db_stmt.setInt (3, Integer.parseInt (unit_kerja_id));
-		db_stmt.setInt (4, Integer.parseInt (jabatan_id));
-		db_stmt.setInt (5, Integer.parseInt (grup_id));
-		db_stmt.setString (6, password);
+		db_stmt.setInt (3, Integer.parseInt (cabang_id));
+		db_stmt.setInt (4, Integer.parseInt (unit_kerja_id));
+		db_stmt.setInt (5, Integer.parseInt (jabatan_id));
+		db_stmt.setInt (6, Integer.parseInt (grup_id));
+		db_stmt.setString (7, password);
 
 		db_stmt.executeUpdate ();
 
@@ -129,6 +133,7 @@ try {
 		q	=" update	m_pegawai "
 			+" set		nip				= ?"
 			+" ,		nama			= ?"
+			+" ,		cabang_id		= ?"
 			+" ,		unit_kerja_id	= ?"
 			+" ,		jabatan_id		= ?"
 			+" ,		grup_id			= ?"
@@ -141,16 +146,17 @@ try {
 		db_stmt = db_con.prepareStatement (q);
 		db_stmt.setString (1, nip);
 		db_stmt.setString (2, nama);
-		db_stmt.setInt (3, Integer.parseInt (unit_kerja_id));
-		db_stmt.setInt (4, Integer.parseInt (jabatan_id));
-		db_stmt.setInt (5, Integer.parseInt (grup_id));
-		db_stmt.setInt (6, Integer.parseInt (status));
+		db_stmt.setInt (3, Integer.parseInt (cabang_id));
+		db_stmt.setInt (4, Integer.parseInt (unit_kerja_id));
+		db_stmt.setInt (5, Integer.parseInt (jabatan_id));
+		db_stmt.setInt (6, Integer.parseInt (grup_id));
+		db_stmt.setInt (7, Integer.parseInt (status));
 
 		if (! password.isEmpty () || ! password.equals ("")) {
-			db_stmt.setString (7, password);
-			db_stmt.setInt (8, Integer.parseInt (id));
+			db_stmt.setString (8, password);
+			db_stmt.setInt (9, Integer.parseInt (id));
 		} else {
-			db_stmt.setInt (7, Integer.parseInt (id));
+			db_stmt.setInt (8, Integer.parseInt (id));
 		}
 
 		db_stmt.executeUpdate ();
