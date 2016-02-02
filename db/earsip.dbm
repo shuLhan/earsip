@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2-beta" last-position="1308,1293" last-zoom="0.75"
+<dbmodel pgmodeler-ver="0.8.2-beta" last-position="333,556" last-zoom="0.45"
 	 default-schema="public" default-owner="postgres">
 <role name="earsip"
       replication="true"
@@ -26,7 +26,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[LOG]]></comment>
-	<position x="1695.09" y="1667"/>
+	<position x="1106.2" y="1613.67"/>
 	<column name="id" not-null="true">
 		<type name="date"/>
 	</column>
@@ -75,7 +75,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[HAK AKSES TERHADAP MENU]]></comment>
-	<position x="2274.33" y="1376.89"/>
+	<position x="1603.77" y="1509.67"/>
 	<column name="menu_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -167,7 +167,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER BERKAS]]></comment>
-	<position x="3001.53" y="1946"/>
+	<position x="3001.53" y="1949.33"/>
 	<column name="id" not-null="true" sequence="public.m_berkas_id_seq">
 		<type name="integer"/>
 	</column>
@@ -178,9 +178,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 	</column>
 	<column name="berkas_klas_id">
-		<type name="integer"/>
-	</column>
-	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="unit_kerja_id">
@@ -314,7 +311,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNTUK BERBAGI BERKAS]]></comment>
-	<position x="2723.3" y="1688"/>
+	<position x="2574.97" y="1685.78"/>
 	<column name="bagi_ke_peg_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -371,7 +368,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[GRUP PEGAWAI]]></comment>
-	<position x="2704" y="1576.2"/>
+	<position x="2020.67" y="1699.53"/>
 	<column name="id" not-null="true" sequence="public.m_grup_id_seq">
 		<type name="integer"/>
 	</column>
@@ -406,7 +403,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER MENU]]></comment>
-	<position x="1693.11" y="1466.42"/>
+	<position x="1142.56" y="1421.42"/>
 	<column name="id" not-null="true" sequence="public.m_menu_id_seq">
 		<type name="integer"/>
 	</column>
@@ -447,11 +444,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER USER/PEGAWAI]]></comment>
-	<position x="2199.77" y="1849.2"/>
-	<column name="cabang_id" not-null="true">
+	<position x="1973.44" y="1859.2"/>
+	<column name="id" not-null="true" sequence="public.m_pegawai_id_seq">
 		<type name="integer"/>
 	</column>
-	<column name="id" not-null="true" sequence="public.m_pegawai_id_seq">
+	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="unit_kerja_id">
@@ -544,7 +541,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNIT KERJA]]></comment>
-	<position x="1771.53" y="2148.2"/>
+	<position x="1553.2" y="2224.87"/>
 	<column name="direksi_id" default-value="0">
 		<type name="integer"/>
 	</column>
@@ -649,7 +646,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI AKSES MENU
 ]]></comment>
-	<position x="2227.2" y="1647.62"/>
+	<position x="2046.09" y="1510.4"/>
 	<column name="id" not-null="true">
 		<type name="smallint"/>
 	</column>
@@ -705,7 +702,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI KLASIFIKASI BERKAS]]></comment>
-	<position x="2253.39" y="2215.73"/>
+	<position x="2200.06" y="2247.4"/>
 	<column name="id" not-null="true" sequence="public.r_berkas_klas_id_seq">
 		<type name="integer"/>
 	</column>
@@ -841,7 +838,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI JABATAN]]></comment>
-	<position x="1701.77" y="1994.38"/>
+	<position x="1195.1" y="1991.04"/>
 	<column name="id" not-null="true" sequence="public.r_jabatan_id_seq">
 		<type name="integer"/>
 	</column>
@@ -1472,7 +1469,7 @@ END;
 	<schema name="public"/>
 	<role name="earsip"/>
 	<tablespace name="pg_default"/>
-	<position x="1712.56" y="1840.11"/>
+	<position x="1245.11" y="1847.89"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1565,12 +1562,6 @@ END;
 <constraint name="fk_m_berkas_ref__unit_m_unit_k" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.m_unit_kerja" table="public.m_berkas">
 	<columns names="unit_kerja_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_m_berkas_m_cabang" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.m_cabang" table="public.m_berkas">
-	<columns names="cabang_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1873,11 +1864,6 @@ END;
 
 <relationship name="rel_m_pegawai_r_cabang" type="relfk"
 	 src-table="public.m_pegawai"
-	 dst-table="public.m_cabang"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_m_berkas_m_cabang" type="relfk"
-	 src-table="public.m_berkas"
 	 dst-table="public.m_cabang"
 	 src-required="false" dst-required="false"/>
 

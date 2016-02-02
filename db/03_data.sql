@@ -1231,7 +1231,7 @@ INSERT INTO r_pemusnahan_metoda (nama, keterangan) VALUES ('Peleburan', 'Pemusna
 ---}}}
 
 ---{{{ m_berkas
-INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 1, 1, 'Administrator');
-INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 2, 1, 'User Pusat Berkas');
-INSERT INTO m_berkas (pid, pegawai_id, cabang_id, nama) values (0, 3, 1, 'User Pusat Arsip');
+INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 1, 'Administrator');
+INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 2, 'User Pusat Berkas');
+INSERT INTO m_berkas (pid, pegawai_id, nama) values (0, 3, 'User Pusat Arsip');
 ---}}}

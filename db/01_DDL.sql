@@ -174,7 +174,6 @@ CREATE TABLE public.m_berkas(
 	pid integer,
 	pegawai_id integer,
 	berkas_klas_id integer,
-	cabang_id integer NOT NULL,
 	unit_kerja_id integer,
 	berkas_tipe_id integer,
 	tipe_file smallint DEFAULT 0,
@@ -421,8 +420,8 @@ ALTER SEQUENCE public.m_pegawai_id_seq OWNER TO earsip;
 -- object: public.m_pegawai | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_pegawai CASCADE;
 CREATE TABLE public.m_pegawai(
-	cabang_id integer NOT NULL,
 	id integer NOT NULL DEFAULT nextval('public.m_pegawai_id_seq'::regclass),
+	cabang_id integer NOT NULL,
 	unit_kerja_id integer,
 	grup_id integer,
 	jabatan_id integer,
@@ -1443,13 +1442,6 @@ ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_id)
 REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
--- ddl-end --
-
--- object: fk_m_berkas_m_cabang | type: CONSTRAINT --
--- ALTER TABLE public.m_berkas DROP CONSTRAINT IF EXISTS fk_m_berkas_m_cabang CASCADE;
-ALTER TABLE public.m_berkas ADD CONSTRAINT fk_m_berkas_m_cabang FOREIGN KEY (cabang_id)
-REFERENCES public.m_cabang (id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_m_berkas_ref_pegaw_m_pegawa | type: CONSTRAINT --
