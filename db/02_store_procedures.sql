@@ -18,7 +18,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION update_menu_akses (_menu_id INT, _grup_id INT, _hak_akses_id INT) RETURNS VOID AS
+CREATE OR REPLACE FUNCTION update_menu_akses (_menu_id INT, _grup_id INT, _hak_akses_id INT) RETURNS VOID AS
 $$
 BEGIN
 	LOOP
