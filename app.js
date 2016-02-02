@@ -129,7 +129,7 @@ Ext.define ('Earsip.plugin.RowEditor', {
 function combo_renderer (v, col)
 {
 	var combo = col.getEditor ();
-	var i = combo.store.find (combo.valueField, v);
+	var i = combo.store.find (combo.valueField, v, 0, false, true, true);
 	if (i < 0) {
 		return v;
 	}
@@ -140,7 +140,7 @@ function combo_renderer (v, col)
 function store_renderer (valueField, displayField, store)
 {
 	return function (v) {
-		var i = store.find (valueField, v);
+		var i = store.find (valueField, v, 0, false, true, true);
 		if (i < 0) {
 			return "";
 		}
