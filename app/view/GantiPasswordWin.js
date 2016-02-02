@@ -4,7 +4,7 @@ Ext.define ('Earsip.view.GantiPasswordWin', {
 ,	itemId			: 'gantipassword'
 ,	title			: 'Ganti Password'
 ,	autoHeight		: true
-,	closable		: true
+,	closable		: false
 ,	resizable		: false
 ,	draggable		: false
 ,	autoHeight		: true
