@@ -172,6 +172,7 @@ Ext.application ({
 	,	'BerkasTree'
 	,	'BerkasBerbagi'
 	,	'BerkasBerbagiList'
+	,	'Cabang'
 	,	'User'
 	,	'Grup'
 	,	'MenuAccess'
@@ -255,6 +256,8 @@ Ext.application ({
 	,	'LapBerkasMusnah'
 	,	'Notifikasi'
 	,	'NotifikasiPeminjaman'
+
+	,	'Cabang'
 	]
 ,	controllers	: [
 		'Login'

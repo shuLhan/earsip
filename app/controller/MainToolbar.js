@@ -1,5 +1,6 @@
 Ext.require ([
 	'Earsip.view.AdmSistem'
+,	'Earsip.view.Cabang'
 ,	'Earsip.view.UnitKerja'
 ,	'Earsip.view.Pegawai'
 ,	'Earsip.view.TipeArsip'
