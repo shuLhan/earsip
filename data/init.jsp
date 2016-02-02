@@ -42,10 +42,11 @@
 	String		_user_gid	= ServletUtilities.getCookieValue (_cookies, "earsip.user.grup_id", null);
 	String		_user_nip	= ServletUtilities.getCookieValue (_cookies, "earsip.user.nip", null);
 	String		_user_uk	= ServletUtilities.getCookieValue (_cookies, "earsip.user.unit_kerja_id", null);
+	String		_user_cabang_id = ServletUtilities.getCookieValue (_cookies, "earsip.user.cabang_id", null);
 
 	if (null == _user_id || null == _user_name || null == _user_gid
-	||  null == _user_nip || null == _user_uk) {
-		out.print ("{success:false,info:'Nama pengguna/group tidak diketahui.'}");
+	||  null == _user_nip || null == _user_uk || _user_cabang_id == null) {
+		out.print ("{success:false,info:'Nama pengguna/group/cabang tidak diketahui.'}");
 		response.sendRedirect (request.getContextPath());
 		return;
 	}

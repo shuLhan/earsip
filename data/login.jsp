@@ -20,6 +20,7 @@ Cookie				c_user_uk_id		= null;
 Cookie				c_user_grup_id		= null;
 Cookie				c_user_nip			= null;
 Cookie				c_user_name			= null;
+Cookie				c_user_cabang_id	= null;
 ActiveUser			active_user			= null;
 String				q					= "";
 String				sid					= "";
@@ -29,6 +30,7 @@ String				user_grup_id		= "";
 String				user_name			= "";
 String				user_nip			= "";
 String				user_psw			= "";
+String				user_cabang_id		= "";
 String				dir_name			= "";
 String				psw_is_expired		= "";
 String				c_path				= request.getContextPath ();
@@ -62,14 +64,17 @@ try {
 		+" ,		PEG.grup_id"
 		+" ,		PEG.nama"
 		+" ,		PEG.psw_expire > current_date as psw_is_expired"
+		+" ,		PEG.cabang_id"
 		+" from		m_pegawai		PEG"
 		+" ,		m_unit_kerja	UK"
 		+" ,		m_grup			GRUP"
+		+" ,		m_cabang		CABANG"
 		+" where	PEG.nip				= ?"
 		+" and		PEG.psw				= md5(?)"
 		+" and		PEG.status			= 1"
 		+" and		PEG.unit_kerja_id	= UK.id"
-		+" and		PEG.grup_id			= GRUP.id";
+		+" and		PEG.grup_id			= GRUP.id"
+		+" and		PEG.cabang_id		= CABANG.id";
 
 	db_pstmt = db_con.prepareStatement (q);
 	db_pstmt.setString (1, user_nip);
@@ -87,9 +92,10 @@ try {
 	user_grup_id	= rs.getString ("grup_id");
 	user_name		= rs.getString ("nama");
 	psw_is_expired	= rs.getString ("psw_is_expired");
+	user_cabang_id	= rs.getString ("cabang_id");
 
 	active_user = new ActiveUser (Long.parseLong (user_id));
-	
+
 	session.setAttribute ("user", active_user);
 	session.setAttribute ("user.id", user_id);
 	session.setAttribute ("user.nip", user_nip);
@@ -104,6 +110,7 @@ try {
 	c_user_uk_id		= new Cookie ("earsip.user.unit_kerja_id", user_uk_id);
 	c_user_grup_id		= new Cookie ("earsip.user.grup_id", user_grup_id);
 	c_user_name			= new Cookie ("earsip.user.nama", user_name);
+	c_user_cabang_id	= new Cookie ("earsip.user.cabang_id", user_cabang_id);
 
 	c_sid.setMaxAge (c_max_age);
 	c_sid.setPath (c_path);
@@ -119,6 +126,8 @@ try {
 	c_user_grup_id.setPath (c_path);
 	c_user_name.setMaxAge (c_max_age);
 	c_user_name.setPath (c_path);
+	c_user_cabang_id.setMaxAge (c_max_age);
+	c_user_cabang_id.setPath (c_path);
 
 	response.addCookie (c_sid);
 	response.addCookie (c_user);
@@ -127,6 +136,7 @@ try {
 	response.addCookie (c_user_uk_id);
 	response.addCookie (c_user_grup_id);
 	response.addCookie (c_user_name);
+	response.addCookie (c_user_cabang_id);
 
 	// create root folder if not exist
 	q =" select id from m_berkas where pid = 0 and pegawai_id = ? ";
