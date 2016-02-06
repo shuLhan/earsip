@@ -1,32 +1,20 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
+<%--
+	Copyright 2016
+
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
 <%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		data		= "";
-int			i			= 0;
-int			start		= 0;
-int			limit		= 0;
-int			total		= 0;
 try {
-	db_con = (Connection) session.getAttribute ("db.con");
-
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath());
-		return;
-	}
-
 	String user_id = (String) session.getAttribute ("user.id");
 	String grup_id = (String) session.getAttribute ("user.grup_id");
 	String jra_query_text = "";
 	String status	= "";
 
-	start	= Integer.parseInt (request.getParameter ("start"));
-	limit	= Integer.parseInt (request.getParameter ("limit"));
+	int start	= Integer.parseInt (request.getParameter ("start"));
+	int limit	= Integer.parseInt (request.getParameter ("limit"));
+	int total   = 0;
 	
 	if (grup_id.equals ("3")) {
 		jra_query_text = "jra_inaktif";
@@ -37,15 +25,19 @@ try {
 		status = "1";
 	}
 
-	q	=" select	count (*)		as total"
+	q	=" select	count (m_berkas.*)		as total"
 		+" from		m_berkas"
-		+" where	status			= "+ status
-		+" and		status_hapus	= 1"
-		+" and		arsip_status_id in (0,1)"
+		+" ,		m_pegawai"
+		+" where	m_berkas.status			= "+ status
+		+" and		m_berkas.status_hapus	= 1"
+		+" and		m_berkas.arsip_status_id in (0,1)"
+		+" and		m_berkas.pegawai_id		= m_pegawai.id"
+		+" and		m_pegawai.cabang_id		= "+ _user_cid
 		+" and		datediff('month', current_date, dateadd ('year'," + jra_query_text + ",tgl_dibuat)) <= 3"; // 3 months difference between berkas current age and berkas tgl_jra
-		if (!grup_id.equals ("3")) {
-			q +=" and pegawai_id = " + user_id;
-		}
+
+	if (!grup_id.equals ("3")) {
+		q +=" and pegawai_id = " + user_id;
+	}
 
 	db_stmt = db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
@@ -57,16 +49,16 @@ try {
 	rs.close ();
 	db_stmt.close ();
 
-	q	=" select	id"
+	q	=" select	m_berkas.id"
 		+" ,		pid"
 		+" ,		tipe_file"
 		+" ,		mime"
 		+" ,		sha"
 		+" ,		pegawai_id"
-		+" ,		unit_kerja_id"
+		+" ,		m_berkas.unit_kerja_id"
 		+" ,		berkas_klas_id"
 		+" ,		berkas_tipe_id"
-		+" ,		nama"
+		+" ,		m_berkas.nama"
 		+" ,		tgl_unggah"
 		+" ,		coalesce (tgl_dibuat, tgl_unggah) as tgl_dibuat"
 		+" ,		nomor"
@@ -75,7 +67,7 @@ try {
 		+" ,		masalah"
 		+" ,		jra_aktif"
 		+" ,		jra_inaktif"
-		+" ,		status"
+		+" ,		m_berkas.status"
 		+" ,		status_hapus"
 		+" ,		akses_berbagi_id"
 		+" ,		age (tgl_dibuat) as usia"
@@ -83,10 +75,14 @@ try {
 		+" ,		Date (dateadd ('year'," + jra_query_text + ",tgl_dibuat)) as tgl_jra"
 		+" ,		n_output_images"
 		+" from		m_berkas"
-		+" where	status			= "+ status
-		+" and		status_hapus	= 1"
-		+" and		arsip_status_id in (0,1)"
+		+" ,		m_pegawai"
+		+" where	m_berkas.status			= "+ status
+		+" and		m_berkas.status_hapus	= 1"
+		+" and		m_berkas.arsip_status_id in (0,1)"
+		+" and		m_berkas.pegawai_id		= m_pegawai.id"
+		+" and		m_pegawai.cabang_id		= "+ _user_cid
 		+" and		datediff('month', current_date, dateadd ('year'," + jra_query_text + ",tgl_dibuat)) <= 3"; // 3 months difference between berkas current age and berkas tgl_jra
+
 		if (!grup_id.equals ("3")) {
 			q +=" and pegawai_id = " + user_id;
 		}
@@ -96,43 +92,50 @@ try {
 	db_stmt = db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
 
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="\n{ id            : "+ rs.getString ("id")
-				+ "\n, pid           : "+ rs.getString ("pid")
-				+ "\n, tipe_file     : "+ rs.getString ("tipe_file")
-				+ "\n, mime          :'"+ rs.getString ("mime") +"'"
-				+ "\n, sha           :'"+ rs.getString ("sha") +"'"
-				+ "\n, pegawai_id    : "+ rs.getString ("pegawai_id")
-				+ "\n, unit_kerja_id : "+ rs.getString ("unit_kerja_id")
-				+ "\n, berkas_klas_id: "+ rs.getString ("berkas_klas_id")
-				+ "\n, berkas_tipe_id: "+ rs.getString ("berkas_tipe_id")
-				+ "\n, nama          :'"+ rs.getString ("nama") +"'"
-				+ "\n, tgl_unggah    :'"+ rs.getString ("tgl_unggah") +"'"
-				+ "\n, tgl_dibuat    :'"+ rs.getString ("tgl_dibuat") +"'"
-				+ "\n, nomor         :'"+ rs.getString ("nomor") +"'"
-				+ "\n, pembuat       :'"+ rs.getString ("pembuat") +"'"
-				+ "\n, judul         :'"+ rs.getString ("judul") +"'"
-				+ "\n, masalah       :'"+ rs.getString ("masalah") +"'"
-				+ "\n, jra_aktif     : "+ rs.getString ("jra_aktif")
-				+ "\n, jra_inaktif   : "+ rs.getString ("jra_inaktif")
-				+ "\n, status        : "+ rs.getString ("status")
-				+ "\n, status_hapus  : "+ rs.getString ("status_hapus")
-				+" \n, akses_berbagi_id : "+ rs.getString ("akses_berbagi_id")
-				+" \n, usia             : '"+ rs.getString ("usia") +"'"
-				+" \n, lokasi           : '"+ rs.getString ("lokasi") +"'"
-				+" \n, tgl_jra          : '"+ rs.getString ("tgl_jra") +"'"
-				+" \n, n_output_images  :  "+ rs.getString ("n_output_images")
-				+ "\n}";
+		_o = new JSONObject();
+
+		_o.put("id"					, rs.getInt ("id"));
+		_o.put("pid"				, rs.getInt ("pid"));
+		_o.put("tipe_file"			, rs.getString ("tipe_file"));
+		_o.put("mime"				, rs.getString ("mime"));
+		_o.put("sha"				, rs.getString ("sha"));
+		_o.put("pegawai_id"			, rs.getInt ("pegawai_id"));
+		_o.put("unit_kerja_id"		, rs.getInt ("unit_kerja_id"));
+		_o.put("berkas_klas_id"		, rs.getInt ("berkas_klas_id"));
+		_o.put("berkas_tipe_id"		, rs.getInt ("berkas_tipe_id"));
+		_o.put("nama"				, rs.getString ("nama"));
+		_o.put("tgl_unggah"			, rs.getString ("tgl_unggah"));
+		_o.put("tgl_dibuat"			, rs.getString ("tgl_dibuat"));
+		_o.put("nomor"				, rs.getString ("nomor"));
+		_o.put("pembuat"			, rs.getString ("pembuat"));
+		_o.put("judul"				, rs.getString ("judul"));
+		_o.put("masalah"			, rs.getString ("masalah"));
+		_o.put("jra_aktif"			, rs.getInt ("jra_aktif"));
+		_o.put("jra_inaktif"		, rs.getInt ("jra_inaktif"));
+		_o.put("status"				, rs.getInt ("status"));
+		_o.put("status_hapus"		, rs.getInt ("status_hapus"));
+		_o.put("akses_berbagi_id"	, rs.getInt ("akses_berbagi_id"));
+		_o.put("usia"				, rs.getString ("usia"));
+		_o.put("lokasi"				, rs.getString ("lokasi"));
+		_o.put("tgl_jra"			, rs.getString ("tgl_jra"));
+		_o.put("n_output_images"	, rs.getInt ("n_output_images"));
+
+		_a.put(_o);
 	}
-	out.print ("{success:true,total:"+ total +",data:["+ data +"]}");
+
 	rs.close ();
+	db_stmt.close ();
+
+	_r.put ("success"	, true);
+	_r.put ("data"		, _a);
+	_r.put ("total"		, total);
 }
 catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''").replace ("\"", "\\\"") +"'}");
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>
