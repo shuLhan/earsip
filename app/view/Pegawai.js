@@ -3,6 +3,7 @@ Ext.require ([
 ,	'Earsip.store.UnitKerja'
 ,	'Earsip.store.Jabatan'
 ,	'Earsip.store.Cabang'
+,	'Earsip.store.Grup'
 ,	'Earsip.view.PegawaiWin'
 ]);
 
@@ -81,6 +82,23 @@ Ext.define ('Earsip.view.Pegawai', {
 		,	lazyRender		: true
 		}
 	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Jabatan'))
+	},{
+		text		: 'Grup'
+	,	dataIndex	: 'grup_id'
+	,	width		: 160
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Grup'))
+	,	editor		: {
+			xtype			: 'combo'
+		,	store			: Ext.create ('Earsip.store.Grup', {
+				autoLoad		: true
+			})
+		,	displayField	: 'nama'
+		,	valueField		: 'id'
+		,	mode			: 'local'
+		,	typeAhead		: false
+		,	triggerAction	: 'all'
+		,	lazyRender		: true
+		}
 	},{
 		text		: 'Status'
 	,	dataIndex	: 'status'
