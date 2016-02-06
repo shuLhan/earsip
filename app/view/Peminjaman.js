@@ -272,14 +272,12 @@ Ext.define ('Earsip.view.Peminjaman', {
 			if (b == 'no') {
 				return;
 			}
-			var grid = b.up ('#peminjaman_grid');
+			var grid = this.down ('#peminjaman_grid');
 			var data = grid.getSelectionModel ().getSelection ();
-	
+
 			if (data.length <= 0) {
 				return;
 			}
-
-		
 
 			var store = grid.getStore ();
 			store.remove (data);

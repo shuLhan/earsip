@@ -1,23 +1,12 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		db_url		= "";
-String		data		= "";
-int			i			= 0;
-try {
-	db_con = (Connection) session.getAttribute ("db.con");
+<%--
+	Copyright 2016
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath ());
-		return;
-	}
-	
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
+<%
+try {
 	q	=" select		distinct(id)"
 		+" ,			unit_kerja_peminjam_id"
 		+" ,			nama_petugas"
@@ -29,33 +18,40 @@ try {
 		+" ,			tgl_kembali"
 		+" ,			keterangan"
 		+" from			t_peminjaman A, peminjaman_rinci B"
-		+" where		A.id = B.peminjaman_id";
+		+" where		A.id = B.peminjaman_id"
+		+" and			A.cabang_id = "+ _user_cid
+		+" order by tgl_pinjam desc ";
 
 	db_stmt	= db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
+
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="\n{ id						: "+ rs.getString ("id")
-				+ "\n, unit_kerja_peminjam_id	: "+ rs.getString ("unit_kerja_peminjam_id")
-				+ "\n, nama_petugas				:'"+ rs.getString ("nama_petugas").replace ("'", "\\'") +"'"
-				+ "\n, nama_pimpinan_petugas	:'"+ rs.getString ("nama_pimpinan_petugas").replace ("'", "\\'") +"'"
-				+ "\n, nama_peminjam			:'"+ rs.getString ("nama_peminjam").replace ("'", "\\'") +"'"
-				+ "\n, nama_pimpinan_peminjam	:'"+ rs.getString ("nama_pimpinan_peminjam").replace ("'", "\\'") +"'"
-				+ "\n, tgl_pinjam				:'"+ rs.getString ("tgl_pinjam") +"'"
-				+ "\n, tgl_batas_kembali		:'"+ rs.getString ("tgl_batas_kembali") +"'"
-				+ "\n, tgl_kembali				:'"+ rs.getString ("tgl_kembali") +"'"
-				+ "\n, keterangan				:'"+ rs.getString ("keterangan") +"'"
-				+ "\n, status					: "+ (rs.getDate ("tgl_kembali") == null?0:1)
-				+ "\n}";
+		_o	= new JSONObject ();
+		_o.put("id",						rs.getInt("id"));
+		_o.put("unit_kerja_peminjam_id",	rs.getInt("unit_kerja_peminjam_id"));
+		_o.put("nama_petugas",				rs.getString("nama_petugas"));
+		_o.put("nama_pimpinan_petugas",		rs.getString("nama_pimpinan_petugas"));
+		_o.put("nama_peminjam",				rs.getString("nama_peminjam"));
+		_o.put("nama_pimpinan_peminjam",	rs.getString("nama_pimpinan_peminjam"));
+		_o.put("tgl_pinjam",				rs.getString("tgl_pinjam"));
+		_o.put("tgl_batas_kembali",			rs.getString("tgl_batas_kembali"));
+		_o.put("tgl_kembali",				rs.getString("tgl_kembali"));
+		_o.put("keterangan",				rs.getString("keterangan"));
+		_o.put("status",					(rs.getDate("tgl_kembali") == null ? 0 : 1));
+
+		_a.put (_o);
 	}
-	out.print ("{success:true,data:["+ data +"]}");
+
 	rs.close ();
-}
-catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	db_stmt.close ();
+
+	_r.put ("success"	, true);
+	_r.put ("data"		, _a);
+} catch (Exception e) {
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>

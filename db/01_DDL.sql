@@ -966,6 +966,7 @@ ALTER SEQUENCE public.t_peminjaman_id_seq OWNER TO earsip;
 -- DROP TABLE IF EXISTS public.t_peminjaman CASCADE;
 CREATE TABLE public.t_peminjaman(
 	id integer NOT NULL DEFAULT nextval('public.t_peminjaman_id_seq'::regclass),
+	cabang_id integer NOT NULL,
 	unit_kerja_peminjam_id integer,
 	nama_petugas character varying(128),
 	nama_pimpinan_petugas character varying(128),
@@ -1555,6 +1556,13 @@ ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE public.t_peminjaman ADD CONSTRAINT fk_t_peminj_ref__unit_m_unit_k FOREIGN KEY (unit_kerja_peminjam_id)
 REFERENCES public.m_unit_kerja (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ddl-end --
+
+-- object: fk_t_peminjaman_m_cabang | type: CONSTRAINT --
+-- ALTER TABLE public.t_peminjaman DROP CONSTRAINT IF EXISTS fk_t_peminjaman_m_cabang CASCADE;
+ALTER TABLE public.t_peminjaman ADD CONSTRAINT fk_t_peminjaman_m_cabang FOREIGN KEY (cabang_id)
+REFERENCES public.m_cabang (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_t_pemusn_ref__meto_r_pemusn | type: CONSTRAINT --

@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2-beta" last-position="333,556" last-zoom="0.45"
-	 default-schema="public" default-owner="postgres">
+<dbmodel pgmodeler-ver="0.8.2-beta" last-position="0,440" last-zoom="0.65"
+	 default-schema="public" default-owner="earsip">
 <role name="earsip"
       replication="true"
       inherit="true"
@@ -26,7 +26,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[LOG]]></comment>
-	<position x="1106.2" y="1613.67"/>
+	<position x="50.6444" y="309.226"/>
 	<column name="id" not-null="true">
 		<type name="date"/>
 	</column>
@@ -75,7 +75,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[HAK AKSES TERHADAP MENU]]></comment>
-	<position x="1603.77" y="1509.67"/>
+	<position x="548.214" y="205.226"/>
 	<column name="menu_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -129,7 +129,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER ARSIP]]></comment>
-	<position x="3580.53" y="1939.55"/>
+	<position x="2524.97" y="635.106"/>
 	<column name="berkas_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -167,7 +167,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER BERKAS]]></comment>
-	<position x="3001.53" y="1949.33"/>
+	<position x="1776.74" y="652.578"/>
 	<column name="id" not-null="true" sequence="public.m_berkas_id_seq">
 		<type name="integer"/>
 	</column>
@@ -311,7 +311,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNTUK BERBAGI BERKAS]]></comment>
-	<position x="2574.97" y="1685.78"/>
+	<position x="1519.41" y="381.336"/>
 	<column name="bagi_ke_peg_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -368,7 +368,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[GRUP PEGAWAI]]></comment>
-	<position x="2020.67" y="1699.53"/>
+	<position x="965.114" y="395.086"/>
 	<column name="id" not-null="true" sequence="public.m_grup_id_seq">
 		<type name="integer"/>
 	</column>
@@ -403,7 +403,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER MENU]]></comment>
-	<position x="1142.56" y="1421.42"/>
+	<position x="87.0044" y="116.976"/>
 	<column name="id" not-null="true" sequence="public.m_menu_id_seq">
 		<type name="integer"/>
 	</column>
@@ -444,7 +444,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER USER/PEGAWAI]]></comment>
-	<position x="1973.44" y="1859.2"/>
+	<position x="917.884" y="554.756"/>
 	<column name="id" not-null="true" sequence="public.m_pegawai_id_seq">
 		<type name="integer"/>
 	</column>
@@ -520,7 +520,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER KONFIGURASI SYSTEM]]></comment>
-	<position x="1690.09" y="1371.64"/>
+	<position x="634.534" y="67.1956"/>
 	<column name="repository_root" not-null="true">
 		<type name="character varying" length="1024"/>
 	</column>
@@ -541,7 +541,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNIT KERJA]]></comment>
-	<position x="1553.2" y="2224.87"/>
+	<position x="493.029" y="957.349"/>
 	<column name="direksi_id" default-value="0">
 		<type name="integer"/>
 	</column>
@@ -586,7 +586,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[PEMINJAMAN DETAIL]]></comment>
-	<position x="3487" y="2816.4"/>
+	<position x="782.214" y="1659.65"/>
 	<column name="peminjaman_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -621,7 +621,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI UNTUK BERBAGI AKSES]]></comment>
-	<position x="3572.77" y="2156.4"/>
+	<position x="2517.21" y="851.956"/>
 	<column name="id" not-null="true">
 		<type name="smallint"/>
 	</column>
@@ -646,7 +646,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI AKSES MENU
 ]]></comment>
-	<position x="2046.09" y="1510.4"/>
+	<position x="990.534" y="205.956"/>
 	<column name="id" not-null="true">
 		<type name="smallint"/>
 	</column>
@@ -670,7 +670,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI ARSIP STATUS]]></comment>
-	<position x="3571.3" y="2262.4"/>
+	<position x="2515.74" y="957.956"/>
 	<column name="id" not-null="true">
 		<type name="smallint"/>
 	</column>
@@ -702,7 +702,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI KLASIFIKASI BERKAS]]></comment>
-	<position x="2200.06" y="2247.4"/>
+	<position x="1073.74" y="1029.11"/>
 	<column name="id" not-null="true" sequence="public.r_berkas_klas_id_seq">
 		<type name="integer"/>
 	</column>
@@ -760,7 +760,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI TIPE ARSIP]]></comment>
-	<position x="3573" y="2043.6"/>
+	<position x="2517.44" y="739.156"/>
 	<column name="id" not-null="true" sequence="public.r_berkas_tipe_id_seq">
 		<type name="integer"/>
 	</column>
@@ -795,7 +795,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERNSI INDEKS RELATIF]]></comment>
-	<position x="2669.44" y="2315.27"/>
+	<position x="1769.27" y="1330.83"/>
 	<column name="id" not-null="true" sequence="public.r_ir_id_seq">
 		<type name="integer"/>
 	</column>
@@ -838,7 +838,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI JABATAN]]></comment>
-	<position x="1195.1" y="1991.04"/>
+	<position x="139.544" y="686.596"/>
 	<column name="id" not-null="true" sequence="public.r_jabatan_id_seq">
 		<type name="integer"/>
 	</column>
@@ -876,7 +876,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI METODA PEMUSNAHAN]]></comment>
-	<position x="4647.77" y="1848.6"/>
+	<position x="3592.21" y="544.156"/>
 	<column name="id" not-null="true" sequence="public.r_pemusnahan_metoda_id_seq">
 		<type name="integer"/>
 	</column>
@@ -911,8 +911,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMINDAHAN]]></comment>
-	<position x="2306.53" y="2581.6"/>
+	<position x="740.205" y="1404.85"/>
 	<column name="id" not-null="true" sequence="public.t_pemindahan_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="unit_kerja_id">
@@ -962,7 +965,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[RINCIAN PEMINDAHAN]]></comment>
-	<position x="2836" y="2577.8"/>
+	<position x="1361.98" y="1434.89"/>
 	<column name="pemindahan_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1013,8 +1016,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMINJAMAN]]></comment>
-	<position x="1771.88" y="2776.58"/>
+	<position x="200.94" y="1556.75"/>
 	<column name="id" not-null="true" sequence="public.t_peminjaman_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="unit_kerja_peminjam_id">
@@ -1077,7 +1083,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMUSNAHAN]]></comment>
-	<position x="4087.77" y="1736.8"/>
+	<position x="3032.21" y="432.356"/>
 	<column name="id" not-null="true" sequence="public.t_pemusnahan_id_seq">
 		<type name="integer"/>
 	</column>
@@ -1121,7 +1127,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[PEMUSNAHAN DETAIL]]></comment>
-	<position x="3574.86" y="1763.47"/>
+	<position x="2519.3" y="459.026"/>
 	<column name="pemusnahan_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1176,7 +1182,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TIM PEMUSNAHAN]]></comment>
-	<position x="4647.76" y="1677.26"/>
+	<position x="3592.2" y="372.816"/>
 	<column name="pemusnahan_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1453,7 +1459,7 @@ END;
 <table name="r_mode_arsip">
 	<schema name="public"/>
 	<role name="earsip"/>
-	<position x="2400" y="2490"/>
+	<position x="1145.98" y="1308.63"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1469,7 +1475,7 @@ END;
 	<schema name="public"/>
 	<role name="earsip"/>
 	<tablespace name="pg_default"/>
-	<position x="1245.11" y="1847.89"/>
+	<position x="169.554" y="948.061"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1637,6 +1643,12 @@ END;
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_t_pemindahan_m_cabang" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.m_cabang" table="public.t_pemindahan">
+	<columns names="cabang_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk_t_pemind_ref_berka_m_berkas" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.m_berkas" table="public.t_pemindahan_rinci">
 	<columns names="berkas_id" ref-type="src-columns"/>
@@ -1652,6 +1664,12 @@ END;
 <constraint name="fk_t_peminj_ref__unit_m_unit_k" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.m_unit_kerja" table="public.t_peminjaman">
 	<columns names="unit_kerja_peminjam_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_t_peminjaman_m_cabang" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.m_cabang" table="public.t_peminjaman">
+	<columns names="cabang_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1864,6 +1882,16 @@ END;
 
 <relationship name="rel_m_pegawai_r_cabang" type="relfk"
 	 src-table="public.m_pegawai"
+	 dst-table="public.m_cabang"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_t_pemindahan_m_cabang" type="relfk"
+	 src-table="public.t_pemindahan"
+	 dst-table="public.m_cabang"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_t_peminjaman_m_cabang" type="relfk"
+	 src-table="public.t_peminjaman"
 	 dst-table="public.m_cabang"
 	 src-required="false" dst-required="false"/>
 
