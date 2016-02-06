@@ -19,95 +19,34 @@ Ext.define ('Earsip.view.Pegawai', {
 		text		: 'Nama Pegawai'
 	,	dataIndex	: 'nama'
 	,	flex		: 1
-	,	editor		: {
-			xtype		: 'textfield'
-		,	allowBlank	: false
-		}
 	},{
 		text		: 'NIP'
 	,	dataIndex	: 'nip'
 	,	width		: 120
-	,	editor		: {
-			xtype		: 'textfield'
-		,	allowBlank	: false
-		}
 	},{
 		text		: 'Cabang'
 	,	dataIndex	: 'cabang_id'
 	,	width		: 180
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.Cabang', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
 	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Cabang'))
 	},{
 		text		: 'Unit Kerja'
 	,	dataIndex	: 'unit_kerja_id'
 	,	width		: 150
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.UnitKerja', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
 	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('UnitKerja'))
 	},{
 		text		: 'Jabatan'
 	,	dataIndex	: 'jabatan_id'
 	,	width		: 150
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.Jabatan', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
 	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Jabatan'))
 	},{
 		text		: 'Grup'
 	,	dataIndex	: 'grup_id'
 	,	width		: 160
 	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('Grup'))
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.Grup', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
 	},{
 		text		: 'Status'
 	,	dataIndex	: 'status'
 	,	width		: 80
-	,	editor		: {
-			xtype			: 'checkbox'
-		,	inputValue		: 1
-		,	uncheckedValue	: 0
-		}
 	,	renderer	: function (v)
 		{
 			if (v == 1) {
