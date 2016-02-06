@@ -29,6 +29,11 @@ Ext.define ('Earsip.view.MainToolbar', {
 					});
 					this.add ('-');
 
+					this.add ({
+						text	: Earsip.branch_name
+					});
+					this.add ('-');
+
 					for (var i = 0; i < o.menu.length; i++) {
 						this.add (o.menu[i]);
 						this.add ('-');
@@ -48,9 +53,9 @@ Ext.define ('Earsip.view.MainToolbar', {
 								text	: 'Logout'
 							,	action	: 'logout'
 							,	iconCls	: 'logout'
-							}]	
+							}]
 						}
-					});	
+					});
 
 					this.suspendLayout = false;
 					this.doLayout();

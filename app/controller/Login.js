@@ -50,6 +50,7 @@ Ext.define ('Earsip.controller.Login', {
 					}
 
 					Earsip.username		= action.result.user_name;
+					Earsip.branch_name	= action.result.branch_name;
 					this.is_pusatarsip	= action.result.is_pusatarsip;
 					win.hide ();
 
@@ -80,7 +81,7 @@ Ext.define ('Earsip.controller.Login', {
 ,	after_login_success : function ()
 	{
 		var tabpanel = this.getMainview ().down ('#content_tab');
-		
+
 		if (this.is_pusatarsip == 1){
 			Earsip.is_p_arsip = true;
 		} else {

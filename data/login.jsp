@@ -21,6 +21,7 @@ Cookie				c_user_grup_id		= null;
 Cookie				c_user_nip			= null;
 Cookie				c_user_name			= null;
 Cookie				c_user_cabang_id	= null;
+Cookie				c_user_branch_name	= null;
 ActiveUser			active_user			= null;
 String				q					= "";
 String				sid					= "";
@@ -31,6 +32,7 @@ String				user_name			= "";
 String				user_nip			= "";
 String				user_psw			= "";
 String				user_cabang_id		= "";
+String				user_branch_name	= "";
 String				dir_name			= "";
 String				psw_is_expired		= "";
 String				c_path				= request.getContextPath ();
@@ -65,6 +67,7 @@ try {
 		+" ,		PEG.nama"
 		+" ,		PEG.psw_expire > current_date as psw_is_expired"
 		+" ,		PEG.cabang_id"
+		+" ,		CABANG.nama as cabang_nama"
 		+" from		m_pegawai		PEG"
 		+" ,		m_unit_kerja	UK"
 		+" ,		m_grup			GRUP"
@@ -93,6 +96,7 @@ try {
 	user_name		= rs.getString ("nama");
 	psw_is_expired	= rs.getString ("psw_is_expired");
 	user_cabang_id	= rs.getString ("cabang_id");
+	user_branch_name= rs.getString ("cabang_nama");
 
 	active_user = new ActiveUser (Long.parseLong (user_id));
 
@@ -103,6 +107,7 @@ try {
 	session.setAttribute ("user.grup_id", user_grup_id);
 	session.setAttribute ("user.nama", user_name);
 	session.setAttribute ("user.cabang_id", user_cabang_id);
+	session.setAttribute ("user.cabang_nama", user_branch_name);
 
 	c_sid				= new Cookie ("earsip.sid", session.getId ());
 	c_user				= new Cookie ("earsip.user", active_user.toString());
@@ -112,6 +117,7 @@ try {
 	c_user_grup_id		= new Cookie ("earsip.user.grup_id", user_grup_id);
 	c_user_name			= new Cookie ("earsip.user.nama", user_name);
 	c_user_cabang_id	= new Cookie ("earsip.user.cabang_id", user_cabang_id);
+	c_user_branch_name	= new Cookie ("earsip.user.cabang_nama", user_branch_name);
 
 	c_sid.setMaxAge (c_max_age);
 	c_sid.setPath (c_path);
@@ -129,6 +135,8 @@ try {
 	c_user_name.setPath (c_path);
 	c_user_cabang_id.setMaxAge (c_max_age);
 	c_user_cabang_id.setPath (c_path);
+	c_user_branch_name.setMaxAge (c_max_age);
+	c_user_branch_name.setPath (c_path);
 
 	response.addCookie (c_sid);
 	response.addCookie (c_user);
@@ -138,6 +146,7 @@ try {
 	response.addCookie (c_user_grup_id);
 	response.addCookie (c_user_name);
 	response.addCookie (c_user_cabang_id);
+	response.addCookie (c_user_branch_name);
 
 	// create root folder if not exist
 	q =" select id from m_berkas where pid = 0 and pegawai_id = ? ";
@@ -162,11 +171,13 @@ try {
 		out.print ("{success:true"
 				+", psw_is_expired:1"
 				+", user_name:'"+ user_name +"'"
+				+", branch_name:'"+ user_branch_name +"'"
 				+", is_pusatarsip:"+ (user_grup_id.equals ("3") ? 1 : 0) +"}");
 	} else {
 		out.print ("{success:true"
 				+", psw_is_expired:0"
 				+", user_name:'"+ user_name +"'"
+				+", branch_name:'"+ user_branch_name +"'"
 				+", is_pusatarsip:"+ (user_grup_id.equals ("3") ? 1 : 0) +"}");
 	}
 	rs.close ();

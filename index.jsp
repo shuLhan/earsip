@@ -38,6 +38,7 @@ String		user_grup_id	= null;
 String		user_name		= null;
 String		user_nip		= null;
 String		user_cid		= null;
+String		user_branch_name = null;
 int			is_login		= 0;
 int			is_pusatarsip	= 0;
 
@@ -59,6 +60,8 @@ if (active_user != null) {
 			user_nip		= cookies[i].getValue ();
 		} else if (c_name.equalsIgnoreCase ("earsip.user.cabang_id")) {
 			user_cid	= cookies[i].getValue ();
+		} else if (c_name.equalsIgnoreCase ("earsip.user.cabang_nama")) {
+			user_branch_name = cookies[i].getValue ();
 		}
 	}
 }
@@ -88,7 +91,8 @@ session.setAttribute ("db.con", (Object) db_con);
 if (user == null) {
 	/* if user cookie exist then skip login window */
 	if (user_id != null && user_uk_id != null && user_grup_id != null
-	&& user_name != null && user_nip != null) {
+	&& user_name != null && user_nip != null
+	&& user_cid != null && user_branch_name != null) {
 		session.setAttribute ("user", user);
 		session.setAttribute ("user.id", user_id);
 		session.setAttribute ("user.unit_kerja_id", user_uk_id);
@@ -96,6 +100,7 @@ if (user == null) {
 		session.setAttribute ("user.nama", user_name);
 		session.setAttribute ("user.nip", user_nip);
 		session.setAttribute ("user.cabang_id", user_cid);
+		session.setAttribute ("user.cabang_nama", user_branch_name);
 		is_login = 1;
 	}
 } else {
@@ -119,6 +124,7 @@ if (user_grup_id != null && user_grup_id.equals ("3")) {
 		var _g_repo_path		= '<%= request.getContextPath() + repo_root %>';
 		var _g_max_upload_size	= <%= max_upload_size %>;
 		var _g_user_gid			= <%= user_grup_id %>;
+		var _g_branch_name		= '<%= user_branch_name %>';
 	</script>
 
 	<script type="text/javascript" src="extjs/ext-all.js"></script>

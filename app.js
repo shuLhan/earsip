@@ -4,6 +4,7 @@ Ext.define ('Earsip', {
 	singleton		: true
 ,	pageSize		:20
 ,	username		: ''
+,	branch_name		: ''
 ,	is_p_arsip		: false
 ,	repo_path		: ''
 ,	acl				: 0
@@ -287,6 +288,7 @@ Ext.application ({
 
 		win.hide ();
 		Earsip.username = _g_username;
+		Earsip.branch_name = _g_branch_name;
 
 		mainview.getLayout ().setActiveItem ('main');
 
