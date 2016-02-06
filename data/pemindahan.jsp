@@ -1,74 +1,65 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
+<%--
+	Copyright 2016
+
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
 <%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		db_url		= "";
-String		data		= "";
-int			i			= 0;
 try {
-	db_con = (Connection) session.getAttribute ("db.con");
+	String q_s	=" select	distinct(id)"
+		+" ,		unit_kerja_id"
+		+" ,		kode"
+		+" ,		tgl"
+		+" ,		nama_petugas"
+		+" ,		pj_unit_kerja"
+		+" ,		pj_unit_arsip"
+		+" ,		status";
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath ());
-		return;
-	}
-	
-	String user_id = (String) session.getAttribute ("user.id");
-	String grup_id = (String) session.getAttribute ("user.grup_id");
-	
-		q	=" select	Distinct(id)"
-			+" ,		unit_kerja_id"
-			+" ,		kode"
-			+" ,		tgl"
-			+" ,		nama_petugas"
-			+" ,		pj_unit_kerja"
-			+" ,		pj_unit_arsip"
-			+" ,		status"
-			+" from		t_pemindahan";
-			
-	if (!grup_id.equals ("3")) // if not Pusat Arsip
-	{
-		q	+=" where	unit_kerja_id = (select A.unit_kerja_id as id"
-			+"  from 	m_pegawai A where A.id = "+ user_id +")"
-			+"  order by tgl desc";
-	} else 
-	{
-		q	+=" right join t_pemindahan_rinci"
-			+" 	on	id = pemindahan_id"
-			+"  order by tgl desc";
+	String q_f =" from t_pemindahan TPINDAH";
+
+	String q_w =" where cabang_id = "+ _user_cid;
+
+	String q_o =" order by tgl desc";
+
+	// if Pusat Arsip
+	if (_user_gid.equals ("3")) {
+		q_f +=" , t_pemindahan_rinci TPINDAHRINCI";
+		q_w +=" and TPINDAH.id = TPINDAHRINCI.pemindahan_id";
+	} else {
+		q_w +=" and unit_kerja_id = "+ _user_uk;
 	}
 
-	
+	q = q_s + q_f + q_w + q_o;
 
 	db_stmt	= db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
 
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="{ id				: "+ rs.getString ("id")
-				+ ", unit_kerja_id	: "+ rs.getString ("unit_kerja_id")
-				+ ", kode			:'"+ rs.getString ("kode") +"'"
-				+ ", tgl			:'"+ rs.getString ("tgl") +"'"
-				+ ", status			: "+ rs.getString ("status")
-				+ ", nama_petugas	:'"+ rs.getString ("nama_petugas") +"'"
-				+ ", pj_unit_kerja	:'"+ rs.getString ("pj_unit_kerja") +"'"
-				+ ", pj_unit_arsip	:'"+ rs.getString ("pj_unit_arsip") +"'"
-				+ "}";
+		_o	= new JSONObject ();
+		_o.put("id", rs.getInt("id"));
+		_o.put("unit_kerja_id", rs.getInt("unit_kerja_id"));
+		_o.put("kode", rs.getString("kode"));
+		_o.put("tgl", rs.getString("tgl"));
+		_o.put("status", rs.getInt("status"));
+		_o.put("nama_petugas", rs.getString("nama_petugas"));
+		_o.put("pj_unit_kerja", rs.getString("pj_unit_kerja"));
+		_o.put("pj_unit_arsip", rs.getString("pj_unit_arsip"));
+
+		_a.put (_o);
 	}
 
-	out.print ("{success:true,data:["+ data +"]}");
 	rs.close ();
+	db_stmt.close ();
+
+	_r.put ("success"	, true);
+	_r.put ("data"		, _a);
 }
 catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>
