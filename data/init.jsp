@@ -6,6 +6,7 @@
 --%>
 <%@ page import="java.io.File" %>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.sql.Date" %>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
@@ -13,7 +14,6 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="org.kilabit.ServletUtilities" %>
@@ -42,11 +42,14 @@
 	String		_user_gid	= ServletUtilities.getCookieValue (_cookies, "earsip.user.grup_id", null);
 	String		_user_nip	= ServletUtilities.getCookieValue (_cookies, "earsip.user.nip", null);
 	String		_user_uk	= ServletUtilities.getCookieValue (_cookies, "earsip.user.unit_kerja_id", null);
-	String		_user_cabang_id = ServletUtilities.getCookieValue (_cookies, "earsip.user.cabang_id", null);
+	String		_user_cid	= ServletUtilities.getCookieValue (_cookies, "earsip.user.cabang_id", null);
 
 	if (null == _user_id || null == _user_name || null == _user_gid
-	||  null == _user_nip || null == _user_uk || _user_cabang_id == null) {
-		out.print ("{success:false,info:'Nama pengguna/group/cabang tidak diketahui.'}");
+	||  null == _user_nip || null == _user_uk || _user_cid == null) {
+		_r.put("success", false);
+		_r.put("info", "Nama pengguna/grup/cabang tidak diketahui.");
+		out.print (_r);
+
 		response.sendRedirect (request.getContextPath());
 		return;
 	}

@@ -37,6 +37,7 @@ String		user_uk_id		= null;
 String		user_grup_id	= null;
 String		user_name		= null;
 String		user_nip		= null;
+String		user_cid		= null;
 int			is_login		= 0;
 int			is_pusatarsip	= 0;
 
@@ -56,6 +57,8 @@ if (active_user != null) {
 			user_name		= cookies[i].getValue ();
 		} else if (c_name.equalsIgnoreCase ("earsip.user.nip")) {
 			user_nip		= cookies[i].getValue ();
+		} else if (c_name.equalsIgnoreCase ("earsip.user.cabang_id")) {
+			user_cid	= cookies[i].getValue ();
 		}
 	}
 }
@@ -92,8 +95,8 @@ if (user == null) {
 		session.setAttribute ("user.grup_id", user_grup_id);
 		session.setAttribute ("user.nama", user_name);
 		session.setAttribute ("user.nip", user_nip);
+		session.setAttribute ("user.cabang_id", user_cid);
 		is_login = 1;
-
 	}
 } else {
 	is_login = 1;

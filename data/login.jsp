@@ -102,6 +102,7 @@ try {
 	session.setAttribute ("user.unit_kerja_id", user_uk_id);
 	session.setAttribute ("user.grup_id", user_grup_id);
 	session.setAttribute ("user.nama", user_name);
+	session.setAttribute ("user.cabang_id", user_cabang_id);
 
 	c_sid				= new Cookie ("earsip.sid", session.getId ());
 	c_user				= new Cookie ("earsip.user", active_user.toString());
