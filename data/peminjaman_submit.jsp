@@ -6,19 +6,44 @@
 --%>
 <%@ include file="init.jsp" %>
 <%
+String uk_peminjam_id	= "";
+String nm_ptgs			= "";
+String nm_pim_ptgs		= "";
+String nm_peminjam		= "";
+String nm_pim_peminjam	= "";
+String tgl_pinjam		= "";
+String tgl_batas		= "";
+String tgl_kembali		= "";
+String keterangan		= "";
+
 try {
 	String action	= request.getParameter ("action");
 	String id 		= request.getParameter ("id");
 
-	String unit_kerja_peminjam_id		= request.getParameter ("unit_kerja_peminjam_id");
-	String nm_ptgs            			= request.getParameter ("nama_petugas");
-	String nm_pim_ptgs        			= request.getParameter ("nama_pimpinan_petugas");
-	String nm_peminjam        			= request.getParameter ("nama_peminjam");
-	String nm_pim_peminjam    		    = request.getParameter ("nama_pimpinan_peminjam");
-	String tgl_pinjam         		    = request.getParameter ("tgl_pinjam");
-	String tgl_batas          		    = request.getParameter ("tgl_batas_kembali");
-	String tgl_kembali        		    = request.getParameter ("tgl_kembali");
-	String keterangan	       		    = request.getParameter ("keterangan");
+	if (id == null) {
+		_o = get_json_payload(request.getReader ());
+
+		id					= _o.getString("id");
+		uk_peminjam_id		= _o.getString("unit_kerja_peminjam_id");
+		nm_ptgs				= _o.getString("nama_petugas");
+		nm_pim_ptgs			= _o.getString("nama_pimpinan_petugas");
+		nm_peminjam			= _o.getString("nama_peminjam");
+		nm_pim_peminjam		= _o.getString("nama_pimpinan_peminjam");
+		tgl_pinjam			= _o.getString("tgl_pinjam");
+		tgl_batas			= _o.getString("tgl_batas_kembali");
+		tgl_kembali			= _o.getString("tgl_kembali");
+		keterangan			= _o.getString("keterangan");
+	} else {
+		uk_peminjam_id		= request.getParameter ("unit_kerja_peminjam_id");
+		nm_ptgs				= request.getParameter ("nama_petugas");
+		nm_pim_ptgs			= request.getParameter ("nama_pimpinan_petugas");
+		nm_peminjam			= request.getParameter ("nama_peminjam");
+		nm_pim_peminjam		= request.getParameter ("nama_pimpinan_peminjam");
+		tgl_pinjam			= request.getParameter ("tgl_pinjam");
+		tgl_batas			= request.getParameter ("tgl_batas_kembali");
+		tgl_kembali			= request.getParameter ("tgl_kembali");
+		keterangan			= request.getParameter ("keterangan");
+	}
 
 	if (action.equalsIgnoreCase ("create")) {
 		q	=" insert into t_peminjaman ("
@@ -36,7 +61,7 @@ try {
 			+" values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning id";
 
 		db_ps = db_con.prepareStatement (q);
-		db_ps.setInt	(1, Integer.parseInt(unit_kerja_peminjam_id));
+		db_ps.setInt	(1, Integer.parseInt(uk_peminjam_id));
 		db_ps.setString (2, nm_ptgs);
 		db_ps.setString (3, nm_pim_ptgs);
 		db_ps.setString (4, nm_peminjam);
@@ -80,7 +105,7 @@ try {
 			+" where	id = ?";
 
 		db_ps = db_con.prepareStatement (q);
-		db_ps.setInt(1, Integer.parseInt(unit_kerja_peminjam_id));
+		db_ps.setInt(1, Integer.parseInt(uk_peminjam_id));
 		db_ps.setString(2, nm_ptgs);
 		db_ps.setString(3, nm_pim_ptgs);
 		db_ps.setString(4, nm_peminjam);
@@ -105,7 +130,7 @@ try {
 		db_stmt.executeUpdate (q);
 		db_stmt.close();
 
-		q	=" delete from t_peminjaman where id = ?";
+		q =" delete from t_peminjaman where id = ?";
 		db_ps = db_con.prepareStatement (q);
 		db_ps.setInt (1, Integer.parseInt (id));
 		db_ps.executeUpdate ();
