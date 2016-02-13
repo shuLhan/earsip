@@ -261,20 +261,19 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	{
 		Ext.Msg.confirm ('Konfirmasi'
 		, 'Apakah anda yakin mau menghapus berkas?'
-		, function (b)
+		, function (yesno)
 		{
-			if (b == 'no') {
+			if (yesno == 'no') {
 				return;
 			}
 			var grid = b.up ('#pemusnahan_grid');
 			var data = grid.getSelectionModel ().getSelection ();
-	
+
 			if (data.length <= 0) {
 				return;
 			}
 
-		
-			if (b == 'no') {
+			if (yesno == 'no') {
 				return;
 			}
 			var store = grid.getStore ();
