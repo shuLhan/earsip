@@ -6,7 +6,7 @@ Ext.define ('Earsip.store.NotifPeminjaman', {
 ,	proxy		: {
 		type		: 'ajax'
 	,	api			: {
-			read		: 'data/notifpeminjaman.jsp'
+			read		: 'data/peminjaman_notif.jsp'
 		}
 	,	reader		: {
 			type		: 'json'

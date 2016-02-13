@@ -34,22 +34,7 @@ Ext.define ('Earsip.view.NotifPeminjaman', {
 			text		: 'Unit Kerja Peminjam'
 		,	dataIndex	: 'unit_kerja_peminjam_id'
 		,	flex		: 0.5
-		,	editor		: {
-				xtype			: 'combo'
-			,	store			: Ext.create ('Earsip.store.UnitKerja', {
-					autoLoad		: true
-				})
-			,	displayField	: 'nama'
-			,	valueField		: 'id'
-			,	mode			: 'local'
-			,	typeAhead		: false
-			,	triggerAction	: 'all'
-			,	lazyRender		: true
-			}
-		,	renderer	: function (v, md, r, rowidx, colidx)
-			{
-				return combo_renderer (v, this.columns[colidx]);
-			}
+		,	renderer	: store_renderer('id', 'nama', Ext.getStore('UnitKerja'))
 		},{
 			text			: 'Nama Peminjam'
 		,	dataIndex		: 'nama_peminjam'
@@ -117,12 +102,13 @@ Ext.define ('Earsip.view.NotifPeminjaman', {
 			}]
 		}]
 	}]
+
 ,	listeners		: {
 		activate		: function (comp)
 		{
 			this.down ('#peminjaman_grid').getStore ().load ();
 		}
-	}	
+	}
 
 ,	do_refresh	:function ()
 	{

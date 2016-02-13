@@ -31,7 +31,7 @@ try {
 		_o = new JSONObject();
 
 		_o.put("id"						, rs.getInt("id"));
-		_o.put("unit_kerja_peminjam_id"	, rs.getInt("id"));
+		_o.put("unit_kerja_peminjam_id"	, rs.getInt("unit_kerja_peminjam_id"));
 		_o.put("nama_petugas"			, rs.getString("nama_petugas"));
 		_o.put("nama_pimpinan_petugas"	, rs.getString ("nama_pimpinan_petugas"));
 		_o.put("nama_peminjam"			, rs.getString ("nama_peminjam"));
