@@ -25,9 +25,9 @@ Ext.define ('Earsip.store.PeminjamanRinci', {
 ,	proxy		: {
 		type		: 'ajax'
 	,	api			: {
-			read		: 'data/peminjamanrinci.jsp'
-		,	create		: 'data/peminjamanrinci_submit.jsp?action=create'
-		,	destroy		: 'data/peminjamanrinci_submit.jsp?action=destroy'
+			read		: 'data/peminjaman_rinci.jsp'
+		,	create		: 'data/peminjaman_rinci_submit.jsp?action=create'
+		,	destroy		: 'data/peminjaman_rinci_submit.jsp?action=destroy'
 		}
 	,	reader		: {
 			type		: 'json'
