@@ -110,11 +110,17 @@ Ext.define ('Earsip.view.Pemusnahan', {
 			}]
 		}]
 	},{
-		xtype	: 'tabpanel'
+		xtype	: 'panel'
 	,	region	: 'south'
 	,	flex	: 0.5
+	,	layout	: 'border'
+	, 	defaults: {
+			split		: true
+		,	autoScroll	: true
+		}
 	,	items	: [{
 			xtype	: 'grid'
+		,	region	: 'center'
 		,	itemId	: 'tim_pemusnah_grid'
 		,	alias	: 'widget.tim_pemusnah_grid'
 		,	title	: 'Tim Pemusnah'
@@ -122,9 +128,9 @@ Ext.define ('Earsip.view.Pemusnahan', {
 		,	columns	: [{
 				xtype	 : 'rownumberer'
 			},{
-				text	 : 'Nama Anggota Tim'
-			,	dataIndex: 'nama'
-			,	flex	 : 1
+				text		: 'Nama Anggota Tim'
+			,	dataIndex	: 'nama'
+			,	width		: 220
 			},{
 				text	 	: 'Jabatan'
 			,	dataIndex	: 'jabatan'
@@ -132,6 +138,8 @@ Ext.define ('Earsip.view.Pemusnahan', {
 			}]
 		},{
 			xtype	: 'grid'
+		,	region	: 'east'
+		,	flex	: 1
 		,	itemId	: 'berkas_musnah_grid'
 		,	alias	: 'widget.berkas_musnah_grid'
 		,	title	: 'Daftar Berkas'
@@ -141,11 +149,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 			},{
 				text	 	: 'Berkas'
 			,	dataIndex	: 'nama'
-			,	flex	 	: 1
-			},{
-				text	 	: 'Keterangan'
-			,	dataIndex	: 'keterangan'
-			,	flex	 	: 2
+			,	width		: 200
 			},{
 				text	 	: 'Jumlah Lembar'
 			,	dataIndex	: 'jml_lembar'
@@ -158,6 +162,10 @@ Ext.define ('Earsip.view.Pemusnahan', {
 				text	 	: 'Jumlah Berkas'
 			,	dataIndex	: 'jml_berkas'
 			,	width	 	: 100
+			},{
+				text	 	: 'Keterangan'
+			,	dataIndex	: 'keterangan'
+			,	flex	 	: 1
 			}]
 		}]
 	}]
