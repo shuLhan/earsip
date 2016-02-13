@@ -1,24 +1,12 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		db_url		= "";
-String		data		= "";
-int			i			= 0;
-try {
-	db_con = (Connection) session.getAttribute ("db.con");
+<%--
+	Copyright 2016
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath ());
-		return;
-	}
-	String	user_id	= (String) session.getAttribute ("user.id");
-	String	grup_id	= (String) session.getAttribute ("user.grup_id");
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
+<%
+try {
 	q	=" select		distinct (A.id)"
 		+" ,			A.metoda_id"
 		+" ,			A.nama_petugas"
@@ -27,39 +15,35 @@ try {
 		+" ,			A.pj_berkas_arsip"
 		+" from			t_pemusnahan A"
 		+" left join	t_pemusnahan_rinci B "
-		+" on			A.id = B.pemusnahan_id" 
-		+" left join	m_berkas C"
-		+" on 			C.id = B.berkas_id"
-		+" where";
-		if (Integer.parseInt (grup_id)== 3){ 
-			q +=" C.status = 0";
-		}else
-		{
-			q +=" C.status = 1"
-			  +" and C.pegawai_id = " + user_id;
-		}
-		
-		
-	db_stmt	= db_con.createStatement ();
-	rs		= db_stmt.executeQuery (q);
+		+" on			A.id			= B.pemusnahan_id"
+		+" where		A.cabang_id		= ?";
+
+	db_ps = db_con.prepareStatement (q);
+	db_ps.setInt(1, Integer.parseInt(_user_cid));
+
+	rs = db_ps.executeQuery ();
+
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="\n{ id						: "+ rs.getString ("id")
-				+ "\n, metoda_id				: "+ rs.getString ("metoda_id")
-				+ "\n, nama_petugas				:'"+ rs.getString ("nama_petugas") +"'"
-				+ "\n, tgl						:'"+ rs.getString ("tgl") +"'"
-				+ "\n, pj_unit_kerja			:'"+ rs.getString ("pj_unit_kerja") +"'"
-				+ "\n, pj_berkas_arsip			:'"+ rs.getString ("pj_berkas_arsip") +"'"
-				+ "\n}";
+		_o = new JSONObject ();
+
+		_o.put("id"					, rs.getString ("id"));
+		_o.put("metoda_id"			, rs.getString ("metoda_id"));
+		_o.put("nama_petugas"		, rs.getString ("nama_petugas"));
+		_o.put("tgl"				, rs.getString ("tgl"));
+		_o.put("pj_unit_kerja"		, rs.getString ("pj_unit_kerja"));
+		_o.put("pj_berkas_arsip"	, rs.getString ("pj_berkas_arsip"));
+		_a.put (_o);
 	}
-	out.print ("{success:true,data:["+ data +"]}");
+
 	rs.close ();
-}
-catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	db_ps.close ();
+
+	_r.put ("data"		, _a);
+} catch (Exception e) {
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>

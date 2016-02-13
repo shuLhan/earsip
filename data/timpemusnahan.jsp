@@ -1,47 +1,44 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		db_url		= "";
-String		data		= "";
-int			i			= 0;
-try {
-	db_con = (Connection) session.getAttribute ("db.con");
+<%--
+	Copyright 2016
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath ());
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
+<%
+try {
+	String pemusnahan_id = request.getParameter ("pemusnahan_id");
+
+	if (pemusnahan_id == null) {
 		return;
 	}
-	String pemusnahan_id	 = request.getParameter ("pemusnahan_id");
+
 	q	=" select	" 
 		+" 			nama"
 		+" ,		jabatan"
 		+" from		t_tim_pemusnahan"
-		+" where	pemusnahan_id = "+ pemusnahan_id;
+		+" where	pemusnahan_id = ?";
 
-	db_stmt	= db_con.createStatement ();
-	rs		= db_stmt.executeQuery (q);
+	db_ps = db_con.prepareStatement (q);
+	db_ps.setInt(1, Integer.parseInt(pemusnahan_id));
+	rs = db_ps.executeQuery ();
 
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="\n{ nama				:'"+ rs.getString ("nama") + "'"
-				+ "\n, jabatan			:'"+ rs.getString ("jabatan") + "'"
-				+ "\n}";
+		_o = new JSONObject ();
+		_o.put("nama"	, rs.getString ("nama"));
+		_o.put("jabatan", rs.getString ("jabatan"));
+		_a.put (_o);
 	}
 
-	out.print ("{success:true,data:["+ data +"]}");
 	rs.close ();
-}
-catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	db_ps.close ();
+
+	_r.put ("data", _a);
+} catch (Exception e) {
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>

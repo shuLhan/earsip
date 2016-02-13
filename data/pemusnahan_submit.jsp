@@ -1,193 +1,177 @@
-<%@ page import="java.io.BufferedReader" %>
-<%@ page import="java.sql.Date" %>
-<%@ page import="java.sql.Types" %>
-<%@ page import="java.lang.StringBuilder" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="org.json.JSONArray" %>
+<%--
+	Copyright 2016
+
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
 <%
-Connection			db_con	= null;
-PreparedStatement	db_pstmt= null;
-Statement			db_stmt	= null;
-String				db_url	= "";
-String				q		= "";
-String				data	= "";
-ResultSet			rs		= null;
-
-BufferedReader	reader		= null;
-StringBuilder	sb			= new StringBuilder();
-JSONObject		o			= null;
-String			line		= "";
-String			action		= "";
-
-String		id				= "";
-String		metoda_id		= "";
-String	 	nm_ptgs         = "";
-String		tgl		        = "";
-String		pj_unit_kerja	= "";
-String		pj_berkas_arsip	= "";
-
+int id = 0;
+int metoda_id = 0;
+String nm_ptgs = "";
+String tgl = "";
+String pj_unit_kerja = "";
+String pj_berkas_arsip = "";
 
 try {
-	db_con = (Connection) session.getAttribute ("db.con");
+	String action	= request.getParameter ("action");
+	String req_id	= request.getParameter ("id");
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath());
-		return;
-	}
-	
-	action	= request.getParameter ("action");
-	id 		= request.getParameter ("id");
-	
-	
-	if (id == null) {
-		reader	= request.getReader ();
-		line	= reader.readLine ();
-		while (line != null) {
-			sb.append (line + "\n");
-			line = reader.readLine();
-		}
-		reader.close();
-		
-		data						= sb.toString();
-		o							= (JSONObject) new JSONObject (data);
-		id							= o.getString ("id");
-		metoda_id					= o.getString ("metoda_id");
-		nm_ptgs            			= o.getString ("nama_petugas");
-		tgl		         		    = o.getString ("tgl");
-		pj_unit_kerja          		= o.getString ("pj_unit_kerja");    		
-		pj_berkas_arsip        		= o.getString ("pj_berkas_arsip"); 		
-		
+	if (req_id == null) {
+		_o = get_json_payload(request.getReader ());
+
+		id				= _o.getInt("id");
+		metoda_id		= _o.getInt("metoda_id");
+		nm_ptgs			= _o.getString("nama_petugas");
+		tgl				= _o.getString ("tgl");
+		pj_unit_kerja	= _o.getString ("pj_unit_kerja");
+		pj_berkas_arsip	= _o.getString ("pj_berkas_arsip");
 	} else {
-		metoda_id					= request.getParameter ("metoda_id");
-		nm_ptgs            			= request.getParameter ("nama_petugas");
-		tgl		        			= request.getParameter ("tgl");
-		pj_unit_kerja      			= request.getParameter ("pj_unit_kerja");  
-        pj_berkas_arsip    		    = request.getParameter ("pj_berkas_arsip");
+		if (!req_id.equals("")) {
+			id = Integer.parseInt(req_id);
+		}
+
+		metoda_id		= Integer.parseInt(request.getParameter ("metoda_id"));
+		nm_ptgs			= request.getParameter ("nama_petugas");
+		tgl				= request.getParameter ("tgl");
+		pj_unit_kerja	= request.getParameter ("pj_unit_kerja");
+		pj_berkas_arsip	= request.getParameter ("pj_berkas_arsip");
 	}
-	
+
 	if (action.equalsIgnoreCase ("create")) {
 		q	=" insert into t_pemusnahan ("
 			+"   metoda_id"
 			+" , nama_petugas"
 			+" , tgl"
 			+" , pj_unit_kerja"
-			+" , pj_berkas_arsip)" 
-			+" values (?, ?, ?, ?, ?) returning id";
-		db_pstmt = db_con.prepareStatement (q);
-		db_pstmt.setInt	  	(1, Integer.parseInt(metoda_id));
-		db_pstmt.setString 	(2, nm_ptgs);
-		db_pstmt.setDate 	(3, Date.valueOf (tgl));       
-		db_pstmt.setString 	(4, pj_unit_kerja);
-        db_pstmt.setString 	(5, pj_berkas_arsip);
-		
-		rs = db_pstmt.executeQuery ();
-		if (rs.next ())
-		{
-			id = rs.getString ("id");
+			+" , pj_berkas_arsip"
+			+" , cabang_id"
+			+" ) values (?, ?, ?, ?, ?, ?) returning id";
+
+		db_ps = db_con.prepareStatement (q);
+		db_ps.setInt	(1, metoda_id);
+		db_ps.setString	(2, nm_ptgs);
+		db_ps.setDate 	(3, Date.valueOf (tgl));
+		db_ps.setString	(4, pj_unit_kerja);
+        db_ps.setString	(5, pj_berkas_arsip);
+        db_ps.setInt	(6, Integer.parseInt(_user_cid));
+
+		rs = db_ps.executeQuery ();
+
+		if (rs.next ()) {
+			id = Integer.parseInt(rs.getString ("id"));
 		}
+
 		rs.close ();
+		db_ps.close ();
+
 	} else if (action.equalsIgnoreCase ("update")) {
 		q	=" update	t_pemusnahan"
-			+" set		metoda_id = ?"
-			+" , 		nama_petugas = ?"
-			+" , 		tgl = ?"
-			+" ,		pj_unit_kerja = ?"
-			+" ,		pj_berkas_arsip = ?" 
-			+" where	id = ?";
-		
-		db_pstmt = db_con.prepareStatement (q);
-		db_pstmt.setInt	  	(1, Integer.parseInt(metoda_id));
-		db_pstmt.setString 	(2, nm_ptgs);
-		db_pstmt.setDate 	(3, Date.valueOf (tgl));       
-		db_pstmt.setString 	(4, pj_unit_kerja);
-        db_pstmt.setString 	(5, pj_berkas_arsip);
-		db_pstmt.setInt 	(6, Integer.parseInt (id));
-		db_pstmt.executeUpdate ();
-	}
-		
-	if (id!=null || !id.equals(""))
-		{
-			db_stmt = db_con.createStatement ();
-			q	=" update m_berkas  set arsip_status_id = 0"
-				+" where id in (select berkas_id as id from t_pemusnahan_rinci where pemusnahan_id = " + id + ")" ;
-			db_stmt.executeUpdate (q);
-			
-			q	=" delete from m_arsip"
-				+" where berkas_id in (select id from m_berkas where id in " 
-				+" (select berkas_id as id from t_pemusnahan_rinci where pemusnahan_id = " + id + ")"
-				+" )";
-			db_stmt.executeUpdate (q);
-			
-			q	=" delete from t_pemusnahan_rinci"
-				+" where pemusnahan_id = " + id;
-			db_stmt.executeUpdate (q);
-			
-			q	=" delete from t_tim_pemusnahan"
-				+" where pemusnahan_id = " + id;
-			db_stmt.executeUpdate (q);
-			
-			
-			if (!action.equalsIgnoreCase ("destroy"))
-			{
-				JSONArray	berkas = new JSONArray (request.getParameter ("berkas"));
-				int len	= berkas.length ();
-				if (len > 0)
-				{
-					q = "";
-					for (int i = 0; i < len; i++)
-					{
-						JSONObject	obj			= berkas.getJSONObject (i);
-						String		berkas_id	= obj.getString ("berkas_id");
+			+" set		metoda_id		= ?"
+			+" , 		nama_petugas	= ?"
+			+" , 		tgl				= ?"
+			+" ,		pj_unit_kerja	= ?"
+			+" ,		pj_berkas_arsip	= ?"
+			+" where	id				= ?";
 
-						q +=" Insert into t_pemusnahan_rinci (pemusnahan_id, berkas_id, keterangan, jml_lembar, jml_set, jml_berkas)"
-						   +" values("+ id 
-						   +" ,"+ berkas_id
-						   +" ,'" + obj.getString ("keterangan") + "'"
-						   +" ," + obj.getString ("jml_lembar")
-						   +" ," + obj.getString ("jml_set")
-						   +" ," + obj.getString ("jml_berkas") + ");";
-						q +=" update m_berkas set arsip_status_id = 3 where id = "+ berkas_id +" or pid = "+ berkas_id + ";";
-					}
+		db_ps = db_con.prepareStatement (q);
+		db_ps.setInt  	(1, metoda_id);
+		db_ps.setString	(2, nm_ptgs);
+		db_ps.setDate 	(3, Date.valueOf (tgl));
+		db_ps.setString	(4, pj_unit_kerja);
+        db_ps.setString	(5, pj_berkas_arsip);
+		db_ps.setInt 	(6, id);
+		db_ps.executeUpdate ();
+	}
+
+	if (id > 0) {
+		q	=" update m_berkas  set arsip_status_id = 0"
+			+" where id in (select berkas_id as id from t_pemusnahan_rinci where pemusnahan_id = " + id + ")" ;
+
+		db_stmt = db_con.createStatement ();
+		db_stmt.executeUpdate (q);
+
+		q	=" delete from m_arsip"
+			+" where berkas_id in (select id from m_berkas where id in "
+			+" (select berkas_id as id from t_pemusnahan_rinci where pemusnahan_id = " + id + ")"
+			+" )";
+		db_stmt.executeUpdate (q);
+
+		q	=" delete from t_pemusnahan_rinci"
+			+" where pemusnahan_id = " + id;
+		db_stmt.executeUpdate (q);
+
+		q	=" delete from t_tim_pemusnahan"
+			+" where pemusnahan_id = " + id;
+		db_stmt.executeUpdate (q);
+
+		if (action.equalsIgnoreCase ("destroy")) {
+			q =" delete from t_pemusnahan where id = ?";
+
+			db_ps = db_con.prepareStatement (q);
+			db_ps.setInt (1, id);
+			db_ps.executeUpdate ();
+
+		} else {
+			JSONArray berkas = new JSONArray (request.getParameter ("berkas"));
+			int len	= berkas.length ();
+
+			if (len > 0) {
+				String q_in = "";
+				String q_up = "";
+
+				for (int i = 0; i < len; i++) {
+					JSONObject	obj			= berkas.getJSONObject (i);
+					String		berkas_id	= obj.getString ("berkas_id");
+
+					q_in +=" Insert into t_pemusnahan_rinci (pemusnahan_id, berkas_id, keterangan, jml_lembar, jml_set, jml_berkas)"
+					   +" values("+ id
+					   +" ,"+ berkas_id
+					   +" ,'" + obj.getString ("keterangan") + "'"
+					   +" ," + obj.getString ("jml_lembar")
+					   +" ," + obj.getString ("jml_set")
+					   +" ," + obj.getString ("jml_berkas") + ");";
+
+					q_up +=" update m_berkas set arsip_status_id = 3 where id = "+ berkas_id +" or pid = "+ berkas_id + ";";
 				}
-				
-				db_stmt.executeUpdate (q);
-				
-				JSONArray tims     = new JSONArray (request.getParameter ("tims"));
-				len	= tims.length ();
-				if (len > 0)
-				{
-					q 	= " insert into t_tim_pemusnahan (pemusnahan_id, nomor, nama, jabatan) values";
-					for (int i = 0; i < len; i++)
-					{
-						if (i > 0){
-							q += ",";
-						}
-						JSONObject obj = tims.getJSONObject (i);
-						q +=" ("+ id 
-						   +" ," + (i+1) 
-						   +" ,'" + obj.getString ("nama") + "'"
-						   +" ,'" + obj.getString ("jabatan") +"')";
-					}
-				}
-				db_stmt.executeUpdate (q);
-				
-			} else 
-			{
-				q	=" delete from t_pemusnahan where id = ?";
-				db_pstmt = db_con.prepareStatement (q);
-				db_pstmt.setInt (1, Integer.parseInt (id));
-				db_pstmt.executeUpdate ();
+
+				db_stmt.executeUpdate (q_in);
+				db_stmt.executeUpdate (q_up);
 			}
-			
+
+			String tims = request.getParameter("tims");
+			JSONArray tims_json = new JSONArray (tims);
+			len	= tims_json.length ();
+
+			_r.put("tims", tims);
+
+			if (len > 0) {
+				q = " insert into t_tim_pemusnahan (pemusnahan_id, nomor, nama, jabatan) values";
+
+				for (int i = 0; i < len; i++) {
+					if (i > 0) {
+						q += ",";
+					}
+
+					JSONObject obj = tims_json.getJSONObject (i);
+					q +=" ("+ id
+					   +" ," + (i+1)
+					   +" ,'" + obj.getString ("nama") + "'"
+					   +" ,'" + obj.getString ("jabatan") +"')";
+				}
+
+				_r.put("tims", q);
+
+				db_stmt.executeUpdate (q);
+			}
 		}
-	out.print ("{success:true,info:'Data Penyimpanan berhasil disimpan'}");
-}
-catch (Exception e) {
-	out.print("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	}
+
+	_r.put ("info", "Data pemusnahan telah disimpan.");
+} catch (Exception e) {
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>
