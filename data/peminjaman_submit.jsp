@@ -82,12 +82,19 @@ try {
 		db_ps.close();
 	} else if (action.equalsIgnoreCase ("update")) {
 		// set arsip status pinjam to 0
+
+		q	=" update	m_berkas"
+			+" set		arsip_status_id = 0"
+			+" where	id in ("
+			+"		select	berkas_id as id"
+			+"		from	t_peminjaman_rinci"
+			+"		where	peminjaman_id = " + id
+			+")";
+
 		db_stmt = db_con.createStatement ();
-		q	=" update m_berkas  set arsip_status_id = 0"
-			+" where id in (select berkas_id as id from peminjaman_rinci where peminjaman_id = " + id + ")" ;
 		db_stmt.executeUpdate (q);
 
-		q	=" delete from peminjaman_rinci"
+		q	=" delete from t_peminjaman_rinci"
 			+" where peminjaman_id = " + id;
 		db_stmt.executeUpdate (q);
 		db_stmt.close();
@@ -122,10 +129,14 @@ try {
 		// set arsip status pinjam to 0
 		db_stmt = db_con.createStatement ();
 		q	=" update m_berkas  set arsip_status_id = 0"
-			+" where id in (select berkas_id as id from peminjaman_rinci where peminjaman_id = " + id + ")" ;
+			+" where id in ("
+			+"	select	berkas_id as id"
+			+"	from	t_peminjaman_rinci"
+			+"	where	peminjaman_id = " + id
+			+")" ;
 		db_stmt.executeUpdate (q);
 
-		q	=" delete from peminjaman_rinci"
+		q	=" delete from t_peminjaman_rinci"
 			+" where peminjaman_id = " + id;
 		db_stmt.executeUpdate (q);
 		db_stmt.close();
@@ -144,7 +155,8 @@ try {
 		if (len > 0) {
 			q = "";
 			for (int i = 0; i < len; i++) {
-				q +=" insert into peminjaman_rinci (peminjaman_id, berkas_id) values("+ id +","+ berkas.getString (i) +");";
+				q	+=" insert into t_peminjaman_rinci (peminjaman_id, berkas_id)"
+					+"	values ("+ id +","+ berkas.getString (i) +");";
 				q +=" update m_berkas set arsip_status_id = 1 where id = "+ berkas.getString (i) +";";
 			}
 

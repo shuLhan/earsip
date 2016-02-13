@@ -50,7 +50,7 @@ try {
 		
 	db_stmt = db_con.createStatement ();
 	q	=" update m_berkas  set arsip_status_id = 0"
-		+" where id in (select berkas_id as id from peminjaman_rinci where peminjaman_id = " + id + ")" ;
+		+" where id in (select berkas_id as id from t_peminjaman_rinci where peminjaman_id = " + id + ")" ;
 	db_stmt.executeUpdate (q);
 			
 	out.print ("{success:true,info:'Data Pengembalian berhasil disimpan'}");

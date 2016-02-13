@@ -534,23 +534,23 @@ CREATE UNIQUE INDEX m_unit_kerja_pk ON public.m_unit_kerja
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.peminjaman_rinci | type: TABLE --
--- DROP TABLE IF EXISTS public.peminjaman_rinci CASCADE;
-CREATE TABLE public.peminjaman_rinci(
+-- object: public.t_peminjaman_rinci | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_peminjaman_rinci CASCADE;
+CREATE TABLE public.t_peminjaman_rinci(
 	peminjaman_id integer NOT NULL,
 	berkas_id integer NOT NULL,
-	CONSTRAINT pk_peminjaman_rinci PRIMARY KEY (peminjaman_id,berkas_id)
+	CONSTRAINT t_peminjaman_rinci_pk PRIMARY KEY (peminjaman_id,berkas_id)
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.peminjaman_rinci IS 'PEMINJAMAN DETAIL';
+COMMENT ON TABLE public.t_peminjaman_rinci IS 'PEMINJAMAN DETAIL';
 -- ddl-end --
-ALTER TABLE public.peminjaman_rinci OWNER TO earsip;
+ALTER TABLE public.t_peminjaman_rinci OWNER TO earsip;
 -- ddl-end --
 
--- object: peminjaman_rinci_pk | type: INDEX --
--- DROP INDEX IF EXISTS public.peminjaman_rinci_pk CASCADE;
-CREATE UNIQUE INDEX peminjaman_rinci_pk ON public.peminjaman_rinci
+-- object: t_peminjaman_rinci_pk_idx | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_peminjaman_rinci_pk_idx CASCADE;
+CREATE UNIQUE INDEX t_peminjaman_rinci_pk_idx ON public.t_peminjaman_rinci
 	USING btree
 	(
 	  peminjaman_id,
@@ -558,9 +558,9 @@ CREATE UNIQUE INDEX peminjaman_rinci_pk ON public.peminjaman_rinci
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: ref__berkas__pin_rin_fk | type: INDEX --
--- DROP INDEX IF EXISTS public.ref__berkas__pin_rin_fk CASCADE;
-CREATE INDEX ref__berkas__pin_rin_fk ON public.peminjaman_rinci
+-- object: t_peminjaman_rinci__fk__m_berkas_idx | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_peminjaman_rinci__fk__m_berkas_idx CASCADE;
+CREATE INDEX t_peminjaman_rinci__fk__m_berkas_idx ON public.t_peminjaman_rinci
 	USING btree
 	(
 	  berkas_id
@@ -1489,16 +1489,16 @@ REFERENCES public.m_cabang (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_peminjam_ref_pmj_a_t_peminj | type: CONSTRAINT --
--- ALTER TABLE public.peminjaman_rinci DROP CONSTRAINT IF EXISTS fk_peminjam_ref_pmj_a_t_peminj CASCADE;
-ALTER TABLE public.peminjaman_rinci ADD CONSTRAINT fk_peminjam_ref_pmj_a_t_peminj FOREIGN KEY (peminjaman_id)
+-- object: t_peminjaman_rinci__fk__t_peminjaman | type: CONSTRAINT --
+-- ALTER TABLE public.t_peminjaman_rinci DROP CONSTRAINT IF EXISTS t_peminjaman_rinci__fk__t_peminjaman CASCADE;
+ALTER TABLE public.t_peminjaman_rinci ADD CONSTRAINT t_peminjaman_rinci__fk__t_peminjaman FOREIGN KEY (peminjaman_id)
 REFERENCES public.t_peminjaman (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --
 
--- object: fk_peminjam_ref__berk_m_berkas | type: CONSTRAINT --
--- ALTER TABLE public.peminjaman_rinci DROP CONSTRAINT IF EXISTS fk_peminjam_ref__berk_m_berkas CASCADE;
-ALTER TABLE public.peminjaman_rinci ADD CONSTRAINT fk_peminjam_ref__berk_m_berkas FOREIGN KEY (berkas_id)
+-- object: t_peminjaman_rinci__fk__m_berkas | type: CONSTRAINT --
+-- ALTER TABLE public.t_peminjaman_rinci DROP CONSTRAINT IF EXISTS t_peminjaman_rinci__fk__m_berkas CASCADE;
+ALTER TABLE public.t_peminjaman_rinci ADD CONSTRAINT t_peminjaman_rinci__fk__m_berkas FOREIGN KEY (berkas_id)
 REFERENCES public.m_berkas (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --

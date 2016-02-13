@@ -42,14 +42,14 @@ try {
 	String berkas_id	= o.getString ("berkas_id");
 
 	if (action.equalsIgnoreCase ("create")) {
-		q	=" insert into peminjaman_rinci (peminjaman_id,berkas_id)"
+		q	=" insert into t_peminjaman_rinci (peminjaman_id,berkas_id)"
 			+" values (?, ?)";
 		db_stmt = db_con.prepareStatement (q);
 		db_stmt.setInt (1, Integer.parseInt(peminjaman_id));
 		db_stmt.setInt (2, Integer.parseInt(berkas_id));
 
 	} else if (action.equalsIgnoreCase ("destroy")) {
-		q	=" delete from peminjaman_rinci where peminjaman_id = ? and berkas_id = ?";
+		q	=" delete from t_peminjaman_rinci where peminjaman_id = ? and berkas_id = ?";
 		db_stmt = db_con.prepareStatement (q);
 		db_stmt.setInt (1, Integer.parseInt (peminjaman_id));
 		db_stmt.setInt (2, Integer.parseInt (berkas_id));

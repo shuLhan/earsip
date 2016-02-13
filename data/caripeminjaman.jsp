@@ -39,7 +39,7 @@ try {
 		+" ,			tgl_batas_kembali"
 		+" ,			tgl_kembali"
 		+" ,			keterangan"
-		+" from			t_peminjaman A, peminjaman_rinci B"
+		+" from			t_peminjaman A, t_peminjaman_rinci B"
 		+" where		A.id = B.peminjaman_id";
 		
 

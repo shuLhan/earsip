@@ -21,7 +21,7 @@
 FROM		t_peminjaman A
 LEFT JOIN	m_unit_kerja B
 ON		A.unit_kerja_peminjam_id = B.id
-LEFT JOIN	peminjaman_rinci C
+LEFT JOIN	t_peminjaman_rinci C
 ON		A.id = C.peminjaman_id
 LEFT JOIN	m_berkas D
 ON		C.berkas_id = D.id

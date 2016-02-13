@@ -15,7 +15,7 @@ try {
 		+" ,		B.status"
 		+" ,		B.status_hapus"
 		+" ,		B.arsip_status_id"
-		+" from		peminjaman_rinci	A"
+		+" from		t_peminjaman_rinci	A"
 		+" ,		m_berkas			B"
 		+" where	peminjaman_id	= "+ peminjaman_id
 		+" and		A.berkas_id		= B.id";

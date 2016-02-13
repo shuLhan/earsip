@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2-beta" last-position="1074,59" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.8.2-beta" last-position="97,491" last-zoom="0.65"
 	 default-schema="public" default-owner="earsip">
 <role name="earsip"
       replication="true"
@@ -582,7 +582,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<table name="peminjaman_rinci">
+<table name="t_peminjaman_rinci">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[PEMINJAMAN DETAIL]]></comment>
@@ -593,12 +593,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="berkas_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<constraint name="pk_peminjaman_rinci" type="pk-constr" table="public.peminjaman_rinci">
+	<constraint name="t_peminjaman_rinci_pk" type="pk-constr" table="public.t_peminjaman_rinci">
 		<columns names="peminjaman_id,berkas_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<index name="peminjaman_rinci_pk" table="public.peminjaman_rinci"
+<index name="t_peminjaman_rinci_pk_idx" table="public.t_peminjaman_rinci"
 	 concurrent="false" unique="true" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -609,7 +609,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="ref__berkas__pin_rin_fk" table="public.peminjaman_rinci"
+<index name="t_peminjaman_rinci__fk__m_berkas_idx" table="public.t_peminjaman_rinci"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -1610,14 +1610,14 @@ END;
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_peminjam_ref_pmj_a_t_peminj" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.t_peminjaman" table="public.peminjaman_rinci">
+<constraint name="t_peminjaman_rinci__fk__t_peminjaman" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.t_peminjaman" table="public.t_peminjaman_rinci">
 	<columns names="peminjaman_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_peminjam_ref__berk_m_berkas" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.m_berkas" table="public.peminjaman_rinci">
+<constraint name="t_peminjaman_rinci__fk__m_berkas" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.m_berkas" table="public.t_peminjaman_rinci">
 	<columns names="berkas_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1806,15 +1806,15 @@ END;
 	</label>
 </relationship>
 
-<relationship name="rel_peminjaman_rinci_t_peminjaman" type="relfk"
+<relationship name="rel__t_peminjaman_rinci__t_peminjaman" type="relfk"
 	 custom-color="#ede319"
-	 src-table="public.peminjaman_rinci"
+	 src-table="public.t_peminjaman_rinci"
 	 dst-table="public.t_peminjaman"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_peminjaman_rinci_m_berkas" type="relfk"
+<relationship name="rel__t_peminjaman_rinci__m_berkas" type="relfk"
 	 custom-color="#b34041"
-	 src-table="public.peminjaman_rinci"
+	 src-table="public.t_peminjaman_rinci"
 	 dst-table="public.m_berkas"
 	 src-required="false" dst-required="false"/>
 
