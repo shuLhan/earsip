@@ -92,13 +92,9 @@ Ext.define ('Earsip.view.Peminjaman', {
 		,	renderer	: function(v)
 			{return date_renderer (v);}
 		},{
-			text			: 'Keterangan'
-		,	dataIndex		: 'keterangan'
-		,	flex			: 1
-		},{
 			text			: 'Status'
 		,	dataIndex		: 'status'
-		,	width			: 80
+		,	width			: 120
 		,	renderer		: function (v){
 				if (v == 0){
 					return Ext.String.format( '<span style="color: red">{0}</span>', 'Belum Kembali');
@@ -107,6 +103,10 @@ Ext.define ('Earsip.view.Peminjaman', {
 					return Ext.String.format( '<span style="color: green">{0}</span>', 'Sudah Kembali');;
 				}
 			}
+		},{
+			text			: 'Keterangan'
+		,	dataIndex		: 'keterangan'
+		,	flex			: 1
 		}]
 	,	dockedItems	: [{
 			xtype		: 'toolbar'
