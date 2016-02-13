@@ -39,36 +39,15 @@ Ext.define ('Earsip.view.NotifPemindahan', {
 			text		: 'Unit Kerja'
 		,	dataIndex	: 'unit_kerja_id'
 		,	flex		: 0.5
-		,	editor		: {
-				xtype			: 'combo'
-			,	store			: Ext.getStore ('UnitKerja')
-			,	displayField	: 'nama'
-			,	valueField		: 'id'
-			,	mode			: 'local'
-			,	typeAhead		: false
-			,	triggerAction	: 'all'
-			,	lazyRender		: true
-			}
-		,	renderer	: function (v, md, r, rowidx, colidx)
-			{
-				return combo_renderer (v, this.columns[colidx]);
-			}
+		,	renderer	: store_renderer('id', 'nama', Ext.getStore('UnitKerja'))
 		},{
 			text			: 'No Reg / No Surat'
 		,	dataIndex		: 'kode'
 		,	flex			: 0.5
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
 		},{
 			text			: 'Tanggal'
 		,	dataIndex		: 'tgl'
 		,	flex			: 0.5
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
 		,	renderer	: function(v)
 			{return date_renderer (v);}
 		},{
@@ -77,27 +56,15 @@ Ext.define ('Earsip.view.NotifPemindahan', {
 		,	flex			: 0.5
 		,	hidden			: true
 		,	hideable		: false
-		,	editor		: {
-				xtype		: 'textfield'
-			}
-
 		},{
 			text			: 'Penanggung Jawab Pusat Berkas'
 		,	dataIndex		: 'pj_unit_kerja'
 		,	flex			: 0.5
 		,	editable		: false
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
 		},{
 			text			: 'Penanggung Jawab Pusat Arsip'
 		,	dataIndex		: 'pj_unit_arsip'
 		,	flex			: 0.5
-		,	editor		: {
-				xtype		: 'textfield'
-
-			}
 		,	renderer	: function (v)
 			{
 				if (v == null || v == 'null')
@@ -109,10 +76,7 @@ Ext.define ('Earsip.view.NotifPemindahan', {
 		},{
 			text		: 'Status'
 		,	dataIndex	: 'status'
-		,	width		: 80
-		,	editor		: {
-				xtype		: 'textfield'
-			}
+		,	width		: 160
 		,	renderer	: function (v)
 			{
 				if (v == 1) {
@@ -160,65 +124,36 @@ Ext.define ('Earsip.view.NotifPemindahan', {
 		,	dataIndex	: 'berkas_id'
 		, 	hidden		: true
 		, 	hideable	: false
-		,	editor		: {
-				xtype		: 'textfield'
-			}
 		},{
 			text		: 'Nama Berkas'
 		,	dataIndex	: 'nama'
 		,	flex		: 1
-		,	editor		: {
-				xtype		: 'textfield'
-			,	disabled	: false
-			}
 		},{
 			text		: 'Status'
 		,	dataIndex	: 'status'
 		, 	hidden		: true
 		, 	hideable	: false
-		,	editor		: {
-				xtype		: 'textfield'
-			}
 		},{
 			dataIndex	: 'arsip_status_id'
 		, 	hidden		: true
 		, 	hideable	: false
-		,	editor		: {
-				xtype		: 'textfield'
-			}
 		},{
 			text		: 'Status'
 		,	dataIndex	: 'status'
 		, 	hidden		: true
 		, 	hideable	: false
-		,	editor		: {
-				xtype		: 'textfield'
-			}
 		},{
 			text		: 'Kode Rak'
 		,	dataIndex	: 'kode_rak'
 		,	flex		: 1
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
 		},{
 			text		: 'Kode Box'
 		,	dataIndex	: 'kode_box'
 		,	flex		: 1
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
 		},{
 			text		: 'Kode Folder'
 		,	dataIndex	: 'kode_folder'
 		,	flex		: 1
-		,	editor		: {
-				xtype		: 'textfield'
-			,	allowBlank	: false
-			}
-
 		}]
 	,	dockedItems	: [{
 			xtype		: 'toolbar'
