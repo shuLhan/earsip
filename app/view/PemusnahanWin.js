@@ -178,13 +178,6 @@ Ext.define('Earsip.view.PemusnahanWin', {
 						return combo_renderer (v, this.columns[colidx]);
 					}
 				},{
-					text	 	: 'Keterangan'
-				,	dataIndex	: 'keterangan'
-				,	flex	 	: 2
-				,	editor		: {
-						xtype : 'textfield'
-					}
-				},{
 					text	 	: 'Jumlah Lembar'
 				,	dataIndex	: 'jml_lembar'
 				,	width	 	: 110
@@ -218,6 +211,13 @@ Ext.define('Earsip.view.PemusnahanWin', {
 					, 	allowNegative : false
 					,	minValue	: 1
 					,	maxValue	: 32767
+					}
+				},{
+					text	 	: 'Keterangan'
+				,	dataIndex	: 'keterangan'
+				,	flex	 	: 2
+				,	editor		: {
+						xtype : 'textfield'
 					}
 				}]
 			,	dockedItems	: [{
