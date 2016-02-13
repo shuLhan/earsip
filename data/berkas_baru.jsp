@@ -15,7 +15,7 @@ try {
 	int		jra_inaktif	= ServletUtilities.getIntParameter (request, "jra_inaktif", 1);
 
 	if (null == tgl_dibuat || tgl_dibuat.isEmpty ()) {
-		tgl_dibuat = _sdf.format (new Date ());
+		tgl_dibuat = _sdf.format (new java.util.Date ());
 	}
 
 	q	=" insert into m_berkas ("
