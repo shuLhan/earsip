@@ -237,6 +237,7 @@ Ext.define ('Earsip.view.Arsip', {
 			}
 		},{
 			xtype		:'arsiplist'
+		,	itemId		:'arsiplist'
 		,	width		:200
 		,	region		:'center'
 		,	listeners	:
