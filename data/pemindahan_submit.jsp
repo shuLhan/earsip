@@ -6,25 +6,47 @@
 --%>
 <%@ include file="init.jsp" %>
 <%
-try {
-	String action			= request.getParameter ("action");
-	String id				= request.getParameter ("id");
-	String uk_id			= request.getParameter ("unit_kerja_id");
-	String kode				= request.getParameter ("kode");
-	String tgl				= request.getParameter ("tgl");
-	String nm_petugas		= request.getParameter ("nama_petugas");
-	String status			= request.getParameter ("status");
-	String pj_unit_kerja	= request.getParameter ("pj_unit_kerja");
-	String pj_unit_arsip	= request.getParameter ("pj_unit_arsip");
+String action			= "";
+String id				= "";
+String uk_id			= "";
+String kode				= "";
+String tgl				= "";
+String nm_petugas		= "";
+String status			= "";
+String pj_unit_kerja	= "";
+String pj_unit_arsip	= "";
 
-	if (status == null || status.equals ("") || status.equals ("0")) {
-		status = "0";
+try {
+	action	= request.getParameter ("action");
+	id		= request.getParameter ("id");
+
+	if (id == null) {
+		_o = get_json_payload(request.getReader ());
+
+		id				= _o.getString("id");
+		uk_id			= _o.getString ("unit_kerja_id");
+		kode			= _o.getString ("kode");
+		tgl				= _o.getString ("tgl");
+		nm_petugas		= _o.getString ("nama_petugas");
+		status			= _o.getString ("status");
+		pj_unit_kerja	= _o.getString ("pj_unit_kerja");
+		pj_unit_arsip	= _o.getString ("pj_unit_arsip");
 	} else {
-		status = "1";
+		uk_id			= request.getParameter ("unit_kerja_id");
+		kode			= request.getParameter ("kode");
+		tgl				= request.getParameter ("tgl");
+		nm_petugas		= request.getParameter ("nama_petugas");
+		status			= request.getParameter ("status");
+		pj_unit_kerja	= request.getParameter ("pj_unit_kerja");
+		pj_unit_arsip	= request.getParameter ("pj_unit_arsip");
+	}
+
+	if (status == null || status.equals ("")) {
+		status = "0";
 	}
 
 	if (uk_id == null || uk_id.equals ("")) {
-		uk_id = (String)session.getAttribute ("user.unit_kerja_id");
+		uk_id = (String) session.getAttribute ("user.unit_kerja_id");
 	}
 
 	if (action.equalsIgnoreCase ("create")) {
@@ -81,8 +103,7 @@ try {
 	db_ps.executeUpdate ();
 	db_ps.close ();
 
-	_r.put ("success"	, true);
-	_r.put ("info"		, "Data pemindahan telah tersimpan");
+	_r.put ("info", "Data pemindahan telah tersimpan");
 } catch (Exception e) {
 	_r.put ("success"	, false);
 	_r.put ("info"		, e);

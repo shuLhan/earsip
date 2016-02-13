@@ -1,66 +1,64 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%
-Connection	db_con		= null;
-Statement	db_stmt		= null;
-ResultSet	rs			= null;
-String		q			= "";
-String		db_url		= "";
-String		data		= "";
-int			i			= 0;
-try {
-	db_con = (Connection) session.getAttribute ("db.con");
+<%--
+	Copyright 2016
 
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath ());
+	Author(s):
+	- sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
+<%
+try {
+	String pemindahan_id = request.getParameter ("pemindahan_id");
+
+	if (pemindahan_id == null) {
 		return;
 	}
-	String pemindahan_id	= request.getParameter ("pemindahan_id");
-	
-		q	=" SELECT	A.pemindahan_id"
-			+" ,		A.berkas_id"
-			+" ,		B.nama"
-			+" ,		B.arsip_status_id"
-			+" ,		B.jra_aktif"
-			+" ,		B.jra_inaktif"
-			+" ,		C.kode_folder"
-			+" ,		C.kode_rak"
-			+" ,		C.kode_box"
-			+" FROM		t_pemindahan_rinci A"
-			+" LEFT JOIN	m_berkas B"
-			+" ON			A.berkas_id = B.id"
-			+" LEFT	JOIN	m_arsip C"
-			+" ON			B.id = C.berkas_id"
-			+" WHERE		A.pemindahan_id = "+ pemindahan_id
-			+" ORDER BY B.nama";
-	
-	db_stmt	= db_con.createStatement ();
-	rs		= db_stmt.executeQuery (q);
 
+	q	=" SELECT	A.pemindahan_id"
+		+" ,		A.berkas_id"
+		+" ,		B.nama"
+		+" ,		B.arsip_status_id"
+		+" ,		B.jra_aktif"
+		+" ,		B.jra_inaktif"
+		+" ,		C.kode_folder"
+		+" ,		C.kode_rak"
+		+" ,		C.kode_box"
+		+" FROM		t_pemindahan_rinci A"
+		+" LEFT JOIN	m_berkas B"
+		+" ON			A.berkas_id = B.id"
+		+" LEFT	JOIN	m_arsip C"
+		+" ON			B.id = C.berkas_id"
+		+" WHERE		A.pemindahan_id = ?"
+		+" ORDER BY B.nama";
+
+	db_ps = db_con.prepareStatement (q);
+	db_ps.setInt(1, Integer.parseInt(pemindahan_id));
+
+	rs = db_ps.executeQuery ();
+
+	_a = new JSONArray ();
 	while (rs.next ()) {
-		if (i > 0) {
-			data += ",";
-		} else {
-			i++;
-		}
-		data	+="\n{ pemindahan_id	: "+ rs.getString ("pemindahan_id")
-				+ "\n, berkas_id	: "+ rs.getString ("berkas_id")
-				+ "\n, nama	: '"+ rs.getString ("nama") + "'"
-				+ "\n, jra_aktif	:" + rs.getString ("jra_aktif")
-				+ "\n, jra_inaktif	:" + rs.getString ("jra_inaktif")
-				+ "\n, arsip_status_id	: "+ rs.getString ("arsip_status_id") 
-				+ "\n, kode_folder	: '"+ rs.getString ("kode_folder") + "'"
-				+ "\n, kode_rak	: '"+ rs.getString ("kode_rak") + "'"
-				+ "\n, kode_box	: '"+ rs.getString ("kode_box") + "'"
-				+ "\n}";
+		_o = new JSONObject ();
+		_o.put("pemindahan_id"	, rs.getString ("pemindahan_id"));
+		_o.put("berkas_id"		, rs.getString ("berkas_id"));
+		_o.put("nama"			, rs.getString ("nama"));
+		_o.put("jra_aktif"		, rs.getString ("jra_aktif"));
+		_o.put("jra_inaktif"	, rs.getString ("jra_inaktif"));
+		_o.put("arsip_status_id", rs.getString ("arsip_status_id"));
+		_o.put("kode_folder"	, rs.getString ("kode_folder"));
+		_o.put("kode_rak"		, rs.getString ("kode_rak"));
+		_o.put("kode_box"		, rs.getString ("kode_box"));
+
+		_a.put (_o);
 	}
 
-	out.print ("{success:true,data:["+ data +"]}");
 	rs.close ();
-}
-catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	db_ps.close ();
+
+	_r.put ("data", _a);
+} catch (Exception e) {
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>

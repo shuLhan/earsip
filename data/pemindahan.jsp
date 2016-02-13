@@ -53,7 +53,6 @@ try {
 	rs.close ();
 	db_stmt.close ();
 
-	_r.put ("success"	, true);
 	_r.put ("data"		, _a);
 }
 catch (Exception e) {
