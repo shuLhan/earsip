@@ -280,18 +280,19 @@ Ext.define ('Earsip.view.Pemindahan', {
 	{
 		Ext.Msg.confirm ('Konfirmasi'
 		, 'Apakah anda yakin mau menghapus data berkas?'
-		, function (b)
+		, function (yesno)
 		{
-			if (b == 'no') {
+			if (yesno == 'no') {
 				return;
 			}
+
 			var grid = b.up ('#berkas_pindah_grid');
 			var data = grid.getSelectionModel ().getSelection ();
-	
+
 			if (data.length <= 0) {
 				return;
 			}
-	
+
 			var store = grid.getStore ();
 			store.remove (data);
 			store.sync ();
