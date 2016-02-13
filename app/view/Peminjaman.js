@@ -1,5 +1,6 @@
 Ext.require ([
 	'Earsip.view.PeminjamanWin'
+,	'Earsip.view.CariPeminjamanWin'
 ,	'Earsip.store.Peminjaman'
 ,	'Earsip.store.UnitKerja'
 ]);
@@ -465,17 +466,26 @@ Ext.define ('Earsip.view.Peminjaman', {
 
 		if (this.win == undefined) {
 			this.win = Ext.create ('Earsip.view.PeminjamanWin', {});
+
+			this.win.down ("#save").on ("click", this.peminjaman_do_submit, this);
+			this.win.down ("#peminjaman_win_form").on ("validitychange", this.win_on_validitychange, this);
+			this.win.down ("#peminjaman_rinci").on ("itemdblclick", this.on_itemdblclick, this);
+			this.win.down ("#peminjaman_rinci").down ("#add").on ("click", this.peminjaman_do_add_berkas, this);
+			this.win.down ("#peminjaman_rinci").down ("#del").on ("click", this.peminjaman_do_delete_berkas, this);
 		}
-		this.win.hide ();
 
 		if (this.win_cari == undefined) {
 			this.win_cari = Ext.create ('Earsip.view.CariPeminjamanWin', {});
-		}
-		this.win_cari.hide ();
 
+			this.win_cari.down ("#pilihan_tanggal").on ("click", this.do_enable_tgl_range, this);
+			this.win_cari.down ("#cari").on ("click", this.do_cari, this);
+		}
 
 		if (this.win_pengembalian == undefined) {
 			this.win_pengembalian = Ext.create ('Earsip.view.PengembalianWin', {});
+
+			this.win_pengembalian.down ("#peminjaman_rinci").on ("itemdblclick", this.on_itemdblclick, this);
+			this.win_pengembalian.down ("#save").on ("click", this.pengembalian_do_submit, this);
 		}
 
 		this.down ("#peminjaman_grid").on ("selectionchange", this.master_on_selectionchange, this);
@@ -489,17 +499,5 @@ Ext.define ('Earsip.view.Peminjaman', {
 		this.down ("#peminjaman_grid").down ("#pengembalian").on ("click", this.master_do_pengembalian, this);
 
 		this.down ("#berkas_pinjam_grid").on ("beforeedit", this.on_beforeedit, this);
-
-		this.win.down ("#save").on ("click", this.peminjaman_do_submit, this);
-		this.win.down ("#peminjaman_win_form").on ("validitychange", this.win_on_validitychange, this);
-		this.win.down ("#peminjaman_rinci").on ("itemdblclick", this.on_itemdblclick, this);
-		this.win.down ("#peminjaman_rinci").down ("#add").on ("click", this.peminjaman_do_add_berkas, this);
-		this.win.down ("#peminjaman_rinci").down ("#del").on ("click", this.peminjaman_do_delete_berkas, this);
-
-		this.win_pengembalian.down ("#peminjaman_rinci").on ("itemdblclick", this.on_itemdblclick, this);
-		this.win_pengembalian.down ("#save").on ("click", this.pengembalian_do_submit, this);
-
-		this.win_cari.down ("#pilihan_tanggal").on ("change", this.do_enable_tgl_range, this);
-		this.win_cari.down ("#cari").on ("change", this.do_cari, this);
 	}
 });

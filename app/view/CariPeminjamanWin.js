@@ -20,10 +20,10 @@ Ext.define ('Earsip.view.CariPeminjamanWin', {
 	extend		: 'Ext.Window'
 ,	alias		: 'widget.caripeminjamanwin'
 ,	itemId		: 'caripeminjamanwin'
-,	id			: 'caripeminjamanwin'
 ,	title		: 'Cari peminjaman'
 ,	closable	: true
 ,	autoHeight	: true
+,	closeAction	: 'hide'
 ,	modal		: true
 ,	items		: [{
 		xtype		: 'form'
