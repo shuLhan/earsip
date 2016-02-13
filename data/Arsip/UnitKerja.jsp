@@ -7,19 +7,21 @@
 <%@ include file="../init.jsp" %>
 <%
 try {
-	q	=" select	id"
-		+" ,		kode"
-		+" ,		nama"
-		+" ,		nama_pimpinan"
-		+" ,		keterangan"
-		+" ,		urutan"
-		+" from		m_unit_kerja";
+	q	=" select	distinct(B.unit_kerja_id) as id "
+		+" ,		UK.nama"
+		+" from		m_berkas B"
+		+" ,		m_pegawai P"
+		+" ,		m_unit_kerja UK"
+		+" where 	B.status		= 0"
+		+" and		B.pegawai_id	= P.id"
+		+" and		P.unit_kerja_id	= UK.id"
+		+" and		P.cabang_id		= "+ _user_cid;
 
 	if (!_user_gid.equals ("3")) {
-		q	+="	where	id = "+ _user_uk;
+		q	+="	and	UK.id = "+ _user_uk;
 	}
 
-	q	+=" order by urutan desc";
+	q	+=" order by UK.nama ";
 
 	db_stmt	= db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
@@ -28,12 +30,7 @@ try {
 	while (rs.next ()) {
 		_o	= new JSONObject ();
 		_o.put ("id"			, rs.getInt ("id"));
-		_o.put ("kode"			, rs.getString ("kode"));
 		_o.put ("nama"			, rs.getString ("nama"));
-		_o.put ("nama_pimpinan"	, rs.getString ("nama_pimpinan"));
-		_o.put ("keterangan"	, rs.getString ("keterangan"));
-		_o.put ("urutan"		, rs.getInt ("urutan"));
-		_o.put ("type"			, "unit_kerja");
 
 		_a.put (_o);
 	}
