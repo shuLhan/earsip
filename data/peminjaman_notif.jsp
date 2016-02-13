@@ -7,7 +7,7 @@
 <%@ include file="init.jsp" %>
 <%
 try {
-	q	=" select		distinct(id)"
+	q	=" select		id"
 		+" ,			unit_kerja_peminjam_id"
 		+" ,			nama_petugas"
 		+" ,			nama_pimpinan_petugas"

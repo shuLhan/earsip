@@ -7,7 +7,7 @@
 <%@ include file="init.jsp" %>
 <%
 try {
-	q	=" select		distinct(id)"
+	q	=" select		id"
 		+" ,			unit_kerja_peminjam_id"
 		+" ,			nama_petugas"
 		+" ,			nama_pimpinan_petugas"
@@ -17,9 +17,8 @@ try {
 		+" ,			tgl_batas_kembali"
 		+" ,			tgl_kembali"
 		+" ,			keterangan"
-		+" from			t_peminjaman A, t_peminjaman_rinci B"
-		+" where		A.id = B.peminjaman_id"
-		+" and			A.cabang_id = "+ _user_cid
+		+" from			t_peminjaman A"
+		+" where		A.cabang_id = "+ _user_cid
 		+" order by tgl_pinjam desc ";
 
 	db_stmt	= db_con.createStatement ();
