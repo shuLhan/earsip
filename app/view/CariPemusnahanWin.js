@@ -10,7 +10,7 @@ Ext.define ('Earsip.view.CariPemusnahanWin', {
 ,	items		: [{
 		xtype		: 'form'
 	,	itemId		: 'caripemusnahan_form'
-	,	url			: 'data/caripemusnahan.jsp'
+	,	url			: 'data/pemusnahan_cari.jsp'
 	,	plain		: false
 	,	autoScroll	: true
 	,	frame		: true

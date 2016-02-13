@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2-beta" last-position="0,440" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.8.2-beta" last-position="1074,59" last-zoom="0.65"
 	 default-schema="public" default-owner="earsip">
 <role name="earsip"
       replication="true"
@@ -520,7 +520,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER KONFIGURASI SYSTEM]]></comment>
-	<position x="634.534" y="67.1956"/>
+	<position x="1440.69" y="204.119"/>
 	<column name="repository_root" not-null="true">
 		<type name="character varying" length="1024"/>
 	</column>
@@ -1083,8 +1083,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMUSNAHAN]]></comment>
-	<position x="3032.21" y="432.356"/>
+	<position x="3007.59" y="430.818"/>
 	<column name="id" not-null="true" sequence="public.t_pemusnahan_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="metoda_id" not-null="true">
@@ -1127,7 +1130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[PEMUSNAHAN DETAIL]]></comment>
-	<position x="2519.3" y="459.026"/>
+	<position x="2426.99" y="419.026"/>
 	<column name="pemusnahan_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1178,7 +1181,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<table name="t_tim_pemusnahan">
+<table name="t_pemusnahan_tim">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TIM PEMUSNAHAN]]></comment>
@@ -1195,12 +1198,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="jabatan">
 		<type name="character varying" length="128"/>
 	</column>
-	<constraint name="pk_t_tim_pemusnahan" type="pk-constr" table="public.t_tim_pemusnahan">
+	<constraint name="t_pemusnahan_tim_pk" type="pk-constr" table="public.t_pemusnahan_tim">
 		<columns names="pemusnahan_id,nomor" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<index name="t_tim_pemusnahan_pk" table="public.t_tim_pemusnahan"
+<index name="t_pemusnahan_tim_pk_idx" table="public.t_pemusnahan_tim"
 	 concurrent="false" unique="true" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -1211,7 +1214,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="ref__musnah__team_fk" table="public.t_tim_pemusnahan"
+<index name="t_pemusnahan_tim__fk__t_pemusnahan_idx" table="public.t_pemusnahan_tim"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -1691,8 +1694,8 @@ END;
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_t_tim_pe_ref__musn_t_pemusn" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.t_pemusnahan" table="public.t_tim_pemusnahan">
+<constraint name="t_pemusnahan_tim__fk__t_pemusnahan" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="RESTRICT" del-action="RESTRICT" ref-table="public.t_pemusnahan" table="public.t_pemusnahan_tim">
 	<columns names="pemusnahan_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1871,7 +1874,7 @@ END;
 
 <relationship name="rel_t_tim_pemusnahan_t_pemusnahan" type="relfk"
 	 custom-color="#f4629c"
-	 src-table="public.t_tim_pemusnahan"
+	 src-table="public.t_pemusnahan_tim"
 	 dst-table="public.t_pemusnahan"
 	 src-required="false" dst-required="false"/>
 

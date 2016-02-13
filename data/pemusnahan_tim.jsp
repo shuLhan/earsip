@@ -16,7 +16,7 @@ try {
 	q	=" select	" 
 		+" 			nama"
 		+" ,		jabatan"
-		+" from		t_tim_pemusnahan"
+		+" from		t_pemusnahan_tim"
 		+" where	pemusnahan_id = ?";
 
 	db_ps = db_con.prepareStatement (q);

@@ -1,6 +1,6 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2-beta
--- PostgreSQL version: 9.5
+-- PostgreSQL version: 9.4
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
 
@@ -1021,6 +1021,7 @@ ALTER SEQUENCE public.t_pemusnahan_id_seq OWNER TO earsip;
 -- DROP TABLE IF EXISTS public.t_pemusnahan CASCADE;
 CREATE TABLE public.t_pemusnahan(
 	id integer NOT NULL DEFAULT nextval('public.t_pemusnahan_id_seq'::regclass),
+	cabang_id integer NOT NULL,
 	metoda_id integer NOT NULL,
 	nama_petugas character varying(128),
 	tgl date,
@@ -1099,25 +1100,25 @@ CREATE INDEX ref__berkas_rinci_fk ON public.t_pemusnahan_rinci
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.t_tim_pemusnahan | type: TABLE --
--- DROP TABLE IF EXISTS public.t_tim_pemusnahan CASCADE;
-CREATE TABLE public.t_tim_pemusnahan(
+-- object: public.t_pemusnahan_tim | type: TABLE --
+-- DROP TABLE IF EXISTS public.t_pemusnahan_tim CASCADE;
+CREATE TABLE public.t_pemusnahan_tim(
 	pemusnahan_id integer NOT NULL,
 	nomor smallint NOT NULL,
 	nama character varying(128),
 	jabatan character varying(128),
-	CONSTRAINT pk_t_tim_pemusnahan PRIMARY KEY (pemusnahan_id,nomor)
+	CONSTRAINT t_pemusnahan_tim_pk PRIMARY KEY (pemusnahan_id,nomor)
 
 );
 -- ddl-end --
-COMMENT ON TABLE public.t_tim_pemusnahan IS 'TIM PEMUSNAHAN';
+COMMENT ON TABLE public.t_pemusnahan_tim IS 'TIM PEMUSNAHAN';
 -- ddl-end --
-ALTER TABLE public.t_tim_pemusnahan OWNER TO earsip;
+ALTER TABLE public.t_pemusnahan_tim OWNER TO earsip;
 -- ddl-end --
 
--- object: t_tim_pemusnahan_pk | type: INDEX --
--- DROP INDEX IF EXISTS public.t_tim_pemusnahan_pk CASCADE;
-CREATE UNIQUE INDEX t_tim_pemusnahan_pk ON public.t_tim_pemusnahan
+-- object: t_pemusnahan_tim_pk_idx | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemusnahan_tim_pk_idx CASCADE;
+CREATE UNIQUE INDEX t_pemusnahan_tim_pk_idx ON public.t_pemusnahan_tim
 	USING btree
 	(
 	  pemusnahan_id,
@@ -1125,9 +1126,9 @@ CREATE UNIQUE INDEX t_tim_pemusnahan_pk ON public.t_tim_pemusnahan
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: ref__musnah__team_fk | type: INDEX --
--- DROP INDEX IF EXISTS public.ref__musnah__team_fk CASCADE;
-CREATE INDEX ref__musnah__team_fk ON public.t_tim_pemusnahan
+-- object: t_pemusnahan_tim__fk__t_pemusnahan_idx | type: INDEX --
+-- DROP INDEX IF EXISTS public.t_pemusnahan_tim__fk__t_pemusnahan_idx CASCADE;
+CREATE INDEX t_pemusnahan_tim__fk__t_pemusnahan_idx ON public.t_pemusnahan_tim
 	USING btree
 	(
 	  pemusnahan_id
@@ -1586,9 +1587,9 @@ REFERENCES public.m_berkas (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --
 
--- object: fk_t_tim_pe_ref__musn_t_pemusn | type: CONSTRAINT --
--- ALTER TABLE public.t_tim_pemusnahan DROP CONSTRAINT IF EXISTS fk_t_tim_pe_ref__musn_t_pemusn CASCADE;
-ALTER TABLE public.t_tim_pemusnahan ADD CONSTRAINT fk_t_tim_pe_ref__musn_t_pemusn FOREIGN KEY (pemusnahan_id)
+-- object: t_pemusnahan_tim__fk__t_pemusnahan | type: CONSTRAINT --
+-- ALTER TABLE public.t_pemusnahan_tim DROP CONSTRAINT IF EXISTS t_pemusnahan_tim__fk__t_pemusnahan CASCADE;
+ALTER TABLE public.t_pemusnahan_tim ADD CONSTRAINT t_pemusnahan_tim__fk__t_pemusnahan FOREIGN KEY (pemusnahan_id)
 REFERENCES public.t_pemusnahan (id) MATCH SIMPLE
 ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- ddl-end --

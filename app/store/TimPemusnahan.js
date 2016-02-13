@@ -16,8 +16,8 @@ Ext.define ('Earsip.store.TimPemusnahan', {
 		type		: 'ajax'
 	,	id			: 'timpemusnahan'
 	,	api			: {
-			read		: 'data/timpemusnahan.jsp'
-		,	destroy		: 'data/timpemusnahan_submit.jsp?action=destroy'
+			read		: 'data/pemusnahan_tim.jsp'
+		,	destroy		: 'data/pemusnahan_tim_submit.jsp?action=destroy'
 		}
 	,	reader		: {
 			type		: 'json'

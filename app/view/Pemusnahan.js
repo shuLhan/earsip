@@ -410,7 +410,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 		var proxy	= store.getProxy ();
 		var org_url = proxy.api.read;
 
-		proxy.api.read	= 'data/caripemusnahan.jsp';
+		proxy.api.read	= 'data/pemusnahan_cari.jsp';
 
 		store.load ({
 			params	:	form.getValues ()

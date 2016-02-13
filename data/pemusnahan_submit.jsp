@@ -101,7 +101,7 @@ try {
 			+" where pemusnahan_id = " + id;
 		db_stmt.executeUpdate (q);
 
-		q	=" delete from t_tim_pemusnahan"
+		q	=" delete from t_pemusnahan_tim"
 			+" where pemusnahan_id = " + id;
 		db_stmt.executeUpdate (q);
 
@@ -146,7 +146,7 @@ try {
 			_r.put("tims", tims);
 
 			if (len > 0) {
-				q = " insert into t_tim_pemusnahan (pemusnahan_id, nomor, nama, jabatan) values";
+				q = " insert into t_pemusnahan_tim (pemusnahan_id, nomor, nama, jabatan) values";
 
 				for (int i = 0; i < len; i++) {
 					if (i > 0) {

@@ -16,10 +16,10 @@ Ext.define ('Earsip.store.MetodaPemusnahan', {
 ,	proxy		: {
 		type		: 'ajax'
 	,	api			: {
-			read		: 'data/metodapemusnahan.jsp'
-		,	create		: 'data/metodapemusnahan_submit.jsp?action=create'
-		,	update		: 'data/metodapemusnahan_submit.jsp?action=update'
-		,	destroy		: 'data/metodapemusnahan_submit.jsp?action=destroy'
+			read		: 'data/pemusnahan_metoda.jsp'
+		,	create		: 'data/pemusnahan_metoda_submit.jsp?action=create'
+		,	update		: 'data/pemusnahan_metoda_submit.jsp?action=update'
+		,	destroy		: 'data/pemusnahan_metoda_submit.jsp?action=destroy'
 		}
 	,	reader		: {
 			type		: 'json'

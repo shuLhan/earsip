@@ -13,7 +13,7 @@
 FROM t_pemusnahan A
 LEFT JOIN r_pemusnahan_metoda C
 ON   A.metoda_id = C.id
-LEFT JOIN t_tim_pemusnahan B
+LEFT JOIN t_pemusnahan_tim B
 ON	A.id = B.pemusnahan_id
 WHERE pemusnahan_id = $P{pemusnahan_id}::integer
 ORDER BY B.nomor ASC]]>

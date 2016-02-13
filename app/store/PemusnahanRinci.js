@@ -19,8 +19,8 @@ Ext.define ('Earsip.store.PemusnahanRinci', {
 ,	proxy		: {
 		type		: 'ajax'
 	,	api			: {
-			read		: 'data/pemusnahanrinci.jsp'
-		,	destroy		: 'data/pemusnahanrinci_submit.jsp?action=destroy'
+			read		: 'data/pemusnahan_rinci.jsp'
+		,	destroy		: 'data/pemusnahan_rinci_submit.jsp?action=destroy'
 		}
 	,	reader		: {
 			type		: 'json'

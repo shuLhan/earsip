@@ -45,7 +45,7 @@ try {
 	
 
 	if (action.equalsIgnoreCase ("destroy")) {
-		q	=" delete from t_tim_pemusnahan"
+		q	=" delete from t_pemusnahan_tim"
 			+" where pemusnahan_id = ? and nomor = ?";
 		db_stmt = db_con.prepareStatement (q);
 		db_stmt.setInt (1, Integer.parseInt (pemusnahan_id));
