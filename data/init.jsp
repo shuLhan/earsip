@@ -4,7 +4,9 @@
 	Author(s):
 	- mhd.sulhan (ms@kilabit.org)
 --%>
+<%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.io.File" %>
+<%@ page import="java.io.IOException" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.sql.Date" %>
 <%@ page import="java.sql.DriverManager" %>
@@ -16,6 +18,7 @@
 <%@ page import="java.sql.Types" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="org.json.JSONArray" %>
+<%@ page import="org.json.JSONException" %>
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="org.kilabit.ServletUtilities" %>
 <%
@@ -54,4 +57,29 @@
 		response.sendRedirect (request.getContextPath());
 		return;
 	}
+
+	_r.put("success", true);
+%>
+<%!
+public JSONObject get_json_payload(BufferedReader bufreader) {
+	StringBuilder	sb		= new StringBuilder();
+	String			line	= "";
+	JSONObject		o		= new JSONObject();
+
+	try {
+		line = bufreader.readLine ();
+
+		while (line != null) {
+			sb.append (line + "\n");
+			line = bufreader.readLine();
+		}
+
+		o = new JSONObject (sb.toString());
+
+		bufreader.close();
+	} catch (Exception ioe) {
+	} finally {
+		return o;
+	}
+}
 %>
