@@ -220,9 +220,9 @@ INSERT INTO r_jabatan (nama, keterangan, urutan) VALUES ('Teknisi', 'Teknisi', 1
 ---}}}
 
 ---{{{ m_pegawai
-INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 18, 1, 2, '1', 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 1);
-INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 2, 2, 2, 'NIP.0001', 'User Pusat Berkas', 'e50310084113a16a9ac94ec85156cb8c', 1);
-INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 14, 3, 2, 'NIP.0002', 'User Pusat Arsip', '3ac53a0f0b6ee2a6203176a72c61a153', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 18, 1, 2, 'adminpusat', 'Admin Pusat', '3f5212d11b73d0912028b1f33a35ae34', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 2, 2, 2, 'berkaspusat', 'User Pusat Berkas', 'c059505d033ba5052761ae76d27b3cb5', 1);
+INSERT INTO m_pegawai (cabang_id, unit_kerja_id, grup_id, jabatan_id, nip, nama, psw, status) VALUES (1, 14, 3, 2, 'arsippusat', 'User Pusat Arsip', '901c9c0333ada72b02d0ab2e5669144c', 1);
 ---}}}
 
 ---{{{ r_mode_arsip
