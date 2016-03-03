@@ -3,15 +3,14 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2-beta" last-position="97,491" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.8.2-beta" author="earsip" last-position="0,137" last-zoom="0.65"
 	 default-schema="public" default-owner="earsip">
 <role name="earsip"
       replication="true"
       inherit="true"
       login="true"
       encrypted="true"
-      password="********"
-      sql-disabled="true">
+      password="********">
 </role>
 
 <database name="earsip" encoding="UTF8" template="template0" lc-collate="en_GB" lc-ctype="en_GB">
@@ -155,21 +154,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="m_berkas_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_berkas">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER BERKAS]]></comment>
 	<position x="1776.74" y="652.578"/>
-	<column name="id" not-null="true" sequence="public.m_berkas_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="pid">
 		<type name="integer"/>
@@ -299,27 +290,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="m_berkas_berbagi_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_berkas_berbagi">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNTUK BERBAGI BERKAS]]></comment>
-	<position x="1519.41" y="381.336"/>
+	<position x="1517.87" y="381.336"/>
 	<column name="bagi_ke_peg_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="berkas_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="id" not-null="true" sequence="public.m_berkas_berbagi_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<constraint name="pk_m_berkas_berbagi" type="pk-constr" table="public.m_berkas_berbagi">
 		<columns names="bagi_ke_peg_id,berkas_id,id" ref-type="src-columns"/>
@@ -356,21 +339,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="m_grup_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_grup">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[GRUP PEGAWAI]]></comment>
 	<position x="965.114" y="395.086"/>
-	<column name="id" not-null="true" sequence="public.m_grup_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="nama">
 		<type name="character varying" length="64"/>
@@ -391,21 +366,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="m_menu_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_menu">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER MENU]]></comment>
 	<position x="87.0044" y="116.976"/>
-	<column name="id" not-null="true" sequence="public.m_menu_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="icon">
 		<type name="character varying" length="16"/>
@@ -432,21 +399,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="m_pegawai_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_pegawai">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER USER/PEGAWAI]]></comment>
 	<position x="917.884" y="554.756"/>
-	<column name="id" not-null="true" sequence="public.m_pegawai_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
@@ -529,27 +488,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 </table>
 
-<sequence name="m_unit_kerja_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="m_unit_kerja">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[MASTER UNIT KERJA]]></comment>
-	<position x="493.029" y="957.349"/>
+	<position x="493.029" y="958.887"/>
 	<column name="direksi_id" default-value="0">
 		<type name="integer"/>
 	</column>
 	<column name="divisi_id" default-value="0">
 		<type name="integer"/>
 	</column>
-	<column name="id" not-null="true" sequence="public.m_unit_kerja_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="kode" not-null="true">
 		<type name="character varying" length="32"/>
@@ -690,21 +641,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="r_berkas_klas_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="r_berkas_klas">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI KLASIFIKASI BERKAS]]></comment>
 	<position x="1073.74" y="1029.11"/>
-	<column name="id" not-null="true" sequence="public.r_berkas_klas_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="unit_kerja_id">
 		<type name="integer"/>
@@ -748,21 +691,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="r_berkas_tipe_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="r_berkas_tipe">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI TIPE ARSIP]]></comment>
-	<position x="2517.44" y="739.156"/>
-	<column name="id" not-null="true" sequence="public.r_berkas_tipe_id_seq">
-		<type name="integer"/>
+	<position x="2517.44" y="743.771"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="nama">
 		<type name="character varying" length="64"/>
@@ -783,21 +718,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="r_ir_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="r_ir">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERNSI INDEKS RELATIF]]></comment>
 	<position x="1769.27" y="1330.83"/>
-	<column name="id" not-null="true" sequence="public.r_ir_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="berkas_klas_id">
 		<type name="integer"/>
@@ -826,21 +753,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="r_jabatan_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="r_jabatan">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI JABATAN]]></comment>
 	<position x="139.544" y="686.596"/>
-	<column name="id" not-null="true" sequence="public.r_jabatan_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="nama">
 		<type name="character varying" length="128"/>
@@ -864,21 +783,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="r_pemusnahan_metoda_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="r_pemusnahan_metoda">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[REFERENSI METODA PEMUSNAHAN]]></comment>
-	<position x="3592.21" y="544.156"/>
-	<column name="id" not-null="true" sequence="public.r_pemusnahan_metoda_id_seq">
-		<type name="integer"/>
+	<position x="3595.29" y="542.618"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="nama">
 		<type name="character varying" length="128"/>
@@ -899,21 +810,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="t_pemindahan_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="t_pemindahan">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMINDAHAN]]></comment>
-	<position x="740.205" y="1404.85"/>
-	<column name="id" not-null="true" sequence="public.t_pemindahan_id_seq">
-		<type name="integer"/>
+	<position x="740.205" y="1406.39"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
@@ -1004,21 +907,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="t_peminjaman_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="t_peminjaman">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMINJAMAN]]></comment>
 	<position x="200.94" y="1556.75"/>
-	<column name="id" not-null="true" sequence="public.t_peminjaman_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
@@ -1071,21 +966,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<sequence name="t_pemusnahan_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="earsip"/>
-</sequence>
-
 <table name="t_pemusnahan">
 	<schema name="public"/>
 	<role name="earsip"/>
 	<comment><![CDATA[TRANSAKSI PEMUSNAHAN]]></comment>
 	<position x="3007.59" y="430.818"/>
-	<column name="id" not-null="true" sequence="public.t_pemusnahan_id_seq">
-		<type name="integer"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="cabang_id" not-null="true">
 		<type name="integer"/>
@@ -1478,7 +1365,7 @@ END;
 	<schema name="public"/>
 	<role name="earsip"/>
 	<tablespace name="pg_default"/>
-	<position x="169.554" y="948.061"/>
+	<position x="178.785" y="949.599"/>
 	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1758,7 +1645,11 @@ END;
 	 custom-color="#1df6f1"
 	 src-table="public.m_berkas"
 	 dst-table="public.r_berkas_klas"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="-397.586" y="-26.597"/>
+	</label>
+</relationship>
 
 <relationship name="rel_m_berkas_m_pegawai" type="relfk"
 	 custom-color="#f818a9"

@@ -1,21 +1,21 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.2-beta
--- PostgreSQL version: 9.4
+-- PostgreSQL version: 9.5
 -- Project Site: pgmodeler.com.br
--- Model Author: ---
+-- Model Author: earsip
 
 SET check_function_bodies = false;
 -- ddl-end --
 
--- -- object: earsip | type: ROLE --
--- -- DROP ROLE IF EXISTS earsip;
--- CREATE ROLE earsip WITH 
--- 	INHERIT
--- 	LOGIN
--- 	REPLICATION
--- 	ENCRYPTED PASSWORD '********';
--- -- ddl-end --
--- 
+-- object: earsip | type: ROLE --
+-- DROP ROLE IF EXISTS earsip;
+CREATE ROLE earsip WITH 
+	INHERIT
+	LOGIN
+	REPLICATION
+	ENCRYPTED PASSWORD '********';
+-- ddl-end --
+
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
@@ -153,24 +153,10 @@ CREATE UNIQUE INDEX m_arsip_pk ON public.m_arsip
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.m_berkas_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_berkas_id_seq CASCADE;
-CREATE SEQUENCE public.m_berkas_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_berkas_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_berkas | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_berkas CASCADE;
 CREATE TABLE public.m_berkas(
-	id integer NOT NULL DEFAULT nextval('public.m_berkas_id_seq'::regclass),
+	id serial NOT NULL,
 	pid integer,
 	pegawai_id integer,
 	berkas_klas_id integer,
@@ -267,26 +253,12 @@ CREATE INDEX ref__arsip_status_fk ON public.m_berkas
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.m_berkas_berbagi_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_berkas_berbagi_id_seq CASCADE;
-CREATE SEQUENCE public.m_berkas_berbagi_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_berkas_berbagi_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_berkas_berbagi | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_berkas_berbagi CASCADE;
 CREATE TABLE public.m_berkas_berbagi(
 	bagi_ke_peg_id integer NOT NULL,
 	berkas_id integer NOT NULL,
-	id integer NOT NULL DEFAULT nextval('public.m_berkas_berbagi_id_seq'::regclass),
+	id serial NOT NULL,
 	CONSTRAINT pk_m_berkas_berbagi PRIMARY KEY (bagi_ke_peg_id,berkas_id,id)
 
 );
@@ -325,24 +297,10 @@ CREATE INDEX ref__berkas__berbagi_fk ON public.m_berkas_berbagi
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.m_grup_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_grup_id_seq CASCADE;
-CREATE SEQUENCE public.m_grup_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_grup_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_grup | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_grup CASCADE;
 CREATE TABLE public.m_grup(
-	id integer NOT NULL DEFAULT nextval('public.m_grup_id_seq'::regclass),
+	id serial NOT NULL,
 	nama character varying(64),
 	keterangan character varying(255),
 	CONSTRAINT pk_m_grup PRIMARY KEY (id)
@@ -363,24 +321,10 @@ CREATE UNIQUE INDEX m_grup_pk ON public.m_grup
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.m_menu_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_menu_id_seq CASCADE;
-CREATE SEQUENCE public.m_menu_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_menu_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_menu | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_menu CASCADE;
 CREATE TABLE public.m_menu(
-	id integer NOT NULL DEFAULT nextval('public.m_menu_id_seq'::regclass),
+	id serial NOT NULL,
 	icon character varying(16),
 	pid bigint,
 	nama_ref character varying(128),
@@ -403,24 +347,10 @@ CREATE UNIQUE INDEX m_menu_pk ON public.m_menu
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.m_pegawai_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_pegawai_id_seq CASCADE;
-CREATE SEQUENCE public.m_pegawai_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_pegawai_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_pegawai | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_pegawai CASCADE;
 CREATE TABLE public.m_pegawai(
-	id integer NOT NULL DEFAULT nextval('public.m_pegawai_id_seq'::regclass),
+	id serial NOT NULL,
 	cabang_id integer NOT NULL,
 	unit_kerja_id integer,
 	grup_id integer,
@@ -490,26 +420,12 @@ COMMENT ON TABLE public.m_sysconfig IS 'MASTER KONFIGURASI SYSTEM';
 ALTER TABLE public.m_sysconfig OWNER TO earsip;
 -- ddl-end --
 
--- object: public.m_unit_kerja_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.m_unit_kerja_id_seq CASCADE;
-CREATE SEQUENCE public.m_unit_kerja_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.m_unit_kerja_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.m_unit_kerja | type: TABLE --
 -- DROP TABLE IF EXISTS public.m_unit_kerja CASCADE;
 CREATE TABLE public.m_unit_kerja(
 	direksi_id integer DEFAULT 0,
 	divisi_id integer DEFAULT 0,
-	id integer NOT NULL DEFAULT nextval('public.m_unit_kerja_id_seq'::regclass),
+	id serial NOT NULL,
 	kode character varying(32) NOT NULL,
 	nama character varying(128),
 	nama_pimpinan character varying(128),
@@ -637,24 +553,10 @@ CREATE UNIQUE INDEX r_arsip_status_pk ON public.r_arsip_status
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.r_berkas_klas_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.r_berkas_klas_id_seq CASCADE;
-CREATE SEQUENCE public.r_berkas_klas_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.r_berkas_klas_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.r_berkas_klas | type: TABLE --
 -- DROP TABLE IF EXISTS public.r_berkas_klas CASCADE;
 CREATE TABLE public.r_berkas_klas(
-	id integer NOT NULL DEFAULT nextval('public.r_berkas_klas_id_seq'::regclass),
+	id serial NOT NULL,
 	unit_kerja_id integer,
 	kode varchar(64) NOT NULL,
 	nama character varying(512) NOT NULL,
@@ -689,24 +591,10 @@ CREATE INDEX ref__unit__klas_fk ON public.r_berkas_klas
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.r_berkas_tipe_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.r_berkas_tipe_id_seq CASCADE;
-CREATE SEQUENCE public.r_berkas_tipe_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.r_berkas_tipe_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.r_berkas_tipe | type: TABLE --
 -- DROP TABLE IF EXISTS public.r_berkas_tipe CASCADE;
 CREATE TABLE public.r_berkas_tipe(
-	id integer NOT NULL DEFAULT nextval('public.r_berkas_tipe_id_seq'::regclass),
+	id serial NOT NULL,
 	nama character varying(64),
 	keterangan character varying(255),
 	CONSTRAINT pk_r_berkas_tipe PRIMARY KEY (id)
@@ -727,24 +615,10 @@ CREATE UNIQUE INDEX r_berkas_tipe_pk ON public.r_berkas_tipe
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.r_ir_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.r_ir_id_seq CASCADE;
-CREATE SEQUENCE public.r_ir_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.r_ir_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.r_ir | type: TABLE --
 -- DROP TABLE IF EXISTS public.r_ir CASCADE;
 CREATE TABLE public.r_ir(
-	id integer NOT NULL DEFAULT nextval('public.r_ir_id_seq'::regclass),
+	id serial NOT NULL,
 	berkas_klas_id integer,
 	keterangan character varying(64),
 	CONSTRAINT pk_r_ir PRIMARY KEY (id)
@@ -774,24 +648,10 @@ CREATE INDEX ref__klas__ir_fk ON public.r_ir
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.r_jabatan_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.r_jabatan_id_seq CASCADE;
-CREATE SEQUENCE public.r_jabatan_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.r_jabatan_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.r_jabatan | type: TABLE --
 -- DROP TABLE IF EXISTS public.r_jabatan CASCADE;
 CREATE TABLE public.r_jabatan(
-	id integer NOT NULL DEFAULT nextval('public.r_jabatan_id_seq'::regclass),
+	id serial NOT NULL,
 	nama character varying(128),
 	keterangan character varying(255),
 	urutan integer DEFAULT 0,
@@ -813,24 +673,10 @@ CREATE UNIQUE INDEX r_jabatan_pk ON public.r_jabatan
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.r_pemusnahan_metoda_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.r_pemusnahan_metoda_id_seq CASCADE;
-CREATE SEQUENCE public.r_pemusnahan_metoda_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.r_pemusnahan_metoda_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.r_pemusnahan_metoda | type: TABLE --
 -- DROP TABLE IF EXISTS public.r_pemusnahan_metoda CASCADE;
 CREATE TABLE public.r_pemusnahan_metoda(
-	id integer NOT NULL DEFAULT nextval('public.r_pemusnahan_metoda_id_seq'::regclass),
+	id serial NOT NULL,
 	nama character varying(128),
 	keterangan character varying(255),
 	CONSTRAINT pk_r_pemusnahan_metoda PRIMARY KEY (id)
@@ -851,24 +697,10 @@ CREATE UNIQUE INDEX r_pemusnahan_metoda_pk ON public.r_pemusnahan_metoda
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.t_pemindahan_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.t_pemindahan_id_seq CASCADE;
-CREATE SEQUENCE public.t_pemindahan_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.t_pemindahan_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.t_pemindahan | type: TABLE --
 -- DROP TABLE IF EXISTS public.t_pemindahan CASCADE;
 CREATE TABLE public.t_pemindahan(
-	id integer NOT NULL DEFAULT nextval('public.t_pemindahan_id_seq'::regclass),
+	id serial NOT NULL,
 	cabang_id integer NOT NULL,
 	unit_kerja_id integer,
 	kode character varying(255),
@@ -948,24 +780,10 @@ CREATE INDEX ref_berkas__pindah_fk ON public.t_pemindahan_rinci
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.t_peminjaman_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.t_peminjaman_id_seq CASCADE;
-CREATE SEQUENCE public.t_peminjaman_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.t_peminjaman_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.t_peminjaman | type: TABLE --
 -- DROP TABLE IF EXISTS public.t_peminjaman CASCADE;
 CREATE TABLE public.t_peminjaman(
-	id integer NOT NULL DEFAULT nextval('public.t_peminjaman_id_seq'::regclass),
+	id serial NOT NULL,
 	cabang_id integer NOT NULL,
 	unit_kerja_peminjam_id integer,
 	nama_petugas character varying(128),
@@ -1003,24 +821,10 @@ CREATE INDEX ref__unit__pinjam_fk ON public.t_peminjaman
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: public.t_pemusnahan_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.t_pemusnahan_id_seq CASCADE;
-CREATE SEQUENCE public.t_pemusnahan_id_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE public.t_pemusnahan_id_seq OWNER TO earsip;
--- ddl-end --
-
 -- object: public.t_pemusnahan | type: TABLE --
 -- DROP TABLE IF EXISTS public.t_pemusnahan CASCADE;
 CREATE TABLE public.t_pemusnahan(
-	id integer NOT NULL DEFAULT nextval('public.t_pemusnahan_id_seq'::regclass),
+	id serial NOT NULL,
 	cabang_id integer NOT NULL,
 	metoda_id integer NOT NULL,
 	nama_petugas character varying(128),
