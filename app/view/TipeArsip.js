@@ -14,7 +14,7 @@ Ext.define ('Earsip.view.TipeArsip', {
 ,	columns		: [{
 		xtype		: 'rownumberer'
 	},{
-		text		: 'Nama Tipe Arsip'
+		text		: 'Nama Tipe Berkas'
 	,	dataIndex	: 'nama'
 	,	flex		: 1
 	,	editor		: {
@@ -53,11 +53,7 @@ Ext.define ('Earsip.view.TipeArsip', {
 	}]
 
 ,	listeners	: {
-		activate	: function (comp)
-		{
-			this.getStore ().load ();
-		}
-	,	removed			: function (comp)
+		removed			: function (comp)
 		{
 			this.destroy ();
 		}
