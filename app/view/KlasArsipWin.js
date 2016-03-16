@@ -38,6 +38,7 @@ Ext.define('Earsip.view.KlasArsipWin', {
 		,	valueField		: 'id'
 		,	triggerAction	: 'all'
 		,	emptyText		: '-'
+		,	allowBlank		: false
 		},{
 			fieldLabel		: 'Kode'
 		,	itemId			: 'kode'
@@ -80,7 +81,7 @@ Ext.define('Earsip.view.KlasArsipWin', {
 		,	fieldLabel		: 'Keterangan'
 		,	itemId			: 'keterangan'
 		,	name			: 'keterangan'
-		,	allowBlank		: false
+		,	allowBlank		: true
 		}]
 	}]
 ,	buttons			: [{
