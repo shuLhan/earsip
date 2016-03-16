@@ -54,11 +54,7 @@ Ext.define ('Earsip.view.MetodaPemusnahan', {
 
 ,	listeners	:
 	{
-		activate	: function (comp)
-		{
-			this.getStore ().load ();
-		}
-	,	removed			: function (comp)
+		removed			: function (comp)
 		{
 			this.destroy ();
 		}
