@@ -12,7 +12,7 @@ Ext.define ('Earsip.store.ModeArsip', {
 ,	model		: 'Earsip.model.ModeArsip'
 ,	storeId		: 'ModeArsip'
 ,	autoSync	: false
-,	autoLoad	: false
+,	autoLoad	: true
 ,	proxy		: {
 		type		: 'ajax'
 	,	api			: {
