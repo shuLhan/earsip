@@ -6,7 +6,7 @@ Ext.require ([
 ]);
 
 var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
-        groupHeaderTpl: 'Unit Kerja : {name} ({rows.length} Item)'
+        groupHeaderTpl: 'Unit Kerja : {name} ({rows.length} Klas)'
     });
 
 Ext.define ('Earsip.view.KlasArsip', {
@@ -17,10 +17,6 @@ Ext.define ('Earsip.view.KlasArsip', {
 ,	store		: 'KlasArsip'
 ,	closable	: true
 ,	features	: [groupingFeature]
-,	plugins		:
-	[
-		Ext.create ('Earsip.plugin.RowEditor')
-	]
 ,	columns		: [{
 		xtype		: 'rownumberer'
 	},{
@@ -29,87 +25,34 @@ Ext.define ('Earsip.view.KlasArsip', {
 	,	flex		: 1
 	,	hidden		: true
 	,	hideable	: false
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.UnitKerja', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
-	,	renderer	: function (v, md, r, rowidx, colidx)
-		{
-			return combo_renderer (v, this.columns[colidx]);
-		}
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('UnitKerja'))
 	},{
 		text		: 'Kode'
 	,	dataIndex	: 'kode'
-	,	flex		: 1
-	,	editor		: {
-			xtype				: 'textfield'
-		,	allowBlank			: false
-		,	maxLength			: 6
-		,	enforceMaxLength	: true
-		}
+	,	width		: 120
 	, 	groupable	: false
 	},{
 		text		: 'Nama Klasifikasi'
 	,	dataIndex	: 'nama'
-	,	flex		: 1
-	,	editor		: {
-			xtype		: 'textfield'
-		,	allowBlank	: false
-		}
+	,	width		: 180
 	, 	groupable	: false
 	},{
 		text		: 'JRA Aktif'
 	,	dataIndex	: 'jra_aktif'
-	,	flex		: 1
-	,	editor		: {
-			xtype		: 'numberfield'
-		,	allowBlank	: false
-		,	minValue	: 1
-		}
+	,	width		: 80
 	},{
 		text		: 'JRA Inaktif'
 	,	dataIndex	: 'jra_inaktif'
-	,	flex		: 1
-	,	editor		: {
-			xtype		: 'numberfield'
-		,	allowBlank	: false
-		,	minValue	: 1
-		}
+	,	width		: 80
 	},{
 		text		: 'Mode Arsip'
 	,	dataIndex	: 'mode_arsip_id'
-	,	flex		: 1
-	,	editor		: {
-			xtype			: 'combo'
-		,	store			: Ext.create ('Earsip.store.ModeArsip', {
-				autoLoad		: true
-			})
-		,	displayField	: 'nama'
-		,	valueField		: 'id'
-		,	mode			: 'local'
-		,	typeAhead		: false
-		,	triggerAction	: 'all'
-		,	lazyRender		: true
-		}
-	,	renderer	: function (v, md, r, rowidx, colidx)
-		{
-			return combo_renderer (v, this.columns[colidx]);
-		}
+	,	width		: 120
+	,	renderer	: store_renderer ('id', 'nama', Ext.getStore ('ModeArsip'))
 	},{
 		text		: 'Keterangan'
 	,	dataIndex	: 'keterangan'
 	,	flex		: 2
-	,	editor		: {
-			xtype		: 'textfield'
-		}
 	, 	groupable	: false
 	}]
 ,	dockedItems	: [{
@@ -141,11 +84,7 @@ Ext.define ('Earsip.view.KlasArsip', {
 		}]
 	}]
 ,	listeners		: {
-		activate		: function (comp)
-		{
-			this.getStore ().load ();
-		}
-	,	removed			: function (comp)
+		removed			: function (comp)
 		{
 			this.destroy ();
 		}
