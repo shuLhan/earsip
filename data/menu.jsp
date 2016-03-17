@@ -1,45 +1,24 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
+<%--
+	Copyright 2016
+
+	Author(s):
+	- mhd.sulhan (ms@kilabit.info)
+--%>
+<%@ include file="init.jsp" %>
 <%
-Connection			db_con		= null;
-PreparedStatement	db_stmt		= null;
-PreparedStatement	mc_stmt		= null;
-ResultSet			rs			= null;
+PreparedStatement	mc_ps		= null;
 ResultSet			mc_rs		= null;
-String				q			= "";
-String				db_url		= "";
-int					grup_id		= 0;
-String				menu		= "";
 int					menu_id		= 0;
 String				menu_name	= "";
 String				menu_index	= "";
 String				menu_acl	= "";
-String				tmp			= "";
 try {
-	db_con = (Connection) session.getAttribute ("db.con");
-
-	if (db_con == null || db_con.isClosed ()) {
-		db_url = (String) session.getAttribute ("db.url");
-		if (db_url == null) {
-			response.sendRedirect (request.getContextPath ());
-			return;
-		}
-
-		Class.forName ((String) session.getAttribute ("db.class"));
-
-		db_con = DriverManager.getConnection (db_url);
-
-		session.setAttribute ("db.con", (Object) db_con);
-	}
-
-	tmp	= (String) session.getAttribute ("user.grup_id");
+	String tmp = (String) session.getAttribute ("user.grup_id");
 	if (tmp == null) {
-		out.print ("{success:false,info:'User ID tidak diketahui!'}");
-		return;
+		throw new Exception("User ID tidak diketahui!");
 	}
-	grup_id	= Integer.parseInt (tmp);
+
+	int grup_id	= Integer.parseInt (tmp);
 
 	q	=" select	MENU.id"
 		+" ,		MENU.nama"
@@ -53,55 +32,70 @@ try {
 		+" and		MAKSES.hak_akses_id > 0"
 		+" and		MENU.pid			= ?";
 
-	db_stmt = db_con.prepareStatement (q);
+	db_ps = db_con.prepareStatement (q);
 
-	db_stmt.setInt (1, grup_id);
-	db_stmt.setInt (2, 0);
+	db_ps.setInt (1, grup_id);
+	db_ps.setInt (2, 0);
 
-	rs = db_stmt.executeQuery ();
+	JSONArray menus = new JSONArray();
+	rs = db_ps.executeQuery ();
 
 	while (rs.next ()) {
+		JSONObject menu = new JSONObject();
+
 		menu_id		= rs.getInt ("id");
 		menu_name	= rs.getString ("nama");
 		menu_index	= rs.getString ("nama_ref");
 
-		menu	+="\n\t{ text:'"+ menu_name +"'\n"
-				+ "\t, itemId:'"+ menu_index +"'\n"
-				+ "\t, iconCls:'"+ rs.getString ("icon") +"'\n";
+		menu.put("text", menu_name);
+		menu.put("itemId", menu_index);
+		menu.put("iconCls", rs.getString("icon"));
 
-		mc_stmt = db_con.prepareStatement (q);
-		mc_stmt.setInt (1, grup_id);
-		mc_stmt.setInt (2, menu_id);
+		mc_ps = db_con.prepareStatement(q);
+		mc_ps.setInt(1, grup_id);
+		mc_ps.setInt(2, menu_id);
 
-		mc_rs = mc_stmt.executeQuery ();
+		mc_rs = mc_ps.executeQuery();
 
 		if (mc_rs.next ()) {
-			menu	+="\t, menu:{\n"
-					+ "\t\t  xtype : 'menu'\n"
-					+ "\t\t, items : [\n";
+			JSONObject submenu = new JSONObject();
+
+			submenu.put("xtype", "menu");
+
+			JSONArray menu_items = new JSONArray();
 
 			do {
+				JSONObject mitem = new JSONObject();
+
 				menu_id		= mc_rs.getInt ("id");
 				menu_name	= mc_rs.getString ("nama");
 				menu_index	= mc_rs.getString ("nama_ref");
 				menu_acl	= mc_rs.getString ("hak_akses_id");
 
-				menu	+="\t\t\t{ text:'"+ menu_name +"'\n"
-						+ "\t\t\t, itemId:'"+ menu_index +"'\n"
-						+ "\t\t\t, acl:'"+ menu_acl +"'\n"
-						+ "\t\t\t, iconCls:'"+ mc_rs.getString ("icon") +"'\n"
-						+ "\t\t\t},\n";
+				mitem.put("text", menu_name);
+				mitem.put("itemId", menu_index);
+				mitem.put("acl", menu_acl);
+				mitem.put("iconCls", mc_rs.getString("icon"));
+
+				menu_items.put(mitem);
 			} while (mc_rs.next ());
 
-			menu	+="\t\t]}\n";
+			submenu.put("items", menu_items);
+
+			menu.put("menu", submenu);
 		}
-		menu	+="\t},\n";
+
+		menus.put(menu);
 	}
 
-	out.print ("{success:true,menu:["+ menu +"]}");
 	rs.close ();
+
+	_r.put("menu", menus);
 }
 catch (Exception e) {
-	out.print ("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	_r.put ("success"	, false);
+	_r.put ("info"		, e);
+} finally {
+	out.print (_r);
 }
 %>
