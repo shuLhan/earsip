@@ -1,23 +1,12 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="org.json.JSONArray" %>
+<%--
+	Copyright 2013 - x10c.Lab
+
+	Author(s):
+	- mhd.sulhan (ms@kilabit.org)
+--%>
+<%@ include file="init.jsp" %>
 <%
-Connection	db_con	= null;
-Statement	db_stmt	= null;
-String		db_url	= "";
-String		q		= "";
-String		data	= "";
 try {
-	db_con = (Connection) session.getAttribute ("db.con");
-
-	if (db_con == null || (db_con != null && db_con.isClosed ())) {
-		response.sendRedirect (request.getContextPath());
-		return;
-	}
-
-	db_stmt = db_con.createStatement ();
 	String		berkas_id		= request.getParameter ("berkas_id");
 	String		hak_akses_id	= request.getParameter ("hak_akses_id");
 	JSONArray	pegs			= new JSONArray (request.getParameter ("bagi_ke_peg_id"));
@@ -25,6 +14,7 @@ try {
 	q	=" delete from m_berkas_berbagi"
 		+" where berkas_id = "+ berkas_id;
 
+	db_stmt = db_con.createStatement ();
 	db_stmt.executeUpdate (q);
 
 	q	=" update m_berkas set akses_berbagi_id = "+ hak_akses_id +" where id = "+ berkas_id +";";
@@ -44,9 +34,12 @@ try {
 
 	db_stmt.executeUpdate (q);
 
-	out.print ("{success:true,info:'Data berkas berbagi telah tersimpan.'}");
+	_r.put("info", "Data berkas berbagi telah tersimpan.");
 }
 catch (Exception e) {
-	out.print("{success:false,info:'"+ e.toString().replace("'","''") +"'}");
+	_r.put("success", false);
+	_r.put("info", e);
+} finally {
+	out.print(_r);
 }
 %>
