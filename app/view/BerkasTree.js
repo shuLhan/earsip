@@ -8,7 +8,7 @@ Ext.define ('Earsip.view.BerkasTree', {
 ,	id			: 'berkastree'
 ,	region		: 'west'
 ,	width		: 220
-,	margins		: '5 0 0 5'
+,	margins		: '5 0 5 5'
 ,	split		: true
 ,	store		:'BerkasTree'
 ,	rootVisible	:false
@@ -19,7 +19,10 @@ Ext.define ('Earsip.view.BerkasTree', {
 		{
 			b.up ('treepanel').do_refresh ();
 		}
-	},'-']
+	}
+	,'-'
+	,'Daftar Folder'
+	]
 
 ,	initComponent	: function()
 	{
