@@ -16,6 +16,7 @@ Ext.define ('Earsip.view.Berkas', {
 	},{
 		xtype		: 'berkaslist'
 	,	region		: 'center'
+	,	margins		: '5 5 5 0'
 	,	tbar		: [{
 			text		: 'Berkas dengan scan'
 		,	itemId		: 'upload'
@@ -62,12 +63,13 @@ Ext.define ('Earsip.view.Berkas', {
 	},{
 		xtype		: 'berkasform'
 	,	id			: 'berkasform'
+	,	title		: 'Informasi Berkas'
 	,	url			: 'data/berkas_submit.jsp'
 	,	region		: 'east'
 	,	split		: true
 	,	collapsible	: true
-	,	header		: false
 	,	width		: 400
+	,	margins		: '5 5 5 5'
 	,	dockedItems	:
 		[{
 			xtype		:"toolbar"
