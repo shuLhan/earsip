@@ -115,6 +115,19 @@ Ext.define ('Earsip.plugin.RowEditor', {
 			editor.action = 'none';
 			editor.grid.store.sync ({
 				params	: editor.grid.params
+			,	failure	: function(batch, op) {
+					msg = batch.proxy.reader.rawData.info;
+					if (msg != undefined) {
+						Ext.msg.error(msg);
+					}
+				}
+			,	success	: function(batch, op) {
+					msg = batch.proxy.reader.rawData.info;
+					if (msg != undefined) {
+						Ext.msg.info(msg);
+					}
+					editor.grid.store.load();
+				}
 			});
 		}
 	,	canceledit			: function (editor)
