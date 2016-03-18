@@ -143,7 +143,7 @@ try {
 			JSONArray tims_json = new JSONArray (tims);
 			len	= tims_json.length ();
 
-			_r.put("tims", tims);
+			//_r.put("tims", tims);
 
 			if (len > 0) {
 				q = " insert into t_pemusnahan_tim (pemusnahan_id, nomor, nama, jabatan) values";
@@ -160,7 +160,7 @@ try {
 					   +" ,'" + obj.getString ("jabatan") +"')";
 				}
 
-				_r.put("tims", q);
+				//_r.put("tims", q);
 
 				db_stmt.executeUpdate (q);
 			}
