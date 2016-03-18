@@ -31,12 +31,12 @@ try {
 	_a = new JSONArray ();
 	while (rs.next ()) {
 		_o = new JSONObject ();
-		_o.put("berkas_id"	, rs.getString ("berkas_id"));
+		_o.put("berkas_id"	, rs.getInt ("berkas_id"));
 		_o.put("nama"		, rs.getString ("nama"));
 		_o.put("keterangan"	, rs.getString ("keterangan"));
-		_o.put("jml_lembar"	, rs.getString ("jml_lembar"));
-		_o.put("jml_set"	, rs.getString ("jml_set"));
-		_o.put("jml_berkas"	, rs.getString ("jml_berkas"));
+		_o.put("jml_lembar"	, rs.getInt ("jml_lembar"));
+		_o.put("jml_set"	, rs.getInt ("jml_set"));
+		_o.put("jml_berkas"	, rs.getInt ("jml_berkas"));
 		_a.put (_o);
 	}
 

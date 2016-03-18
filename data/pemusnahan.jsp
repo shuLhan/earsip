@@ -27,8 +27,8 @@ try {
 	while (rs.next ()) {
 		_o = new JSONObject ();
 
-		_o.put("id"					, rs.getString ("id"));
-		_o.put("metoda_id"			, rs.getString ("metoda_id"));
+		_o.put("id"					, rs.getInt ("id"));
+		_o.put("metoda_id"			, rs.getInt ("metoda_id"));
 		_o.put("nama_petugas"		, rs.getString ("nama_petugas"));
 		_o.put("tgl"				, rs.getString ("tgl"));
 		_o.put("pj_unit_kerja"		, rs.getString ("pj_unit_kerja"));
