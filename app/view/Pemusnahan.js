@@ -171,11 +171,12 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	}]
 
 ,	listeners		: {
-		afterrender : function (comp)
+		removed: function (comp)
 		{
-			if (Ext.getCmp ('pemusnahan_win')!= undefined)
-				this.win = Ext.getCmp ('pemusnahan_win');
-
+			this.destroy ();
+		}
+	,	afterrender : function (comp)
+		{
 			this.down ('#pemusnahan_grid').getStore ().load ();
 			this.down ('#tim_pemusnah_grid').getStore ().load ();
 			Ext.StoreManager.lookup ('BerkasMusnah').load ({
@@ -300,7 +301,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	}
 
 , 	win_berkas_do_add : function (b)
-	{	
+	{
 		var grid	= b.up ('#berkas_musnah_grid');
 		var editor	= grid.getPlugin ('roweditor');
 		var r		= Ext.create ('Earsip.model.PemusnahanRinci', {});
@@ -314,7 +315,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	}
 
 , 	win_berkas_do_delete : function (b)
-	{	
+	{
 		var grid = b.up ('#berkas_musnah_grid');
 		var data = grid.getSelectionModel ().getSelection ();
 		var store = grid.getStore ();
@@ -327,8 +328,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	}
 
 , 	win_tim_do_add : function (b)
-	{	
-		
+	{
 		var grid	= b.up ('#tim_pemusnah_grid');
 		var editor	= grid.getPlugin ('roweditor');
 		var r		= Ext.create ('Earsip.model.TimPemusnahan', {});
@@ -340,7 +340,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 	}
 
 , 	win_tim_do_delete : function (b)
-	{	
+	{
 		var grid = b.up ('#tim_pemusnah_grid');
 		var data = grid.getSelectionModel ().getSelection ();
 
@@ -365,7 +365,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 			Ext.msg.error('Silahkan isi semua kolom yang kosong terlebih dahulu');
 			return;
 		}
-		
+
 		if (records_tim.length <= 0){
 			Ext.msg.error('Silahkan isi tabel Tim Pemusnah');
 			return;
@@ -374,8 +374,7 @@ Ext.define ('Earsip.view.Pemusnahan', {
 			Ext.msg.error ('Silahkan isi  tabel Berkas');
 			return;
 		}
-		
-		
+
 		form.submit ({
 			scope	: this
 		,	params	: {
@@ -422,6 +421,10 @@ Ext.define ('Earsip.view.Pemusnahan', {
 ,	initComponent : function (opt)
 	{
 		this.callParent (opt);
+
+		delete this.win;
+		this.win = undefined;
+		Ext.destroy (this.win);
 
 		if (this.win == undefined) {
 			this.win = Ext.create ('Earsip.view.PemusnahanWin', {});

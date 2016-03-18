@@ -3,6 +3,7 @@ Ext.require ([
 ,	'Earsip.store.PemusnahanRinci'
 ,   'Earsip.store.TimPemusnahan'
 ,	'Earsip.store.Jabatan'
+,	'Earsip.store.MetodaPemusnahan'
 ]);
 
 Ext.define('Earsip.view.PemusnahanWin', {
@@ -274,13 +275,5 @@ Ext.define('Earsip.view.PemusnahanWin', {
 				}
 			}
 		});
-		
-	}
-,	listeners : {
-		hide	: function (comp){
-			var store	= Ext.data.StoreManager.lookup ('BerkasMusnah');
-			store.clearFilter ();
-			store.load ();
-		}
 	}
 });
