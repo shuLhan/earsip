@@ -34,7 +34,7 @@ Ext.define ('Earsip.view.LoginWindow', {
 		,	height			: 210
 		,	padding			: '0 0 0 0'
 		},{
-			fieldLabel		: 'NIP'
+			fieldLabel		: 'User Name'
 		,	itemId			: 'user_nip'
 		,	name			: 'user_nip'
 		},{
