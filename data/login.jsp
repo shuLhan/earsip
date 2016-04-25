@@ -6,7 +6,114 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.util.Properties" %>
 <%@ page import="java.io.InputStream" %>
+<%@ page import="org.json.JSONObject" %>
 <%@ page import="org.sirr.*" %>
+
+<%!
+public int get_max_log_fail(Connection db_con)
+{
+	ResultSet rs = null;
+	Statement db_stmt = null;
+	String q = "select max_log_fail from m_syslog";
+	int DEF_MAX_LOG = 5;
+	int max_log_fail = DEF_MAX_LOG;
+
+	try {
+		db_stmt = db_con.createStatement();
+		rs = db_stmt.executeQuery(q);
+		if (!rs.next()) {
+			return DEF_MAX_LOG;
+		}
+
+		max_log_fail = rs.getInt("max_log_fail");
+
+		if (max_log_fail < 0) {
+			max_log_fail = DEF_MAX_LOG;
+		}
+
+		rs.close();
+		db_stmt.close();
+	} catch (Exception e) {
+		return DEF_MAX_LOG;
+	} finally {
+		return max_log_fail;
+	}
+}
+
+public int get_log_fail_count(Connection db_con, String usernip)
+{
+	ResultSet rs = null;
+	PreparedStatement ps = null;
+	String q = "select log_fail_count from m_pegawai where nip = ?";
+	int log_fail_count = 0;
+
+	try {
+		ps = db_con.prepareStatement(q);
+		ps.setString(1, usernip);
+
+		rs = ps.executeQuery();
+		if (!rs.next()) {
+			return 0;
+		}
+
+		log_fail_count = rs.getInt("log_fail_count");
+
+		rs.close();
+		ps.close();
+	} catch (Exception e) {
+		return 0;
+	} finally {
+		return log_fail_count;
+	}
+}
+
+public Boolean is_allow_to_login(Connection db_con, String usernip)
+{
+	ResultSet rs = null;
+	Statement db_stmt = null;
+	String q = "select max_log_fail from m_syslog";
+
+	int max_log_fail = get_max_log_fail(db_con);
+	int log_fail_count = get_log_fail_count(db_con, usernip);
+
+	if (log_fail_count >= max_log_fail) {
+		return false;
+	}
+
+	return true;
+}
+
+public void increase_log_fail_count(Connection db_con, String nip)
+{
+	PreparedStatement ps;
+	String q = "update m_pegawai set log_fail_count = log_fail_count + 1"
+			+" where nip = ?";
+
+	try {
+		ps = db_con.prepareStatement(q);
+		ps.setString(1, nip);
+		ps.executeUpdate();
+
+		ps.close();
+	} catch (Exception e) {
+	}
+}
+
+public void reset_log_fail_count(Connection db_con, String nip)
+{
+	PreparedStatement ps = null;
+	String q = "update m_pegawai set log_fail_count = 0 where nip = ?";
+
+	try {
+		ps = db_con.prepareStatement(q);
+		ps.setString(1, nip);
+		ps.executeUpdate();
+
+		ps.close();
+	} catch (Exception e) {
+	}
+}
+%>
 
 <%
 Connection			db_con				= null;
@@ -37,6 +144,11 @@ String				dir_name			= "";
 String				psw_is_expired		= "";
 String				c_path				= request.getContextPath ();
 int					c_max_age			= 60 * 60 * 24 * 30; // 30 days
+
+JSONObject			_r					= new JSONObject ();
+
+_r.put("success", false);
+
 try {
 	db_con = (Connection) session.getAttribute ("db.con");
 
@@ -60,6 +172,14 @@ try {
 
 	user_nip	= request.getParameter ("user_nip");
 	user_psw	= request.getParameter ("user_psw");
+
+	Boolean ok = is_allow_to_login(db_con, user_nip);
+
+	if (!ok) {
+		_r.put("info", "Maksimal gagal login terlampaui, silahkan hubungi"
+			+" Administrator untuk mendapatkan password yang baru");
+		return;
+	}
 
 	q	=" select	PEG.id"
 		+" ,		PEG.unit_kerja_id"
@@ -86,7 +206,9 @@ try {
 	rs = db_pstmt.executeQuery ();
 
 	if (! rs.next ()) {
-		out.print (	"{success:false,info:'NIP atau Password anda salah/tidak ada!'}");
+		increase_log_fail_count(db_con, user_nip);
+
+		_r.put("info", "NIP atau Password anda salah/tidak ada!");
 		return;
 	}
 
@@ -167,22 +289,24 @@ try {
 		db_pstmt.executeUpdate ();
 	}
 
+	_r.put("success", true);
+	_r.put("user_name", user_name);
+	_r.put("branch_name", user_branch_name);
+	_r.put("is_pusatarsip", (user_grup_id.equals("3") ? 1 : 0));
+
 	if (psw_is_expired.equalsIgnoreCase ("f")) {
-		out.print ("{success:true"
-				+", psw_is_expired:1"
-				+", user_name:'"+ user_name +"'"
-				+", branch_name:'"+ user_branch_name +"'"
-				+", is_pusatarsip:"+ (user_grup_id.equals ("3") ? 1 : 0) +"}");
+		_r.put("psw_is_expired", 1);
 	} else {
-		out.print ("{success:true"
-				+", psw_is_expired:0"
-				+", user_name:'"+ user_name +"'"
-				+", branch_name:'"+ user_branch_name +"'"
-				+", is_pusatarsip:"+ (user_grup_id.equals ("3") ? 1 : 0) +"}");
+		_r.put("psw_is_expired", 0);
 	}
+
 	rs.close ();
+	reset_log_fail_count(db_con, user_nip);
 }
 catch (Exception e) {
-	out.print("{success:false,info:'"+ e.toString().replace("'","''").replace("\"", "\\\"") +"'}");
+	_r.put("success", false);
+	_r.put("info", e);
+} finally {
+	out.print(_r);
 }
 %>
