@@ -381,12 +381,19 @@ Ext.define ('Earsip.view.Berkas', {
 	{
 		var form			= this.down ('#berkasform');
 		var stat_hapus_f	= form.getComponent ('status_hapus');
+		var token			= Ext.Number.randomInt(1000, 9999);
 
-		Ext.Msg.confirm ('Konfirmasi'
-		, 'Apakah anda yakin mau menghapus berkas?'
-		, function (b)
+		Ext.Msg.prompt ('Konfirmasi'
+		, 'Untuk menghapus silahkan input token berikut: '+ token
+		, function (b, text)
 		{
-			if (b == 'no') {
+			if (text === '') {
+				return;
+			}
+
+			var inputtoken = parseInt(text);
+			if (inputtoken !== token) {
+				Ext.msg.error ('Token yang anda inputkan salah!');
 				return;
 			}
 
