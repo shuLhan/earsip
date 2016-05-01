@@ -7,6 +7,8 @@
 <%@ include file="init.jsp" %>
 <%
 try {
+	String status = request.getParameter("status");
+
 	String q_s	=" select	distinct(id)"
 		+" ,		unit_kerja_id"
 		+" ,		kode"
@@ -20,6 +22,10 @@ try {
 
 	String q_w =" where cabang_id = "+ _user_cid;
 
+	if (status != null) {
+		q_w +=" and TPINDAH.status = "+ Integer.parseInt(status);
+	}
+
 	String q_o =" order by tgl desc";
 
 	// if Pusat Arsip
@@ -31,6 +37,8 @@ try {
 	}
 
 	q = q_s + q_f + q_w + q_o;
+
+	System.out.println("q:"+ q);
 
 	db_stmt	= db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
