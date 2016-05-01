@@ -1,4 +1,4 @@
-Ext.Loader.setConfig ({ enabled: true });
+Ext.Loader.setConfig ({ enabled: true, disableCaching: false });
 
 Ext.define ('Earsip', {
 	singleton		: true
@@ -35,6 +35,16 @@ Ext.define ('Earsip', {
 		,	kode_folder		: ''
 		,	type			: ''
 		}
+	}
+,	notif:{
+		mjraaktif	:{}
+	,	njraaktif	:0
+	,	mjrainaktif	:{}
+	,	njrainaktif	:0
+	,	mpindah		:{}
+	,	npindah		:0
+	,	mpinjam		:{}
+	,	npinjam		:0
 	}
 ,	reset : function ()
 	{
@@ -280,6 +290,8 @@ Ext.application ({
 
 ,	launch		: function ()
 	{
+		Earsip.is_p_arsip = (is_pusatarsip == 1 ? true : false);
+
 		Ext.form.field.Date.prototype.format = 'd F Y';
 		Ext.form.field.Date.prototype.submitFormat = 'Y-m-d';
 
@@ -313,8 +325,6 @@ Ext.application ({
 
 		tb.do_load_menu ();
 		berkas_tree.do_refresh ();
-
-		Earsip.is_p_arsip = (is_pusatarsip == 1 ? true : false);
 
 		notif.do_load_items ();
 	}

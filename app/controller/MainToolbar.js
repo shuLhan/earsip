@@ -37,6 +37,20 @@ Ext.define ('Earsip.controller.MainToolbar', {
 			'maintoolbar menu > menuitem': {
 				click: this.menuitem_on_click
 			}
+
+		,	'maintoolbar button[action=openjraaktif]': {
+				click: this.open_jra_aktif
+			}
+		,	'maintoolbar button[action=openjrainaktif]': {
+				click: this.open_jra_inaktif
+			}
+		,	'maintoolbar button[action=openpindah]': {
+				click: this.open_notif_pindah
+			}
+		,	'maintoolbar button[action=openpinjam]': {
+				click: this.open_notif_pinjam
+			}
+
 		,	'maintoolbar menuitem[action=edit]': {
 				click: this.do_ganti_password
 			}
@@ -72,6 +86,40 @@ Ext.define ('Earsip.controller.MainToolbar', {
 			c.do_refresh ();
 		}
 		tabpanel.setActiveTab (button.itemId);
+	}
+
+,	open_jra_aktif: function()
+	{
+		var tabs = this.getMainview().down('#content_tab');
+		var tab = tabs.child('#notifikasi');
+		tabs.setActiveTab(tab);
+	}
+,	open_jra_inaktif: function()
+	{
+		var tabs = this.getMainview().down('#content_tab');
+		var tab = tabs.child('#notifikasi');
+		tabs.setActiveTab(tab);
+
+		var subtab = tab.child('#berkas_jra');
+		tab.setActiveTab(subtab);
+	}
+,	open_notif_pindah: function()
+	{
+		var tabs = this.getMainview().down('#content_tab');
+		var tab = tabs.child('#notifikasi');
+		tabs.setActiveTab(tab);
+
+		var subtab = tab.child('#notif_pemindahan');
+		tab.setActiveTab(subtab);
+	}
+,	open_notif_pinjam: function()
+	{
+		var tabs = this.getMainview().down('#content_tab');
+		var tab = tabs.child('#notifikasi');
+		tabs.setActiveTab(tab);
+
+		var subtab = tab.child('#notif_peminjaman');
+		tab.setActiveTab(subtab);
 	}
 
 ,	do_ganti_password : function (button)
