@@ -27,4 +27,13 @@
 		<servlet-name>Download</servlet-name>
 		<url-pattern>/Download</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>ExpiresFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
+		<init-param>
+			<param-name>ExpiresByType text/javascript</param-name>
+			<param-value>modification plus 10 minutes</param-value>
+		</init-param>
+	</filter>
 </web-app>
