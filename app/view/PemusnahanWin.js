@@ -83,7 +83,7 @@ Ext.define('Earsip.view.PemusnahanWin', {
 				,	name			: 'pj_unit_kerja'
 				,	allowBlank		: false
 				},{
-					fieldLabel		: 'Penanggung Jawab Pusat Berkas/Arsip'
+					fieldLabel		: 'Penanggung Jawab Pusat Arsip'
 				,	itemId			: 'pj_berkas_arsip'
 				,	name			: 'pj_berkas_arsip'
 				,	allowBlank		: false
