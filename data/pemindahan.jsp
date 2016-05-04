@@ -38,8 +38,6 @@ try {
 
 	q = q_s + q_f + q_w + q_o;
 
-	System.out.println("q:"+ q);
-
 	db_stmt	= db_con.createStatement ();
 	rs		= db_stmt.executeQuery (q);
 

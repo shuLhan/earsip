@@ -41,7 +41,6 @@ public class ActiveUser implements HttpSessionBindingListener {
 
         HttpSession session = logins.remove(this);
         if (session != null) {
-			System.out.println (session.getId ());
             session.removeAttribute ("user");
 			session.removeAttribute ("user.id");
 			session.removeAttribute ("user.unit_kerja_id");
