@@ -120,17 +120,10 @@ Ext.define ('Earsip.view.ArsipForm', {
 	,	itemId			:'jra_inaktif'
 	,	minValue		: 1
 	}]
-,	buttons		: [{
-		text		:'Arsip Baru'
-	,	itemId		:'arsip_baru'
-	,	iconCls		:'add'
-	,	tooltip		:'Isi form di atas, dan klik tombol ini untuk membuat arsip baru.'
-	,	disabled	:true
-	,	handler		:function (b)
-		{
-			b.up ('#mas_arsip').arsip_baru_onclick ();
-		}
-	},'-','->','-',{
+,	buttons		: [
+		'->'
+	,	'-'
+	,{
 		text		: 'Simpan'
 	,	itemId		: 'save'
 	,	iconCls		: 'save'
