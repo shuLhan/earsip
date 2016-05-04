@@ -1,4 +1,4 @@
-Ext.Loader.setConfig ({ enabled: true, disableCaching: false });
+Ext.Loader.setConfig ({ enabled: true, disableCaching: true });
 
 Ext.define ('Earsip', {
 	singleton		: true
